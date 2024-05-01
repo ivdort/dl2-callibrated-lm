@@ -1,0 +1,16 @@
+name: dl2-callibrated-lm
+channels:
+  - defaults
+dependencies:
+  - python=3.8
+  - conda==23.5.2
+  - setuptools
+  - pip
+  - wheel
+  - conda-content-trust
+  - conda-libmamba-solver
+  - python.app
+  - pandas
+  - pytorch
+  - transformers
+# prefix: /Users/ianvandort/miniconda3
