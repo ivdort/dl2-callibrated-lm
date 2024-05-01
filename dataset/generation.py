@@ -32,5 +32,3 @@ def generate_math_dataset(file_name, num_equations=20000):
         writer.writerow(['Equation', 'Answer'])  # Write the header
         writer.writerows(math_dataset)
 
-# Example usage:
-generate_math_dataset('dataset/math_dataset.csv')
