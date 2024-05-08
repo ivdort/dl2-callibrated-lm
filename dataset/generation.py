@@ -3,13 +3,17 @@ import csv
 
 def generate_math_dataset(file_name, num_equations=20000):
     # Define the operations
-    operations = ['+', '-', '*', '/']
+    operations = ['+', 
+                  '-', 
+                  '*', 
+                #   '/'
+                  ]
     
     # Generate math equations with answers
     math_dataset = []
     for _ in range(num_equations):
-        num1 = random.randint(1, 100)
-        num2 = random.randint(1, 100)
+        num1 = random.randint(1, 10)
+        num2 = random.randint(1, 10)
         operation = random.choice(operations)
         
         if operation == '+':
@@ -32,3 +36,4 @@ def generate_math_dataset(file_name, num_equations=20000):
         writer.writerow(['Equation', 'Answer'])  # Write the header
         writer.writerows(math_dataset)
 
+generate_math_dataset('math_dataset_1_to_10_+_-_*.csv', num_equations=20000)
