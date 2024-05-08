@@ -40,7 +40,7 @@ DATASET = 'math_dataset_1_to_10_+_-_ .csv'
 
 df = pd.read_csv(f'C:/Users/lenna/Documents/UvA/DL2/dl2-callibrated-lm/dataset/{DATASET}') # adjust to own path
 df['sentences'] = df['Equation'] + df['Answer'].astype(str)
-for _ in range(1):
+for _ in range(20):
     input = df['sentences'][random.randint(0, len(df)-1)]
     input = [i for i in input.split(' ')[:-1]]
     input = ' '.join(c for c in input)
