@@ -44,8 +44,8 @@ class CustomDataset(Dataset):
         inputs = {"input_ids": input_ids, "labels": labels}
         return inputs
 
-
-df = pd.read_csv('C:/Users/lenna/Documents/UvA/DL2/dl2-callibrated-lm/dataset/math_dataset.csv') # adjust to own path
+DATASET = 'math_dataset_1_to_10_+_-_ .csv'
+df = pd.read_csv(f'C:/Users/lenna/Documents/UvA/DL2/dl2-callibrated-lm/dataset/{DATASET}') # adjust to own path
 df['sentences'] = df['Equation'] + df['Answer'].astype(str)
 sentences = [str(item) for item in df['sentences'].tolist()]  
 train_sentences, test_sentences = train_test_split(sentences, test_size=0.2, random_state=42)
@@ -91,4 +91,4 @@ for epoch in range(num_epochs):
     print(f"Epoch {epoch + 1}/{num_epochs}, Avg Loss: {avg_loss}")
 
 # save model
-model.save_pretrained('saved_bert_model')
+model.save_pretrained(f'saved_bert_model/{DATASET}/epochs_{num_epochs}')
