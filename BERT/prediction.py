@@ -6,7 +6,8 @@ from transformers import BertForMaskedLM, BertTokenizer
 model = BertForMaskedLM.from_pretrained("saved_bert_model")
 
 # tokenizer
-tokenizer = BertTokenizer.from_pretrained("bert_tokenizer") # adjust to own path
+# tokenizer = BertTokenizer.from_pretrained("bert_tokenizer") # adjust to own path
+tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
 
 
 def generate_text(input_ids):
@@ -30,7 +31,7 @@ import random
 
 df = pd.read_csv('C:/Users/lenna/Documents/UvA/DL2/dl2-callibrated-lm/dataset/math_dataset.csv') # adjust to own path
 df['sentences'] = df['Equation'] + df['Answer'].astype(str)
-for _ in range(1):
+for _ in range(20):
     input = df['sentences'][random.randint(0, len(df)-1)]
     input_ids = tokenizer.encode(input, padding='max_length', truncation=True, max_length=7, return_tensors='pt')
     input_ids[0,-1] = tokenizer.mask_token_id

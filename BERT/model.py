@@ -7,7 +7,8 @@ from tqdm import tqdm
 
 
 #tokenize
-tokenizer = BertTokenizer.from_pretrained('bert_tokenizer') # adjust to own path
+# tokenizer = BertTokenizer.from_pretrained('bert_tokenizer') # adjust to own path
+tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
 
 
 # Model config
