@@ -37,12 +37,20 @@ class CustomDataset(Dataset):
         sentence = self.sentences[idx]
         # Tokenize the sentence and randomly mask some tokens
         inputs = self.tokenizer(sentence, padding='max_length', truncation=True, max_length=7, return_tensors='pt')
-        input_ids = inputs["input_ids"].squeeze()
-        labels = input_ids.clone()
-        masked_indices = torch.randint(0, input_ids.size(0), input_ids.size(), dtype=torch.long)
-        labels[masked_indices] = tokenizer.mask_token_id
-        inputs = {"input_ids": input_ids, "labels": labels}
-        return inputs
+        # inputs['input_ids'] = inputs["input_ids"].squeeze()
+        # labels = input_ids.clone()
+        # masked_indices = torch.randint(0, input_ids.size(0), input_ids.size(), dtype=torch.long)
+        # labels[masked_indices] = tokenizer.mask_token_id
+        # inputs = {"input_ids": input_ids, "labels": labels}
+
+        labels = inputs['input_ids'].clone()[0]
+        # print(f"labels: {labels}")
+        # mask labels of non-[MASK] tokens
+        labels = torch.where(labels == tokenizer.mask_token_id, labels, -100)
+        inputs['input_ids'][0,-2] = tokenizer.mask_token_id
+        # print(f"labels masked: {labels}")
+        inputs = {"input_ids": inputs['input_ids'].squeeze(), 'token_type_ids': inputs['token_type_ids'].squeeze(), "attention_mask": inputs['attention_mask'].squeeze()}
+        return inputs, labels
 
 DATASET = 'math_dataset_1_to_10_+_-_ .csv'
 df = pd.read_csv(f'C:/Users/lenna/Documents/UvA/DL2/dl2-callibrated-lm/dataset/{DATASET}') # adjust to own path
@@ -51,8 +59,8 @@ sentences = [str(item) for item in df['sentences'].tolist()]
 train_sentences, test_sentences = train_test_split(sentences, test_size=0.2, random_state=42)
 train_dataset = CustomDataset(train_sentences, tokenizer)
 test_dataset = CustomDataset(test_sentences, tokenizer)
-train_loader = DataLoader(train_dataset, batch_size=32, shuffle=True)
-test_loader = DataLoader(test_dataset, batch_size=32)
+train_loader = DataLoader(train_dataset, batch_size=1, shuffle=True)
+test_loader = DataLoader(test_dataset, batch_size=1)
 
 #training
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -63,10 +71,14 @@ num_epochs = 5
 for epoch in range(num_epochs):
     # print('train')
     model.train()
-    for _,batch in enumerate(tqdm(train_loader)):
+    for _,(batch, labels) in enumerate(tqdm(train_loader)):
         # print('training')
         batch = {k: v.to(device) for k, v in batch.items()}
-        outputs = model(**batch)
+        labels = labels.to(device)
+        # print(f"input_ids: {batch['input_ids']}")
+        # print(f"input labels: {batch['labels']}")
+
+        outputs = model(**batch, labels=labels)
         # print('loss')
         loss = outputs.loss
         optimizer.zero_grad()
@@ -81,9 +93,10 @@ for epoch in range(num_epochs):
     total_loss = 0
     num_examples = 0
     with torch.no_grad():
-        for _,batch in enumerate(tqdm(test_loader)):
+        for _,(batch, labels) in enumerate(tqdm(test_loader)):
             batch = {k: v.to(device) for k, v in batch.items()}
-            outputs = model(**batch)
+            labels = labels.to(device)
+            outputs = model(**batch, labels=labels)
             total_loss += outputs.loss.item() * batch["input_ids"].size(0)
             num_examples += batch["input_ids"].size(0)
 
