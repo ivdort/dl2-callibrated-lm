@@ -18,7 +18,9 @@ Recently, people have been noticing a large amount of false information generate
 
 The work by \cite{Kalai2023} presented statistical insights on hallucination and it is of interest to us to test whether the predictions from this theoretical work is true. We believe by testing the theory, we will be more capable in coming up with better strategies, such as post-training, in avoiding hallucinations when needed.
 
-## <a name="recap">Calibration and Haullucination</a>
+## <a name="recap">Hallucination</a>
+
+> This section fisrt introduces the phenomenon of hallucination of language models. 
 
 Over the past few years, we have observed a surge in popularity of generative models due to their proven ability to create realistic and novel content. DMs are a powerful new family of these models which has been shown to outperform other alternatives such as variational autoencoders (VAEs) and generative adversarial networks (GANs) on image synthesis \[3\]. The basic idea behind them is to gradually add noise to the input data during the forward process and then train a neural network to recover the original data step-by-step in the reverse process. The Asyrp paper's authors chose to base their work on Denoising Diffusion Probabilistic Models (DDPM) \[11\] and its successors, a widely-used algorithm that effectively implements this concept. In DDPMs the forward process $q$ is parameterized by a Markov process as shown in Equation 1, to produce latent variables $x_1$ through $x_T$ by adding Gaussian noise at each time step t with a variance of $\beta_t \in (0,1)$ following Equation 2.
 
@@ -65,7 +67,9 @@ $$L_{D M} = \mathbb{E}\_{ x, \epsilon \sim \mathcal{N}(0, 1), t } \left\[ \left\
 > **Note**
 > For a thorough introduction to Diffusion Models we would like to highlight an outstanding [blog post by Lilian Weng](https://lilianweng.github.io/posts/2021-07-11-diffusion-models/).
 
-## <a name="discover">Discovering Semantic Latent Space</a>
+## <a name="discover"> Calibration</a>
+
+> this section explain what is calibration and it is relevant to our study
 
 This returns us to the original goal of the Asyrp paper, i.e. to manipulate the semantic latent space of images generated from Gaussian noise with a **pretrained and frozen diffusion model** to edit them. To achieve this the authors propose an asymmetric reverse process (Asyrp) in which they alter the way an arbitrary step is sampled in the reverse process to Equation 10.
 
@@ -111,7 +115,10 @@ Figure 3 visualizes the generative process of Asyrp intuitively. As shown by the
   </tr>
 </table>
 
-## <a name="architecture">Model Architecture</a>
+## <a name="architecture"> Trade-off between Calibration and hallucination </a>
+
+> this section show the main finding about the trade-off between calibration and hallucination and how the authors derive a theoretical lower bound which shows this relationship.
+
 The original architecture of the neural network, $f_t$, is implemented as shown in Figure 4. It consists of two $1 \times 1$ convolution layers, the aggregation of the positional encodings, a group normalization layer and a SiLU activation function. However, the authors note that they haven't explored much with the network architecture, which let us further experiment with it, leading to the network architecture in Figure 5. We use a Transformer based architecture instead of the convolutions and then experiment by doing changes at each block level: Encoder, Aggregation, Normalization and Activation.
 
 <table align="center">
@@ -147,7 +154,9 @@ We experiment with 2 ways of normalizing the aggregated output of the encoder: g
 A SiLU activation function is applied to this embedding before it's passed through the final output layer. We examine this activation function by swapping it out for a GeLU and simple ReLU.
 
 
-## <a name="architecture">Evaluating Diffusion Models</a>
+## <a name="architecture">Testing the theory: systematic and arbitrary facts</a>
+
+> this secion explain our research objective on testing the prediction on the hallucination rate difference between systematic and arbitrary facts
 
 In order to evaluate the performance of diffusion models when it comes to image editing, besides qualitative results and conducting user studies \[8, 7\], the following metrics are generally used: Directional CLIP similarity ($S_{dir}$), segmentation-consistency (SC), Fréchet Inception Distance (FID). The Asyrp paper uses $S_{dir}$ and SC to compare its performance to DiffusionCLIP, which in turn shows that it outperforms both StyleCLIP \[13\] and StyleGAN-NADA \[4\] in $S_{dir}$ and SC.
 
@@ -168,7 +177,9 @@ The FID metric compares the distribution of the edited images with the distribut
 
 $$FID = \Vert \mu - \mu\_{ref} \Vert_2^2 + tr \left( \Sigma + \Sigma\_{ref} - 2 { \left( \Sigma^\frac{1}{2} \Sigma\_{ref} \Sigma^\frac{1}{2} \right) }^\frac{1}{2} \right). \qquad \qquad \text{(Equation 14)}$$
 
-## <a name="reproduction">Reproduction of the Experiments</a>
+## <a name="reproduction">Experimental setting</a>
+
+> this section explains our setting for the experiments. It includes what language models we use, how we train it, and how the test and measurements are done
 
 We begin by reproducing the qualitative and quantitative results of the original paper. To sustain the limits of our computational budget, we restrict our efforts to the CelebA-HQ \[6\] dataset. Our experiments are based on the [original implementation](https://github.com/kwonminki/Asyrp_official/tree/main/models), however, we found that some of the features required for successful reproduction, especially those relating to quantitative evaluation, are missing from the repository. Generally, we follow the computational set-up specified by the original authors in full. Specifically, we use hyperparameter values presented in Table 1, which were recovered from \[8, Table 2\] and \[8, Table 3\]. Across all experiments, we use $\lambda\_{\text{recon}} = 3 * \frac{\Delta T}{\Vert \Delta T \Vert}$, i.e., the cosine similarity of the source and target prompts, and $t_{\text{boost}} = 167$ as recommended by the original authors. Unless specified otherwise, we use 40 time steps during both the inversion and generation phase of training and inference. We train the models using 1000 training images over a single epoch.
 
@@ -438,7 +449,7 @@ Figure 11 reproduces the results originally presented in \[8, Figure 17\]. When 
   </tr>
 </table>
 
-## <a name="bias">Bias of the Asyrp Method</a>
+## <a name="bias">Results</a>
 The editing directions found through the asyrp algorithm depend on the knowledge of attributes contained in CLIP. We observe in the output results that these editing directions are often highly biased. Individuals frequently change gender, skin color and eye color when edited with a direction that does not explicitely contain that change. For example, the Pixar editing direction changes the eyecolor of the source images to blue and often changes dark skin to white skin. This effect likely results from the model not being able to disentangle these concepts and has an impact on how useful these directions are in various image editing contexts. We have included some examples of these biased editing directions in Figure 12. Furthemore, in Table 4 we show that the performance of the editing directions is significantly better for caucasian faces than non-caucasian faces.
 
 <table align="center">
@@ -499,7 +510,7 @@ The editing directions found through the asyrp algorithm depend on the knowledge
   </tr>
 </table>
 
-## <a name="ablation">Ablation Study</a>
+## <a name="ablation">other exploration</a>
 While the reproduction results show that the general method works well, we set out to investigate further improvements by running an ablation study. As previously mentioned in the [fourth](#architecture) section adjustments to the model architecture could provide further gains in performance in terms of the clip similairty, flexibility and transferability. In this section, we conduct several ablations in order to gain a deeper understanding of the asyrp method, aiming to identify its limitations and explore potential improvements.
 
 ### Model architecture
@@ -637,7 +648,7 @@ The significant cost of training a new model for each editing direction makes th
   </tr>
 </table>
 
-## Further Research: Latent Diffusion Models
+## Further Research: 
 Lastly in this blog post we set out to investigate whether Asyrp can also be applied on top of a latent diffusion model. Since LDMs currently represent the state-of-the-art in image generation \[16\], it is reasonable to find out if modifications in the h-space lead to meaningful attribute edits in the original images. Conveniently DDIM, the algorithm on which Asyrp was build, is also the algorithm behind LDMs. However, the diffusion process runs in the latent space instead of the pixel space. A sperate VQ-VAE  is trained \[19\], where the encoder $\mathcal{E}$ is used to compress the image $x_0$ to a smaller latent vector $z_0$ and the decoder $\mathcal{D}$ is used to reconstruct the image $\hat{x}_0$ from the computed latent vector $\hat{z}_0$. All the remaining steps are as described in the [second](#recap) and [third](#discover) section, but replacing $x$ by $z$. This leads to training a neural network $\epsilon\_\theta \left( z_t, t \right)$ and optimizing it with the loss in Equation 15. Furthermore, steps in the reverse process can be sampled with Equation 16.
 
 $$L_{L D M} := \mathbb{E}\_{ \mathcal{E}(x), \epsilon \sim \mathcal{N}(0, 1), t } \left\[ \left\| \epsilon - \epsilon\_\theta \left( z_t, t \right) \right\|_2^2 \right\] \qquad \qquad \text{(Equation 15)}$$
