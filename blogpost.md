@@ -115,12 +115,12 @@ Because of the systematic nature of the facts, repeating these patterns are more
 ### measuring hallucination
 The an idealized model in which there are clear-cut facts, where statements that violate these facts would generally be categorized as hallucinations by most definitions
 
-## Abstract-Title model 
+### Abstract-Title model 
 
-### Dataset Preparation
+#### Dataset Preparation
 The dataset for this experiment is derived from the ArXiv metadata snapshot. We preprocessed the data so it includes entries with the following fields: id, authors, title, and abstract. To ensure the quality and manageability of the dataset, abstracts longer than 200 words were filtered out. The final dataset consists of 20,000 entries, selected to maintain computational feasibility while providing sufficient data for training and evaluation.
 
-### Preprocessing
+#### Preprocessing
 Preprocessing steps included:
 
 Tokenization: The BERT tokenizer (bert-base-uncased) was used to tokenize the text. To simplify the tokenization process, periods were removed from the abstracts.
@@ -133,7 +133,7 @@ Hidden and Intermediate Sizes: A hidden size of 768 and an intermediate size of 
 Dropout: Dropout probabilities of 0.1 for both hidden states and attention.
 Position Embeddings: A maximum of 512 positional embeddings.
 
-### Training Procedure
+#### Training Procedure
 The model was trained over 20 epochs, with the following training parameters:
 
 Batch Size: 16
@@ -141,7 +141,7 @@ Learning Rate: 3e-5
 Weight Decay: 0.01
 A DataLoader was used to handle the training data, employing a DataCollatorForLanguageModeling with a masking probability of 0.2 to facilitate masked language modeling. The AdamW optimizer was chosen for its efficiency in handling the training dynamics of transformer models.
 
-### Evaluation Metrics
+#### Evaluation Metrics
 To assess the performance and hallucination tendencies of the model, several metrics were employed:
 
 Accuracy: The proportion of correctly predicted masked tokens.
@@ -150,7 +150,7 @@ Loss: The average loss per epoch during training.
 Exact Match Accuracy: The percentage of generated titles that exactly match the true titles.
 Average Similarity Score: The cosine similarity between BERT embeddings of the predicted and true titles.
 
-### Evaluation Procedure
+#### Evaluation Procedure
 Validation Set: A validation set of 2000 entries was sampled from the dataset for periodic evaluation during training.
 Prediction Task: The model's predictions were evaluated using a masked token prediction task, where random tokens were masked, and the model's accuracy in predicting these tokens was measured.
 Autoregressive Title Generation: We let the model generate titles in an autoregressive manner. The sentence-level accuracy of these generated titles were calculated to measure coherence and relevance.
