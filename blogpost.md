@@ -110,355 +110,89 @@ Because of the systematic nature of the facts, repeating these patterns are more
 
 ## <a name="reproduction">Experimental setting</a>
 
-> this section explains our setting for the experiments. It includes what language models we use, how we train it, and how the test and measurements are done
+> This section explains our setting for the experiments. It includes what language models we use, how we train it, and how the test and measurements are done
 
 ### measuring hallucination
 The an idealized model in which there are clear-cut facts, where statements that violate these facts would generally be categorized as hallucinations by most definitions
 
-We begin by reproducing the qualitative and quantitative results of the original paper. To sustain the limits of our computational budget, we restrict our efforts to the CelebA-HQ \[6\] dataset. Our experiments are based on the [original implementation](https://github.com/kwonminki/Asyrp_official/tree/main/models), however, we found that some of the features required for successful reproduction, especially those relating to quantitative evaluation, are missing from the repository. Generally, we follow the computational set-up specified by the original authors in full. Specifically, we use hyperparameter values presented in Table 1, which were recovered from \[8, Table 2\] and \[8, Table 3\]. Across all experiments, we use $\lambda\_{\text{recon}} = 3 * \frac{\Delta T}{\Vert \Delta T \Vert}$, i.e., the cosine similarity of the source and target prompts, and $t_{\text{boost}} = 167$ as recommended by the original authors. Unless specified otherwise, we use 40 time steps during both the inversion and generation phase of training and inference. We train the models using 1000 training images over a single epoch.
+## Abstract-Title model 
 
-<table align="center">
-  <tr align="center">
-      <th align="left">Label</th>
-      <th align="left">$y_{ref}$</th>
-      <th align="left">$y_{target}$</th>
-      <th>$\lambda_{\text{CLIP}}$</th>
-      <th>$t_{\text{edit}}$</th>
-      <th>Domain</th>
-  </tr>
-  <tr align="center">
-    <td align="left">smiling</td>
-    <td align="left">"face"</td>
-    <td align="left">"smiling face"</td>
-    <td>0.8</td>
-    <td>513</td>
-    <td>IN</td>
-  </tr>
-  <tr align="center">
-    <td align="left">sad</td>
-    <td align="left">"face"</td>
-    <td align="left">"sad face"</td>
-    <td>0.8</td>
-    <td>513</td>
-    <td>IN</td>
-  </tr>
-  <tr align="center">
-    <td align="left">angry</td>
-    <td align="left">"face"</td>
-    <td align="left">"angry face"</td>
-    <td>0.8</td>
-    <td>512</td>
-    <td>IN</td>
-  </tr>
-  <tr align="center">
-    <td align="left">tanned</td>
-    <td align="left">"face"</td>
-    <td align="left">"tanned face"</td>
-    <td>0.8</td>
-    <td>512</td>
-    <td>IN</td>
-  </tr>
-  <tr align="center">
-    <td align="left">man</td>
-    <td align="left">"a person"</td>
-    <td align="left">"a man"</td>
-    <td>0.8</td>
-    <td>513</td>
-    <td>IN</td>
-  </tr>
-  <tr align="center">
-    <td align="left">woman</td>
-    <td align="left">"a person"</td>
-    <td align="left">"a woman"</td>
-    <td>0.8</td>
-    <td>513</td>
-    <td>IN</td>
-  </tr>
-  <tr align="center">
-    <td align="left">young</td>
-    <td align="left">"person"</td>
-    <td align="left">"young person"</td>
-    <td>0.8</td>
-    <td>515</td>
-    <td>IN</td>
-  </tr>
-  <tr align="center">
-    <td align="left">curly hair</td>
-    <td align="left">"person"</td>
-    <td align="left">"person with curly hair"</td>
-    <td>0.8</td>
-    <td>499</td>
-    <td>IN</td>
-  </tr>
-  <tr align="center">
-    <td align="left">nicolas</td>
-    <td align="left">"Person"</td>
-    <td align="left">"Nicolas Cage"</td>
-    <td>0.8</td>
-    <td>461</td>
-    <td>UN</td>
-  </tr>
-  <tr align="center">
-    <td align="left">pixar</td>
-    <td align="left">"Human"</td>
-    <td align="left">"3D render in the style of Pixar"</td>
-    <td>0.8</td>
-    <td>446</td>
-    <td>UN</td>
-  </tr>
-  <tr align="center">
-    <td align="left">neanderthal</td>
-    <td align="left">"Human"</td>
-    <td align="left">"Neanderthal"</td>
-    <td>1.2</td>
-    <td>490</td>
-    <td>UN</td>
-  </tr>
-  <tr align="center">
-    <td align="left">modigliani</td>
-    <td align="left">"photo"</td>
-    <td align="left">"Painting in Modigliani style"</td>
-    <td>0.8</td>
-    <td>403</td>
-    <td>UN</td>
-  </tr>
-  <tr align="center">
-    <td align="left">frida</td>
-    <td align="left">"photo"</td>
-    <td align="left">"self-portrait by Frida Kahlo"</td>
-    <td>0.8</td>
-    <td>321</td>
-    <td>UN</td>
-  </tr>
-  <tr align="left">
-    <td colspan=7><b>Table 1.</b> Hyperparameter settings of reproducibility experiments. The "domain" column corresponds<br>to the attribute being in-domain (IN) or unseen-domain (UN).</td>
-  </tr>
-</table>
+### Dataset Preparation
+The dataset for this experiment is derived from the ArXiv metadata snapshot. We preprocessed the data so it includes entries with the following fields: id, authors, title, and abstract. To ensure the quality and manageability of the dataset, abstracts longer than 200 words were filtered out. The final dataset consists of 20,000 entries, selected to maintain computational feasibility while providing sufficient data for training and evaluation.
 
-Figure 7 shows that the results obtained in the original paper and presented in \[8, Figure 4\] can be successfully reproduced and that editing in the h-space results in visually convincing image generation for in-domain attributes (i.e., attributes that can be directly observed in the training data of the frozen diffusion model). Nevertheless, we must stress that the methodology does not necessarily isolate attribute changes and particular edits may also result in other unintended changes. To give an example, edits for the "curly hair" attribute result in severe facial transformations and appear to overlap with the "smiling" attribute (see the second and the third row of Figure 7).
+### Preprocessing
+Preprocessing steps included:
 
-<table align="center">
-  <tr align="center">
-      <td><img src="figures/reproduction/in_1.0.png" width=800></td>
-  </tr>
-  <tr align="left">
-    <td colspan=2><b>Figure 7.</b> Editing results for in-domain attributes.</td>
-  </tr>
-</table>
+Tokenization: The BERT tokenizer (bert-base-uncased) was used to tokenize the text. To simplify the tokenization process, periods were removed from the abstracts.
+Formatting: Each data entry was concatenated in the form of abstract[SEP]title to create the input for the model.
+Model Configuration
+The BERT model configuration for this experiment is based on the BERT Base architecture, characterized by:
 
-Figures 8 and 9 depict the results of our reproducibility experiments focused on unseen-domain attributes (i.e., attributes that cannot be observed in the training data) originally presented in \[8, Figure 5\]. In Figure 8, we use the full $\Delta h_t$ as done by the authors. In Figure 9, we reduce the editing strength by half. We observe that for unseen-domain attributes, reduction of the editing strength can significantly reduce invasiveness of the method.
+Layers and Heads: 12 hidden layers and 12 attention heads.
+Hidden and Intermediate Sizes: A hidden size of 768 and an intermediate size of 3072.
+Dropout: Dropout probabilities of 0.1 for both hidden states and attention.
+Position Embeddings: A maximum of 512 positional embeddings.
 
-<table align="center">
-  <tr align="center">
-      <td><img src="figures/reproduction/unseen_1.0.png" width=500></td>
-  </tr>
-  <tr align="left">
-    <td colspan=2><b>Figure 8.</b> Editing results for unseen-domain attributes.</td>
-  </tr>
-</table>
+### Training Procedure
+The model was trained over 20 epochs, with the following training parameters:
 
-<table align="center">
-  <tr align="center">
-      <td><img src="figures/reproduction/unseen_0.5.png" width=500></td>
-  </tr>
-  <tr align="left">
-    <td colspan=2><b>Figure 9.</b> Editing results for unseen-domain attributes with reduced editing strength ($0.5 \Delta h_t$).</td>
-  </tr>
-</table>
+Batch Size: 16
+Learning Rate: 3e-5
+Weight Decay: 0.01
+A DataLoader was used to handle the training data, employing a DataCollatorForLanguageModeling with a masking probability of 0.2 to facilitate masked language modeling. The AdamW optimizer was chosen for its efficiency in handling the training dynamics of transformer models.
 
-To appreciate the performance of Asyrp quantitatively, we reproduce evaluation results originally presented in \[8, Table 4\] and compute the directional CLIP score for the same three in-domain attributes ("smiling", "sad", "tanned") and two unseen-domain attributes ("pixar", "neanderthal") on a set of 100 images from the test set. The original code does not implement either of the evaluation metrics or experiments, meaning we do not know which images were used for the calculations. We choose to take the first 100 images in terms of image IDs. The results are reported in Table 2. Contrary to the original authors, we supply standard deviations showing that the results are quite unstable. More importantly, there are clear differences in the achieved results that we cannot easily explain. Nevertheless, we observe a stable trend of higher scores when lowering the editing strength to half as expected because of the decreased impact on $\Delta I$.
+### Evaluation Metrics
+To assess the performance and hallucination tendencies of the model, several metrics were employed:
 
-<table align="center">
-	<tr align="center">
-		<th align="left">Metric</th>
-		<th></th>
-		<th>Smiling (IN)</th>
-		<th>Sad (IN)</th>
-		<th>Tanned (IN)</th>
-		<th>Pixar (UN)</th>
-		<th>Neanderthal (UN)</th>
-	</tr>
-	<tr align="center">
-		<td align="left">Original $S_{dir}$</td>
-		<td>$\Delta h_t$</td>
-		<td>0.921</td>
-		<td>0.964</td>
-		<td>0.991</td>
-		<td>0.956</td>
-		<td>0.805</td>
-	</tr>
-	<tr align="center">
-		<td align="left">Reproduced $S_{dir}$</td>
-		<td>$\Delta h_t$</td>
-		<td>0.955<br>(0.048)</td>
-		<td>0.993<br>(0.037)</td>
-		<td>0.933<br>(0.040)</td>
-		<td>0.931<br>(0.032)</td>
-		<td>0.913<br>(0.035)</td>
-	</tr>
-	<tr align="center">
-		<td align="left">Reproduced $S_{dir}$</td>
-		<td>$0.5 \Delta h_t$</td>
-		<td>0.969<br>(0.047)</td>
-		<td>0.999<br>(0.035)</td>
-		<td>0.973<br>(0.036)</td>
-		<td>0.942<br>(0.031)</td>
-		<td>0.952<br>(0.035)</td>
-	</tr>
-	<tr align="left">
-		<td colspan=7><b>Table 2.</b> Directional CLIP score ($S_{dir} \ \uparrow$) for in-domain (IN) and unseen-domain (UN) attributes. Standard<br>deviations are reported in parentheses.</td>
-	</tr>
-</table>
+Accuracy: The proportion of correctly predicted masked tokens.
+Top-k Accuracy: The proportion of true tokens appearing in the top-k predictions.
+Loss: The average loss per epoch during training.
+Exact Match Accuracy: The percentage of generated titles that exactly match the true titles.
+Average Similarity Score: The cosine similarity between BERT embeddings of the predicted and true titles.
 
-We do not implement the segmentation consistency score due to its shortcomings described in the previous section and also the absence of information on choices made by the original authors with respect to its calculation. To make up for it, we compute FID scores which should represent a more meaningful choice in the context of image editing. From the FID scores presented in Table 3, one can observe worsening performance when Asyrp performs editing in directions requiring more substantial changes of the original image. As expected, lowering the editing strength also significantly and consistently reduces the impact in terms of FID. Naturally, the distance between the reconstructed and the edited images is consistently lower than the distance between original and edited images.
+### Evaluation Procedure
+Validation Set: A validation set of 2000 entries was sampled from the dataset for periodic evaluation during training.
+Prediction Task: The model's predictions were evaluated using a masked token prediction task, where random tokens were masked, and the model's accuracy in predicting these tokens was measured.
+Autoregressive Title Generation: We let the model generate titles in an autoregressive manner. The sentence-level accuracy of these generated titles were calculated to measure coherence and relevance.
+Calibratedness Check: Using temperature scaled (0.6) multinomial sampling, the model generated titles, which were then compared to true titles using exact match accuracy and cosine similarity of their BERT embeddings.
 
-<table align="center">
-	<tr align="center">
-		<th align="left">Metric</th>
-		<th></th>
-		<th>Smiling (IN)</th>
-		<th>Sad (IN)</th>
-		<th>Tanned (IN)</th>
-		<th>Pixar (UN)</th>
-		<th>Neanderthal (UN)</th>
-	</tr>
-	<tr align="center">
-		<td align="left" rowspan=2>$FID(\mathbf{x}_{orig}, \mathbf{x}_{edit})$</td>
-		<td>$\Delta h_t$</td>
-		<td>89.2</td>
-		<td>92.9</td>
-		<td>100.5</td>
-		<td>125.8</td>
-		<td>125.8</td>
-	</tr>
-	<tr align="center">
-		<td>$0.5 \Delta h_t$</td>
-		<td>73.7</td>
-		<td>70.6</td>
-		<td>73.7</td>
-		<td>89.3</td>
-		<td>74.8</td>
-	</tr>
-	<tr align="center">
-		<td align="left" rowspan=2>$FID(\mathbf{x}_{recon}, \mathbf{x}_{edit})$</td>
-		<td>$\Delta h_t$</td>
-		<td>68.8</td>
-		<td>60.5</td>
-		<td>81.7</td>
-		<td>96.9</td>
-		<td>137.3</td>
-	</tr>
-	<tr align="center">
-		<td>$0.5 \Delta h_t$</td>
-		<td>44.4</td>
-		<td>43.7</td>
-		<td>49.7</td>
-		<td>61.0</td>
-		<td>71.7</td>
-	</tr>
-	<tr align="left">
-		<td colspan=7><b>Table 3.</b> Frechet Inception Distance ($FID \ \downarrow$) for in-domain (IN) and unseen-domain (UN) attributes.</td>
-	</tr>
-</table>
-
-In Figure 10, we present our reproduction of \[8, Figure 7\] visualizing the linearity of the learned editing directions. For the "smiling" attribute, it is clearly viable to go in the opposite direction of $\Delta h_t$ and still produce semantically meaningful results. Moreover, the editing effect is shown to be continuous in editing strength.
-
-<table align="center">
-  <tr align="center">
-      <td><img src="figures/reproduction/linearity.png" width=800></td>
-  </tr>
-  <tr align="left">
-    <td colspan=2><b>Figure 10.</b> Image edits for the "smiling" attribute with editing strength in the range from -1 to 1.</td>
-  </tr>
-</table>
-
-Figure 11 reproduces the results originally presented in \[8, Figure 17\]. When reconstructing images using a diffusion model with a relatively small number of time steps used for generation, we observe a severe loss in texture resulting in smoothed-out faces with limited details. For training, we used 40 time steps during generation. At inference time, we tried to increase this number to 1,000 and found that it is possible to generate additional texture improving the results at the cost of computation time.
-
-<table align="center">
-  <tr align="center">
-      <td><img src="figures/reproduction/details.png" width=500></td>
-  </tr>
-  <tr align="left">
-    <td colspan=2><b>Figure 11.</b> Comparison of generated images for the "smiling" attribute with 40 and 1000 time steps during generation.</td>
-  </tr>
-</table>
 
 ## <a name="bias">Results</a>
+> This section explains our results
+
+In our experiments, we aimed to evaluate the performance and hallucination tendencies of our BERT-based model, focusing on the autoregressive generation of titles based on abstracts in the ArXiv metadata dataset. The metrics used for evaluation were the exact match accuracy and average cosine similarity score.
+
+### Calibration
+We checked the calibration of our model by comparing the cosine similarity between the true title and the predicted title over two sets of 1000 samples each. The first set contained abstract-title pairs which were also used for training, while the second set contained unseen pairs. We employed temperature-scaled multinomial sampling with a temperature of 0.6, which means the model samples higher probability tokens more often. The average cosine similarity was found by generating sentence embeddings for the true sentence and the predicted sentence using a pretrained BERT model.
+
+
+|                           | Exact match accuracy | Average Cosine Similarity |
+|---------------------------|----------------------|---------------------------|
+| Training Data Samples     | 0.0                  | 0.82                      |
+| Non-Training Data Samples | 0.0                  | 0.82                      |
+
+
+### Analysis
+Our preliminary results reveal an exact match accuracy of 0.0 for both evaluation sets. This indicates that the model was not able to generate any titles which exactly matched the true titles. The average cosine similarity score was 0.82 however, suggesting that while the model was not able to generate any exact matches, its generations were semantically still relatively similar to the true titles. 
+
+The consistent performance across both training and non-training data samples demonstrates that the model's ability to generate semantically similar titles does not degrade when dealing with unseen data. The high average similarity score indicates that the model has learned to generate titles that are contextually relevant and coherent, despite the lack of exact matches.
 
 
 ## Further Research: 
-Lastly in this blog post we set out to investigate whether Asyrp can also be applied on top of a latent diffusion model. Since LDMs currently represent the state-of-the-art in image generation \[16\], it is reasonable to find out if modifications in the h-space lead to meaningful attribute edits in the original images. Conveniently DDIM, the algorithm on which Asyrp was build, is also the algorithm behind LDMs. However, the diffusion process runs in the latent space instead of the pixel space. A sperate VQ-VAE  is trained \[19\], where the encoder $\mathcal{E}$ is used to compress the image $x_0$ to a smaller latent vector $z_0$ and the decoder $\mathcal{D}$ is used to reconstruct the image $\hat{x}_0$ from the computed latent vector $\hat{z}_0$. All the remaining steps are as described in the [second](#recap) and [third](#discover) section, but replacing $x$ by $z$. This leads to training a neural network $\epsilon\_\theta \left( z_t, t \right)$ and optimizing it with the loss in Equation 15. Furthermore, steps in the reverse process can be sampled with Equation 16.
-
-$$L_{L D M} := \mathbb{E}\_{ \mathcal{E}(x), \epsilon \sim \mathcal{N}(0, 1), t } \left\[ \left\| \epsilon - \epsilon\_\theta \left( z_t, t \right) \right\|_2^2 \right\] \qquad \qquad \text{(Equation 15)}$$
-
-$$z_{t-1} = \sqrt{\alpha\_{t-1}} \mathbf{P}\_t \left( \epsilon\_\theta \left( z_t, t \mid \Delta h_t \right) \right) + \mathbf{D}\_t \left( \epsilon\_\theta \left( z_t, t \right) \right) + \sigma_t v_t \qquad \qquad \text{(Equation 16)}$$
-
-However, to calculate the directional CLIP loss both the reference and the generated image are needed, but the whole point of LDMs is that you do not calculate those every step. One aproach to still use the Asyrp algorithm could be to retrain CLIP for LDM latents instead of images, but this is beyond our scope. Therefor we investigated another aproach in which the images are computed from the latents by running the decoder $\mathcal{D}$ on $z_t$ at every time-step. Initially we questioned whether this approach would be fruitful as the VQ-VAE is only trained to reconstruct real images and not images perturbed by different levels of noise. In GIF 1 the results can be seen of running $\mathcal{D}$ on $z_t$ of a LDM at every time step. While this is no conclusive result, it does seem to hint that this approach would be feasible. 
-
-<table align="center">
-  <tr align="center">
-	<td><img src="figures/ablation/ldm_decoded_latent_3.gif"></td>
-	<td><img src="figures/ablation/ldm_decoded_latent_14.gif"></td>
-	<td><img src="figures/ablation/ldm_decoded_latent_24.gif"></td>
-  </tr>
-  <tr align="left">
-    <td colspan=3><b>GIF 1.</b> Running the VQ-VAE decoder on the latent at every time step.</td>
-  </tr>
-</table>
-
-That being said this section is called future research for a reason. Sadly, the original code-base was not very modular and this made applying Asyrp to another DM or LDM not feasible within the scope of this project. Therefor eventually we decided to keep this as future research.
+> This section discusses our ideas for future work.
 
 ## Concluding Remarks
-The Asyrp model presented in the original paper and thoroughly explained in the [Discovering Semantic Latent Space](#discover) and [Model Architecture](#architecture) sections, successfully discovers a semantic latent space in the bottleneck of frozen diffusion models which allows high quality image editing. This is supported by our reproduction study, which was conducted on the CelebA-HQ dataset, using the pretrained DDPM model. The figures in the [Reproduction of the Experiments](#reproduction) section highlight the editing abilities of the model for both in- (eg. smiling, sad, angry) and unseen-domain (eg. Pixar, Neanderthal, Frida) attributes. For the quantitative evaluation, we used the directional CLIP score, as this was reported in the original paper and the FID score. Both of the two metrics have shown better results for in-domain editing in the case of the reproduction study, and agree with the original findings that Neanderthal is the hardest editing direction. The best results are for "sad" and "smiling". The discovered semantic latent space has the properties of linearity and consistency across timesteps which are validated by our reproduction experiments.
-
-We explored the limitations of the orginal model and discovered two main problems: first, that it is heavily biased and section [Bias of the Asyrp model](#bias) shows that the model performs much better on editing images of caucasian people than non-caucasian and also that individuals frequently change gender and eye color and second, that the model needs retraining and has a different hyperparamenter configuration for each attribute. 
-
-We further investigated the capabilities of Asyrp by changing its architecture from convolutional layers to a transformer encoder, as it was presented in the [Model Architecture](#architecture) section. We then conducted an ablation study on this new architecture and shown the impact of distinct ways of attending to the bottleneck feature map, different ways of aggregating the temporal encodings, various normalization methods and activation functions. We concluded that our best model
-outperforms the original Asyrp by evaluating both qualitatively and quantitatively, as it was shown in the [Ablation study](#ablation) section. We got a better FID score than the orignal model and also, by looking at the figures we clearly observed that our model captures and edits more fine grained features, thus having a stronger impact on the quality of the edited image.
+> This section concludes the insights of this blogpost.
 
 ## Authors' Contributions
 
-- Jonathan: Initial setup of codebase & implementation of architecture ablation studies, implementation of transformer architectures, implementation of FID metric, training of ablation models, wrote novel model architecture. Loss plots
-- Ana: did ablation study for activation functions and normalization, bias research, model architecture diagram, wrote Image Editing with Diffusion Models (partly), Discovering Semantic Latent Space (training loss part), Model Architecture, Evaluating Diffusion Models and Concluding Remarks.
-- Luc: did DM vs LDM research and notebook; wrote header, Image Editing Using Diffusion Models (partly), Recap on Diffusion Models, the Discovering Semantic Latent Space, Bias in Editing Directions (partly), Ablation Study, and Further Research: Latent Diffusion Models. 
-- Eric: Structure of the repository, implementations, reproducibility experiment configurations, executions, visualizations, and analysis for "Reproduction of the Experiments", collaboration on the initial implementation of the transformer-based architecture, help as needed with run executions, figures, and tables for other sections.
+- Mengli: 
+- Ian: 
+- Serdar: 
+- Lennard:
+- Devin: 
 
 ## Bibliography
 
-[1] Jooyoung Choi, Sungwon Kim, Yonghyun Jeong, Youngjune Gwon, and Sungroh Yoon. [ILVR: Conditioning Method for Denoising Diffusion Probabilistic Models](https://arxiv.org/abs/2108.02938). In: CVF International Conference on Computer Vision (ICCV). 2021, pp. 14347–14356.
+[1] Kalai, A. T., & Vempala, S. S. (2023). Calibrated language models must hallucinate. arXiv preprint arXiv:2311.14648.
 
-[2] Jiankang Deng, Jia Guo, Niannan Xue, and Stefanos Zafeiriou. “Arcface: Additive angular margin loss for deep face recognition”. In: Proceedings of the IEEE/CVF conference on computer vision and pattern recognition. 2019, pp. 4690–4699.
-
-[3] Prafulla Dhariwal and Alexander Nichol. “Diffusion models beat gans on image synthesis”. In: Advances in Neural Information Processing Systems 34 (2021), pp. 8780–8794.
-
-[4] Rinon Gal, Or Patashnik, Haggai Maron, Amit H Bermano, Gal Chechik, and Daniel Cohen-Or. “StyleGAN-NADA: CLIP-guided domain adaptation of image generators”. In: ACM Transactions on Graphics (TOG) 41.4 (2022), pp. 1–13.[18]
-
-[5] Jonathan Ho, Ajay Jain, and Pieter Abbeel. “Denoising diffusion probabilistic models”. In: Advances in Neural Information Processing Systems 33 (2020), pp. 6840–6851.
-
-[6] Tero Karras, Timo Aila, Samuli Laine, and Jaakko Lehtinen. “Progressive growing of gans for improved quality, stability, and variation”. In: arXiv preprint arXiv:1710.10196 (2017).
-
-[7] Gwanghyun Kim and Jong Chul Ye. “Diffusionclip: Text-guided image manipulation using diffusion models”. In: (2021).
-
-[8] Mingi Kwon, Jaeseok Jeong, and Youngjung Uh. “Diffusion models already have a semantic latent space”. In: arXiv preprint arXiv:2210.10960 (2022).
-
-[9] Xihui Liu, Dong Huk Park, Samaneh Azadi, Gong Zhang, Arman Chopikyan, Yuxiao Hu, Humphrey Shi, Anna Rohrbach, and Trevor Darrell. “More control for free! image synthesis with semantic diffusion guidance”. In: Proceedings of the IEEE/CVF Winter Conference on Applications of Computer Vision. 2023, pp. 289–299.
-
-[10] Chenlin Meng, Yang Song, Jiaming Song, Jiajun Wu, Jun-Yan Zhu, and Stefano Ermon. “Sdedit: Image synthesis and editing with stochastic differential equations”. In: arXiv preprint arXiv:2108.01073 (2021).
-
-[11] Alexander Quinn Nichol and Prafulla Dhariwal. “Improved denoising diffusion probabilistic models”. In: International Conference on Machine Learning. PMLR. 2021, pp. 8162–8171.
-
-[12] Yong-Hyun Park, Mingi Kwon, Junghyo Jo, and Youngjung Uh. “Unsupervised Discovery of Semantic Latent Directions in Diffusion Models”. In: arXiv preprint arXiv:2302.12469 (2023).
-
-[13] Or Patashnik, Zongze Wu, Eli Shechtman, Daniel Cohen-Or, and Dani Lischinski. “Styleclip: Text-driven manipulation of stylegan imagery”. In: Proceedings of the IEEE/CVF International Conference on Computer Vision. 2021, pp. 2085–2094.
-
-[14] Konpat Preechakul, Nattanat Chatthee, Suttisak Wizadwongsa, and Supasorn Suwajanakorn. “Diffusion autoencoders: Toward a meaningful and decodable representation”. In: Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition. 2022, pp. 10619-10629.
-
-[15] Alec Radford, Jong Wook Kim, Chris Hallacy, Aditya Ramesh, Gabriel Goh, Sandhini Agarwal, Girish Sastry, Amanda Askell, Pamela Mishkin, Jack Clark, et al. “Learning transferable visual models from natural language supervision”. In: International conference on machine learning. PMLR. 2021, pp. 8748–8763.
-
-[16] Robin Rombach, Andreas Blattmann, Dominik Lorenz, Patrick Esser, and Bj ̈orn Ommer. High-Resolution Image Synthesis with Latent Diffusion Models. 2021. arXiv: 2112.10752 [cs.CV].
-
-[17] Jiaming Song, Chenlin Meng, and Stefano Ermon. “Denoising diffusion implicit models”. In: arXiv preprint arXiv:2010.02502 (2020).
-
-[18] C. Szegedy, V. Vanhoucke, S. Ioffe, J. Shlens and Z. Wojna. [Rethinking the Inception Architecture for Computer Vision](https://ieeexplore.ieee.org/document/7780677). 2016 IEEE Conference on Computer Vision and Pattern Recognition (CVPR), Las Vegas, NV, USA, 2016, pp. 2818-2826, doi: 10.1109/CVPR.2016.308.
-
-[19] Aaron van den Oord, Oriol Vinyals, Koray Kavukcuoglu. "Neural Discrete Representation Learning". Advances in neural information processing systems 30 (2017). 
