@@ -70,7 +70,7 @@ $$
 $$
 </p>
 
-This quantifies the facts that rarely appears
+This quantifies the facts that rarely appears \ref{eq:second}
 
 #### Hallucination rate (lower bound)
 Hallucination rate $\geq \widehat{M F}-$ Miscalibration $-\frac{300 \mid \text { Facts } \mid}{\mid \text { Possible hallucinations } \mid}-\frac{7}{\sqrt{n}}$
