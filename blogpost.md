@@ -55,7 +55,7 @@ $p(U)$: the fraction of future samples from this fact distribution $p$ that were
 <p align="center">
 $$
 \begin{equation}
-\widehat{M F}:=\frac{\text { Number of facts appearing exactly once in training data }}{n}
+\widehat{M F}:=\frac{\text { Number of facts appearing exactly once in training data }}{n} \qquad \qquad \text{(Equation 1)}
 \label{eq:missing}
 \end{equation}
 $$
@@ -64,13 +64,13 @@ $$
 <p align="center">
 $$
 \begin{equation}
-|p(U)-\widehat{M F}|=\tilde{O}(\sqrt{1 / n}) \text{ with high probability for any distribution } p
+|p(U)-\widehat{M F}|=\tilde{O}(\sqrt{1 / n}) \text{ with high probability for any distribution } p \qquad \qquad \text{(Equation 2)}
 \label{eq:second}
 \end{equation}
 $$
 </p>
 
-This quantifies the facts that rarely appears \ref{eq:second}
+This quantifies the facts that rarely appears
 
 #### Hallucination rate (lower bound)
 Hallucination rate $\geq \widehat{M F}-$ Miscalibration $-\frac{300 \mid \text { Facts } \mid}{\mid \text { Possible hallucinations } \mid}-\frac{7}{\sqrt{n}}$
