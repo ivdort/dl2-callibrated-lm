@@ -1,6 +1,11 @@
 <script type="text/x-mathjax-config">
   MathJax.Hub.Config({
-    TeX: { equationNumbers: { autoNumber: "AMS" } }
+    TeX: {
+      equationNumbers: {
+        autoNumber: "AMS",
+        useLabelIds: true
+      }
+    }
   });
 </script>
 <script type="text/javascript"
@@ -51,7 +56,7 @@ $p(U)$: the fraction of future samples from this fact distribution $p$ that were
 $$
 \begin{equation}
 \widehat{M F}:=\frac{\text { Number of facts appearing exactly once in training data }}{n}
-\label{eq:1}
+\label{eq:missing}
 \end{equation}
 $$
 </p>
@@ -59,8 +64,8 @@ $$
 <p align="center">
 $$
 \begin{equation}
-|p(U)-\widehat{M F}|=\tilde{O}(\sqrt{1 / n}) \text{with high probability for any distribution} p
-\label{eq:2}
+|p(U)-\widehat{M F}|=\tilde{O}(\sqrt{1 / n}) \text{ with high probability for any distribution } p
+\label{eq:second}
 \end{equation}
 $$
 </p>
