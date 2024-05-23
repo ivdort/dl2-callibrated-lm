@@ -39,14 +39,12 @@ To better understand the nature of AI hallucination and manage its consequences,
 ### The lower bound for hallucination rate
 In the above section is explained what a hallucination is. The paper describes a lower bound for the hallucination rate. What is a lower bound? A lower bound is the least value that a parameter or estimator can take. It's a threshold below which values are not considered realistic given the model or constraints. Lower bounds help define the limitations of estimators and assess the accuracy and dependability of statistical estimates. For instance, in the context of confidence intervals, the lower bound marks the lowest value within the interval.
 
-#### missing facts (missing mass)
+#### Missing facts (missing mass)
 The concept of "missing mass" in the paper pertains to the probability associated with unobserved outcomes in a sample. When drawing n independent and identically distributed (i.i.d.) samples from an unknown distribution p over a large number of arbitrary factoids (such as the 5W examples and references), there are likely to be some factoids that do not appear in the training data. The missing mass quantifies the probability of encountering these unseen factoids in future samples.
 
-<p align='center'>
 $U$: subset of facts that were unobserved in the $n$ training samples
 
 $p(U)$: the fraction of future samples from this fact distribution $p$ that were not observed in the n training samples
-</p>
 
 #### MonoFacts estimator of missing fact rate
 <p align="center">
@@ -54,6 +52,11 @@ $$
 \begin{equation}
 \widehat{M F}:=\frac{\text { Number of facts appearing exactly once in training data }}{n}
 \end{equation}
+$$
+</p>
+
+<p align="center">
+$$
 \begin{equation}
 $|p(U)-\widehat{M F}|=\tilde{O}(\sqrt{1 / n})$ with high probability for any distribution $p$
 \end{equation}
