@@ -51,6 +51,7 @@ $p(U)$: the fraction of future samples from this fact distribution $p$ that were
 $$
 \begin{equation}
 \widehat{M F}:=\frac{\text { Number of facts appearing exactly once in training data }}{n}
+\label{eq:einstein}
 \end{equation}
 $$
 </p>
@@ -58,7 +59,8 @@ $$
 <p align="center">
 $$
 \begin{equation}
-$|p(U)-\widehat{M F}|=\tilde{O}(\sqrt{1 / n})$ with high probability for any distribution $p$
+|p(U)-\widehat{M F}|=\tilde{O}(\sqrt{1 / n}) \text{with high probability for any distribution} p
+\label{eq:einstein}
 \end{equation}
 $$
 </p>
