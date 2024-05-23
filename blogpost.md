@@ -45,13 +45,15 @@ To better understand the nature of AI hallucination and manage its consequences,
 In the above section is explained what a hallucination is. The paper describes a lower bound for the hallucination rate. What is a lower bound? A lower bound is the least value that a parameter or estimator can take. It's a threshold below which values are not considered realistic given the model or constraints. Lower bounds help define the limitations of estimators and assess the accuracy and dependability of statistical estimates. For instance, in the context of confidence intervals, the lower bound marks the lowest value within the interval.
 
 #### Missing facts (missing mass)
-The concept of "missing mass" in the paper pertains to the probability associated with unobserved outcomes in a sample. When drawing n independent and identically distributed (i.i.d.) samples from an unknown distribution p over a large number of arbitrary factoids (such as the 5W examples and references), there are likely to be some factoids that do not appear in the training data. The missing mass quantifies the probability of encountering these unseen factoids in future samples.
+The concept of "missing mass" in the paper pertains to the probability associated with unobserved outcomes in a sample. When drawing n independent and identically distributed (i.i.d.) samples from an unknown distribution p over a large number of arbitrary factoids (such as the 5W examples and references), there are likely to be some factoids that do not appear in the training data. The missing mass quantifies the probability of encountering these unseen factoids in future samples. In the paper they use the following .....:
 
 $U$: subset of facts that were unobserved in the $n$ training samples
 
 $p(U)$: the fraction of future samples from this fact distribution $p$ that were not observed in the n training samples
 
 #### MonoFacts estimator of missing fact rate
+The Good-Turing estimate of the missing mass [2] represents the fraction of samples (or facts, in our case) that appear exactly once in the training data. In our study, we refer to this as the MonoFacts estimator, as showed in equation 1. Equation 2 asserts that the MonoFacts estimater provides an estimate of the missing mass that is very close to the true missing mass. Specifically, meaning that as the number of samples n increases, the estimation error decreases at a rate proportional to $\sqrt{1 / n}$. This result is significant because it guarantees that the MonoFacts estimator is a reliable method for estimating the missing mass. The bound indicates that the estimate will be very close to the true value, especially as the number of samples grows, and this reliability holds with high probability for any distribution p.
+
 <p align="center">
 $$
 \begin{equation}
@@ -69,8 +71,6 @@ $$
 \end{equation}
 $$
 </p>
-
-This quantifies the facts that rarely appears
 
 #### Hallucination rate (lower bound)
 Hallucination rate $\geq \widehat{M F}-$ Miscalibration $-\frac{300 \mid \text { Facts } \mid}{\mid \text { Possible hallucinations } \mid}-\frac{7}{\sqrt{n}}$
@@ -224,4 +224,6 @@ The consistent performance across both training and non-training data samples de
 ## Bibliography
 
 [1] Kalai, A. T., & Vempala, S. S. (2023). Calibrated language models must hallucinate. arXiv preprint arXiv:2311.14648.
+[2] I. J. Good. 1953. The Population Frequences of Species and the Estimation of Population Parameters.
+Biometrika 40, 3-4 (Dec. 1953), 237–264.
 
