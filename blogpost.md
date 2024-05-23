@@ -78,7 +78,7 @@ In equation 3 the lower bound of the hallucination rate is given.
 $$
 \begin{equation}
 \text{Hallucination rate} \geq \widehat{M F}- \text{Miscalibration} -\frac{300 \mid \text { Facts } \mid}{\mid \text { Possible hallucinations } \mid}-\frac{7}{\sqrt{n}}$ \qquad \qquad \text{(Equation 3)}
-\label{eq:second}
+\label{eq:third}
 \end{equation}
 $$
 </p>
