@@ -73,18 +73,16 @@ $$
 </p>
 
 #### Hallucination rate (lower bound)
-Hallucination rate $\geq \widehat{M F}-$ Miscalibration $-\frac{300 \mid \text { Facts } \mid}{\mid \text { Possible hallucinations } \mid}-\frac{7}{\sqrt{n}}$
+In equation 3 the lower bound of the hallucination rate is given. 
+<p align="center">
+$$
+\begin{equation}
+\text{Hallucination rate} \geq \widehat{M F}- \text{Miscalibration} -\frac{300 \mid \text { Facts } \mid}{\mid \text { Possible hallucinations } \mid}-\frac{7}{\sqrt{n}}$ \qquad \qquad \text{(Equation 3)}
+\label{eq:second}
+\end{equation}
+$$
+</p>
 
-$\frac{300 \mid \text { Facts } \mid}{\mid \text { Possible hallucinations } \mid}$
-
-$\frac{7}{\sqrt{n}}$: small for large training set size $n$: the ratio of
-the number of arbitrary facts to similar pieces of information that are false, which is exponentially
-small for many types of information
-
-#### <a name="discover"> The Lower Bound </a>
-Hallucination rate $\geq \widehat{M F}-$ Miscalibration $-\frac{300 \mid \text { Facts } \mid}{\mid \text { Possible hallucinations } \mid}-\frac{7}{\sqrt{n}}$
-
-Notice that hallucinate rate is bounded by missing fact rate.
 
 ## <a name="discover"> Calibration</a>
 
