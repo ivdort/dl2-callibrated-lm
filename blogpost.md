@@ -140,11 +140,13 @@ Because of the systematic nature of the facts, repeating these patterns are more
 > This section explains our setting for the experiments. We trained three different models using different datasets: a math dataset, a 5W dataset, and an abstract-title dataset. Each dataset is designed to test different aspects of fact generation and estimation accuracy. Here, we provide an overview of our datasets, the models we trained, and the evaluation metrics used.
 
 ### Datasets
-As mentioned we used three different datasets: a math dataset, a 5W dataset, and an abstract-title dataset. For the math dataset we developed a Python script that generates a large set of simple arithmetic equations along with their answers. This dataset includes operations such as addition, subtraction, and multiplication. For every generated equation a random operator was chosen and two integers randomly sampled between 1 and 10. As a result we have a dataset containing 20000 equations.
+As mentioned we used three different datasets: a math dataset, a 5W dataset, and an abstract-title dataset. For the math dataset we developed a Python script that generates a large set of simple arithmetic equations along with their answers. This dataset includes operations such as addition, subtraction, and multiplication. For every generated equation a random operator was chosen and two integers randomly sampled between 1 and 10. As a result we have a dataset containing 20,000 equations.
 
 In order to construct the 5W dataset as outlined in the referenced paper, we aimed to produce samples in the ‘who-ate-what-when-where-why’ structure. Our initial step involved the creation of distinct word lists for each component of this structure. Specifically, we compiled a list of 40 different names for the ‘who’ segment, 40 diverse meals for the ‘what’ section, 25 temporal expressions for the ‘when’ category, and 10 varied locations for the ‘where’ element. Subsequently, these words were randomly combined to yield a total of 20,000 unique sentences. For the sake of simplifying the model training process and enhancing overall clarity, we ignored the ‘why’ component from our dataset. The source code for the process could be seen in the repository.
 
 For our abstract-title dataset, we used the arXiv dataset provided by Cornell University on Kaggle [3]. This comprehensive dataset contains metadata for scientific papers, including titles, abstracts, authors, and categories from the arXiv repository. We preprocessed the data so it includes entries with the following fields: id, authors, title, and abstract. To ensure the quality and manageability of the dataset, abstracts longer than 200 words were filtered out. The final dataset consists of 20,000 entries, selected to maintain computational feasibility while providing sufficient data for training and evaluation.
+
+### Model
 
 #### Preprocessing
 Preprocessing steps included:
@@ -160,27 +162,31 @@ Dropout: Dropout probabilities of 0.1 for both hidden states and attention.
 Position Embeddings: A maximum of 512 positional embeddings.
 
 #### Training Procedure
-The model was trained over 20 epochs, with the following training parameters:
-
-Batch Size: 16
-Learning Rate: 3e-5
-Weight Decay: 0.01
 A DataLoader was used to handle the training data, employing a DataCollatorForLanguageModeling with a masking probability of 0.2 to facilitate masked language modeling. The AdamW optimizer was chosen for its efficiency in handling the training dynamics of transformer models.
+The model was trained with the following training parameters:
 
-#### Evaluation Metrics
-To assess the performance and hallucination tendencies of the model, several metrics were employed:
+| Hyperparameter   | Model 1      | Model 2      | Model 3      |
+|------------------|--------------|--------------|--------------|
+| Batch Size       | 16           | 16           | 16           |
+| Epochs           | 20           | 20           | 20           |
+| Learning Rate    | 3e-5         | 3e-5         | 3e-5         |
+| Weight Decay     | 0.01         | 0.01         | 0.01         |
 
-Accuracy: The proportion of correctly predicted masked tokens.
-Top-k Accuracy: The proportion of true tokens appearing in the top-k predictions.
-Loss: The average loss per epoch during training.
-Exact Match Accuracy: The percentage of generated titles that exactly match the true titles.
-Average Similarity Score: The cosine similarity between BERT embeddings of the predicted and true titles.
+
+
+### Evaluation
+
+MATH AND 5W MAYBE ADD MEASURES TO THIS SECTION
+
+To evaluate the performance and hallucination of the models, several metrics were used. Accuracy was measured as the proportion of correctly predicted masked tokens, while top-k accuracy evaluated the proportion of true tokens appearing in the top-k predictions. The average loss per epoch during training was also monitored to track the model's learning progress. For the generated titles, exact match accuracy was used to determine the percentage of titles that exactly matched the true titles. Additionally, the average similarity score was calculated as the cosine similarity between BERT embeddings of the predicted and true titles, providing a measure of the semantic closeness of the generated content to the original.
 
 #### Evaluation Procedure
-Validation Set: A validation set of 2000 entries was sampled from the dataset for periodic evaluation during training.
-Prediction Task: The model's predictions were evaluated using a masked token prediction task, where random tokens were masked, and the model's accuracy in predicting these tokens was measured.
-Autoregressive Title Generation: We let the model generate titles in an autoregressive manner. The sentence-level accuracy of these generated titles were calculated to measure coherence and relevance.
-Calibratedness Check: Using temperature scaled (0.6) multinomial sampling, the model generated titles, which were then compared to true titles using exact match accuracy and cosine similarity of their BERT embeddings.
+
+MATH EVALUATION
+
+5W EVALUTION
+
+To evaluate the Abstract-title model's performance, we used a validation set comprising 2,000 entries sampled from the dataset, which allowed for periodic evaluation during training. The model's predictions were evaluated through a masked token prediction task, where random tokens were masked and the model's accuracy in predicting these tokens was measured. Additionally, we tested the model's ability to generate titles in an autoregressive manner, calculating the sentence-level accuracy of these generated titles to evaluate coherence and relevance. To further evaluate the model's performance, we did a calibratedness check using temperature-scaled (0.6) multinomial sampling. The model-generated titles were compared to true titles using exact match accuracy and cosine similarity of their BERT embeddings.
 
 
 ## <a name="bias">Results</a>
