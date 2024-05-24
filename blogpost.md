@@ -147,6 +147,8 @@ The an idealized model in which there are clear-cut facts, where statements that
 #### Dataset Preparation
 The dataset for this experiment is derived from the ArXiv metadata snapshot. We preprocessed the data so it includes entries with the following fields: id, authors, title, and abstract. To ensure the quality and manageability of the dataset, abstracts longer than 200 words were filtered out. The final dataset consists of 20,000 entries, selected to maintain computational feasibility while providing sufficient data for training and evaluation.
 
+In order to construct the 5W dataset as outlined in the referenced paper, we aimed to produce samples in the ‘who-ate-what-when-where-why’ structure. Our initial step involved the creation of distinct word lists for each component of this structure. Specifically, we compiled a list of 40 different names for the ‘who’ segment, 40 diverse meals for the ‘what’ section, 25 temporal expressions for the ‘when’ category, and 10 varied locations for the ‘where’ element. Subsequently, these words were randomly combined to yield a total of 20,000 unique sentences. For the sake of simplifying the model training process and enhancing overall clarity, we ignored the ‘why’ component from our dataset. The source code for the process could be seen in the repository.
+
 #### Preprocessing
 Preprocessing steps included:
 
