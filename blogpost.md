@@ -147,23 +147,33 @@ In order to construct the 5W dataset as outlined in the referenced paper, we aim
 For our abstract-title dataset, we used the arXiv dataset provided by Cornell University on Kaggle [3]. This comprehensive dataset contains metadata for scientific papers, including titles, abstracts, authors, and categories from the arXiv repository. We preprocessed the data so it includes entries with the following fields: id, authors, title, and abstract. To ensure the quality and manageability of the dataset, abstracts longer than 200 words were filtered out. The final dataset consists of 20,000 entries, selected to maintain computational feasibility while providing sufficient data for training and evaluation.
 
 ### Model
+HERE WE NEED TO SAY SOMETHING ABOUT THE DIFFERENT BERT MODELS USED AND THEN REFER MAYBE TO THE TABLE FOR THE DETAILS PER MODEL.
+
+The following table summarizes the BERT model configuration used for each of the three models in our experiment:
+
+<div align="center">
+
+| Configuration                 | Model 1        | Model 2        | Model 3        |
+|-------------------------------|----------------|----------------|----------------|
+| Layers and Heads              | 12 hidden layers, 12 attention heads | 12 hidden layers, 12 attention heads | 12 hidden layers, 12 attention heads |
+| Hidden Size                   | 768            | 768            | 768            |
+| Intermediate Size             | 3072           | 3072           | 3072           |
+| Dropout                       | 0.1 (hidden states and attention) | 0.1 (hidden states and attention) | 0.1 (hidden states and attention) |
+| Position Embeddings           | 512            | 512            | 512            |
+
+</div>
 
 #### Preprocessing
-Preprocessing steps included:
+MATH
 
-Tokenization: The BERT tokenizer (bert-base-uncased) was used to tokenize the text. To simplify the tokenization process, periods were removed from the abstracts.
-Formatting: Each data entry was concatenated in the form of abstract[SEP]title to create the input for the model.
-Model Configuration
-The BERT model configuration for this experiment is based on the BERT Base architecture, characterized by:
+5W
 
-Layers and Heads: 12 hidden layers and 12 attention heads.
-Hidden and Intermediate Sizes: A hidden size of 768 and an intermediate size of 3072.
-Dropout: Dropout probabilities of 0.1 for both hidden states and attention.
-Position Embeddings: A maximum of 512 positional embeddings.
+The preprocessing steps for the Abstract-Title model included tokenization and formatting of the text data. We used the BERT tokenizer (bert-base-uncased) to tokenize the text, with a simplification step where periods were removed from the abstracts to clean the data. Each data entry was then concatenated in the format of abstract[SEP]title to create the input for the model.
 
 #### Training Procedure
-A DataLoader was used to handle the training data, employing a DataCollatorForLanguageModeling with a masking probability of 0.2 to facilitate masked language modeling. The AdamW optimizer was chosen for its efficiency in handling the training dynamics of transformer models.
-The model was trained with the following training parameters:
+A DataLoader was used to handle the training data, employing a DataCollatorForLanguageModeling with a masking probability of 0.2 to facilitate masked language modeling. The AdamW optimizer was chosen for its efficiency in handling the training dynamics of transformer models. The model was trained with the following training parameters:
+
+<div align="center">
 
 | Hyperparameter   | Model 1      | Model 2      | Model 3      |
 |------------------|--------------|--------------|--------------|
@@ -172,7 +182,7 @@ The model was trained with the following training parameters:
 | Learning Rate    | 3e-5         | 3e-5         | 3e-5         |
 | Weight Decay     | 0.01         | 0.01         | 0.01         |
 
-
+</div>
 
 ### Evaluation
 
@@ -197,12 +207,14 @@ In our experiments, we aimed to evaluate the performance and hallucination tende
 ### Calibration
 We checked the calibration of our model by comparing the cosine similarity between the true title and the predicted title over two sets of 1000 samples each. The first set contained abstract-title pairs which were also used for training, while the second set contained unseen pairs. We employed temperature-scaled multinomial sampling with a temperature of 0.6, which means the model samples higher probability tokens more often. The average cosine similarity was found by generating sentence embeddings for the true sentence and the predicted sentence using a pretrained BERT model.
 
+<div align="center">
 
 |                           | Exact match accuracy | Average Cosine Similarity |
 |---------------------------|----------------------|---------------------------|
 | Training Data Samples     | 0.0                  | 0.82                      |
 | Non-Training Data Samples | 0.0                  | 0.82                      |
 
+</div>
 
 ### Analysis
 Our preliminary results reveal an exact match accuracy of 0.0 for both evaluation sets. This indicates that the model was not able to generate any titles which exactly matched the true titles. The average cosine similarity score was 0.82 however, suggesting that while the model was not able to generate any exact matches, its generations were semantically still relatively similar to the true titles. 
