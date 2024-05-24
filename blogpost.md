@@ -137,15 +137,14 @@ Because of the systematic nature of the facts, repeating these patterns are more
 
 ## <a name="reproduction">Experimental setting</a>
 
-> This section explains our setting for the experiments. It includes what language models we use, how we train it, and how the test and measurements are done
+> This section explains our setting for the experiments. We trained three different models using different datasets: a math dataset, a 5W dataset, and an abstract-title dataset. Each dataset is designed to test different aspects of fact generation and estimation accuracy. Here, we provide an overview of our datasets, the models we trained, and the evaluation metrics used.
 
-### measuring hallucination
-The an idealized model in which there are clear-cut facts, where statements that violate these facts would generally be categorized as hallucinations by most definitions
+### Datasets
+As mentioned we used three different datasets: a math dataset, a 5W dataset, and an abstract-title dataset. For the math dataset we developed a Python script that generates a large set of simple arithmetic equations along with their answers. This dataset includes operations such as addition, subtraction, and multiplication. For every generated equation a random operator was chosen and two integers randomly sampled between 1 and 10. As a result we have a dataset containing 20000 equations.
 
-### Abstract-Title model 
+In order to construct the 5W dataset as outlined in the referenced paper, we aimed to produce samples in the ‘who-ate-what-when-where-why’ structure. Our initial step involved the creation of distinct word lists for each component of this structure. Specifically, we compiled a list of 40 different names for the ‘who’ segment, 40 diverse meals for the ‘what’ section, 25 temporal expressions for the ‘when’ category, and 10 varied locations for the ‘where’ element. Subsequently, these words were randomly combined to yield a total of 20,000 unique sentences. For the sake of simplifying the model training process and enhancing overall clarity, we ignored the ‘why’ component from our dataset. The source code for the process could be seen in the repository.
 
-#### Dataset Preparation
-The dataset for this experiment is derived from the ArXiv metadata snapshot. We preprocessed the data so it includes entries with the following fields: id, authors, title, and abstract. To ensure the quality and manageability of the dataset, abstracts longer than 200 words were filtered out. The final dataset consists of 20,000 entries, selected to maintain computational feasibility while providing sufficient data for training and evaluation.
+For our abstract-title dataset, we used the arXiv dataset provided by Cornell University on Kaggle [3]. This comprehensive dataset contains metadata for scientific papers, including titles, abstracts, authors, and categories from the arXiv repository. We preprocessed the data so it includes entries with the following fields: id, authors, title, and abstract. To ensure the quality and manageability of the dataset, abstracts longer than 200 words were filtered out. The final dataset consists of 20,000 entries, selected to maintain computational feasibility while providing sufficient data for training and evaluation.
 
 #### Preprocessing
 Preprocessing steps included:
@@ -222,6 +221,8 @@ The consistent performance across both training and non-training data samples de
 ## Bibliography
 
 [1] Kalai, A. T., & Vempala, S. S. (2023). Calibrated language models must hallucinate. arXiv preprint arXiv:2311.14648.
+
 [2] I. J. Good. 1953. The Population Frequences of Species and the Estimation of Population Parameters.
 Biometrika 40, 3-4 (Dec. 1953), 237–264.
 
+[3] Cornell University. (n.d.). arXiv dataset. Retrieved from https://www.kaggle.com/datasets/Cornell-University/arxiv
