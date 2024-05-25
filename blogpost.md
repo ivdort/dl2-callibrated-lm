@@ -156,7 +156,7 @@ The following table summarizes the BERT model configuration used for each of the
 </div>
 
 #### Preprocessing
-MATH
+For the math dataset we followed very simple preprocessing steps by just applying a pretrained tokenizer (bert-base-uncased).
 
 5W
 
@@ -184,7 +184,7 @@ To evaluate the performance and hallucination of the models, several metrics wer
 
 #### Evaluation Procedure
 
-MATH EVALUATION
+Results on the math dataset were evaluated via a validation set of 2,000 samples from the same distribution as the train data. During training, it is evaluated in the task of masked token prediction. We also calculated the expected calibration error after each epoch of training to see if the model achieves better calibration through further training. To evaluate the hallucination rate of the model, we made it generate equations. (TODO: explain closeness measure)
 
 5W EVALUTION
 
