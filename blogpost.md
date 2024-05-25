@@ -198,7 +198,7 @@ To evaluate the Abstract-title model's performance, we used a validation set com
 
 ### Math Dataset
 
-We trained the BERT model for 20 epochs and evaluated after every epoch whether it becomes more calibrated, and analyse whether the amount of hallucinations (as proxy via closeness) increases or decreases with the change in calibration. The estimated calibration error (ECE) generally decreases with every training epoch, while the cloneness measure does not seem to change meaningfully with each epoch. In general, we would have expected the amount of hallucination to increase with better calibration, which is not the case in our experiment. 
+We trained the BERT model for 20 epochs and evaluated after every epoch whether it becomes more calibrated, and analyse whether the amount of hallucinations (as proxy via closeness) increases or decreases with the change in calibration. The estimated calibration error (ECE) generally decreases with every training epoch, while the cloneness measure does not seem to change meaningfully with each epoch. In general, we would have expected the amount of hallucination to increase with better calibration, which is not the case in our experiment. The detailed values are presented in the following table. As can be seen from the following plots, which show the calibration after 1 and 20 epochs, respectively, the calibration does improve, but mostly because the model achieves close to 100% accuracy, as well as confidence on all predictions.
 
 
 <div align="center">
