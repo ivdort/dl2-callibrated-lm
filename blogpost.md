@@ -174,6 +174,8 @@ A DataLoader was used to handle the training data, employing a DataCollatorForLa
 
 </div>
 
+![Reliability Diagram](ss_5w_loss.png)
+
 ### Evaluation Procedure
 
 To evaluate the performance and hallucination of the models, several metrics were used. Accuracy was measured as the proportion of correctly predicted masked tokens, while top-k accuracy evaluated the proportion of true tokens appearing in the top-k predictions. The average loss per epoch during training was also monitored to track the model's learning progress. 
@@ -188,6 +190,11 @@ To evaluate the Abstract-title model's performance, we used a validation set com
 
 ## <a name="bias">Results</a>
 > This section explains our results
+
+### 5W Dataset
+We utilized 2,000 samples from the training set as an evaluation set. The results indicated the accuracy score of 69% and the accuracy_top_3 score of 77%. These metrics reflect the model's capability to accurately predict the masked tokens and are essential for assessing the extent to which the model hallucinates the masked token. Considering that the model has been exposed to all sentences during the training phase, we expected high accuracy in predicting masked tokens. 
+To assess hallucination in generative tasks, we generated 200 sentences using the model. The results yielded the BLEU score of 0.7 and cosine similarity score of 0.97. These metrics suggest that, while the majority parts of the generated sentences closely adhered to the systematic facts found in the dataset, there were still some tokens within the generated sentences that had not been encountered during training—indicative of hallucination by the model.	
+In summary, while the model demonstrated proficiency in predicting masked tokens and maintaining coherence with systematic facts, the presence of hallucinated content in generative tasks highlights the inherent challenges in achieving perfect accuracy. These findings underscore the necessity for continuous refinement and validation to mitigate hallucinations and enhance the reliability of generative models.
 
 In our experiments, we aimed to evaluate the performance and hallucination tendencies of our BERT-based model, focusing on the autoregressive generation of titles based on abstracts in the ArXiv metadata dataset. The metrics used for evaluation were the exact match accuracy, average cosine similarity score, and a reliability diagram to check calibration.
 
@@ -239,6 +246,7 @@ We also calculated an Expected Calibration Error (ECE) score according to these 
 
 ## Further Research: 
 > This section discusses our ideas for future work.
+To further improve the performance and reliability of our model, several avenues for future work have been identified. Firstly, developing a custom tokenizer tailored to our specific dataset could enhance the tokenization process, potentially increasing the accuracy of the masked token prediction and reducing hallucination in generative tasks. Additionally, leveraging a more comprehensive and powerful dataset could provide the model with a richer context, thereby improving its ability to generate coherent and factually accurate sentences. Exploring different models to assess the hallucination rate would also be beneficial; by comparing results across various architectures, we can identify which models are more effective in minimizing hallucinations. Finally, conducting extended training over more epochs could provide insights into the model's learning curve. Specifically, tracking the loss over additional epochs would help determine whether the model's performance continues to improve or not, thereby informing decisions on optimal training duration. By addressing these areas, we aim to enhance the robustness and accuracy of our model, reducing hallucination and increasing its reliability for real-world applications.
 
 ## Concluding Remarks
 > This section concludes the insights of this blogpost.
