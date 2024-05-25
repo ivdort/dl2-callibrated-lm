@@ -139,9 +139,7 @@ In order to construct the 5W dataset as outlined in the referenced paper, we aim
 For our abstract-title dataset, we used the arXiv dataset provided by Cornell University on Kaggle [3]. This comprehensive dataset contains metadata for scientific papers, including titles, abstracts, authors, and categories from the arXiv repository. We preprocessed the data so it includes entries with the following fields: id, authors, title, and abstract. To ensure the quality and manageability of the dataset, abstracts longer than 200 words were filtered out. The final dataset consists of 20,000 entries, selected to maintain computational feasibility while providing sufficient data for training and evaluation.
 
 ### Model
-HERE WE NEED TO SAY SOMETHING ABOUT THE DIFFERENT BERT MODELS USED AND THEN REFER MAYBE TO THE TABLE FOR THE DETAILS PER MODEL.
-
-The following table summarizes the BERT model configuration used for each of the three models in our experiment:
+We used BertForMaskedLM model configured with BERT Base parameters. The following table summarizes the BERT model configuration used for each of the three models in our experiment:
 
 <div align="center">
 
@@ -158,12 +156,12 @@ The following table summarizes the BERT model configuration used for each of the
 #### Preprocessing
 For the math dataset we followed very simple preprocessing steps by just applying a pretrained tokenizer (bert-base-uncased).
 
-5W
+For training on 5W dataset, the data was fed into the model batches of 16 sentences at a time. We utilized the BERT tokenizer (bert-base-uncased) for tokenization. During the training, each token had a 20% chance of being masked. 
 
 The preprocessing steps for the Abstract-Title model included tokenization and formatting of the text data. We used the BERT tokenizer (bert-base-uncased) to tokenize the text, with a simplification step where periods were removed from the abstracts to clean the data. Each data entry was then concatenated in the format of abstract[SEP]title to create the input for the model.
 
 #### Training Procedure
-A DataLoader was used to handle the training data, employing a DataCollatorForLanguageModeling with a masking probability of 0.2 to facilitate masked language modeling. The AdamW optimizer was chosen for its efficiency in handling the training dynamics of transformer models. The model was trained with the following training parameters:
+A DataLoader was used to handle the training data, employing a DataCollatorForLanguageModeling with a masking probability of 0.2 to facilitate masked language modeling. To optimize the training process, we used the ADAMW optimizer, which is well-suited for handling weight decay in conjunction with adaptive learning rates. The models were trained with the following training parameters:
 
 <div align="center">
 
@@ -176,20 +174,17 @@ A DataLoader was used to handle the training data, employing a DataCollatorForLa
 
 </div>
 
-### Evaluation
+### Evaluation Procedure
 
-MATH AND 5W MAYBE ADD MEASURES TO THIS SECTION
-
-To evaluate the performance and hallucination of the models, several metrics were used. Accuracy was measured as the proportion of correctly predicted masked tokens, while top-k accuracy evaluated the proportion of true tokens appearing in the top-k predictions. The average loss per epoch during training was also monitored to track the model's learning progress. For the generated titles, exact match accuracy was used to determine the percentage of titles that exactly matched the true titles. Additionally, the average similarity score was calculated as the cosine similarity between BERT embeddings of the predicted and true titles, providing a measure of the semantic closeness of the generated content to the original.
-
-#### Evaluation Procedure
+To evaluate the performance and hallucination of the models, several metrics were used. Accuracy was measured as the proportion of correctly predicted masked tokens, while top-k accuracy evaluated the proportion of true tokens appearing in the top-k predictions. The average loss per epoch during training was also monitored to track the model's learning progress. 
 
 Results on the math dataset were evaluated via a validation set of 2,000 samples from the same distribution as the train data. During training, it is evaluated in the task of masked token prediction. We also calculated the expected calibration error after each epoch of training to see if the model achieves better calibration through further training. To evaluate the hallucination rate of the model, we made it generate equations. (TODO: explain closeness measure)
 
-5W EVALUTION
+In the evaluation phase of 5W model, we masked one random token in each sentence of the evaluation set and tasked the model with predicting the masked token. To assess accuracy, the token with the highest logit value produced by the model was considered as the model’s prediction. For accuracy_top_3 score, we selected the three tokens with the highest logits. If the masked token matched the predicted token(s), it was marked as correct. To evaluate the hallucination rate in generative tasks, we provided the model with a random name from the dataset followed by the token of ‘ate’. The model was then expected to generate the rest of the sentence up to the period token. We calculated the BLEU score between the generated sentence and all other sentences in the dataset, reporting the highest scoring match. Additionally, we compared the embeddings of the generated sentences with the embeddings of the other sentences in the dataset and reported the maximum cosine similarity score.To get the embeddings of the sentences, we utilized the pretrained bert-base-uncased model and extracted the embeddings of the [CLS] token.
+
+For the generated titles, exact match accuracy was used to determine the percentage of titles that exactly matched the true titles. Additionally, the average similarity score was calculated as the cosine similarity between BERT embeddings of the predicted and true titles, providing a measure of the semantic closeness of the generated content to the original.
 
 To evaluate the Abstract-title model's performance, we used a validation set comprising 2,000 entries sampled from the dataset, which allowed for periodic evaluation during training. The model's predictions were evaluated through a masked token prediction task, where random tokens were masked and the model's accuracy in predicting these tokens was measured. Additionally, we tested the model's ability to generate titles in an autoregressive manner, calculating the sentence-level accuracy of these generated titles to evaluate coherence and relevance. To further evaluate the model's performance, we did a calibratedness check using temperature-scaled (0.6) multinomial sampling. The model-generated titles were compared to true titles using exact match accuracy and cosine similarity of their BERT embeddings.
-
 
 ## <a name="bias">Results</a>
 > This section explains our results
