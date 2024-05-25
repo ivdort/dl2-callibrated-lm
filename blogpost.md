@@ -196,6 +196,48 @@ To evaluate the Abstract-title model's performance, we used a validation set com
 ## <a name="bias">Results</a>
 > This section explains our results
 
+### Math Dataset
+ <div align="center">
+| Temperature |         ECE          |     Closeness     |
+|-------------|----------------------|-------------------|
+| 0           | 0.22                 | 0.07              |
+| 0.2         | 0.27                 | 0.07              |
+| 0.4         | 0.18                 | 0.07              |
+| 0.6         | 0.17                 | 0.07              |
+| 0.8         | 0.26                 | 0.07              |
+| 1.0         | 0.16                 | 0.07              |
+| 1.2         | 0.26                 | 0.07              |
+| 1.4         | 0.15                 | 0.07              |
+| 1.6         | 0.28                 | 0.07              |
+| 1.8         | 0.20                 | 0.07              |
+| 2.0         | 0.17                 | 0.07              |
+</div>
+
+<div align="center">
+|    Epoch    |         ECE          |     Closeness     |
+|-------------|----------------------|-------------------|
+| 1           | 0.37                 | 0.00              |
+| 2           | 0.38                 | 0.35              |
+| 3           | 0.94                 | 0.20              |
+| 4           | 0.64                 | 5.00              |
+| 5           | 0.38                 | 0.00              |
+| 6           | 0.28                 | 0.00              |
+| 7           | 0.21                 | 0.00              |
+| 8           | 0.15                 | 0.00              |
+| 9           | 0.13                 | 0.00              |
+| 10          | 0.04                 | 5.00              |
+| 11          | 0.16                 | 0.00              |
+| 12          | 0.09                 | 0.00              |
+| 13          | 0.07                 | 5.00              |
+| 14          | 0.06                 | 0.00              |
+| 15          | 0.08                 | 0.00              |
+| 16          | 0.13                 | 0.00              |
+| 17          | 0.04                 | 0.00              |
+| 18          | 0.11                 | 0.00              |
+| 19          | 0.05                 | 0.00              |
+| 20          | 0.09                 | 5.00              |
+</div>
+
 ### 5W Dataset
 We utilized 2,000 samples from the training set as an evaluation set. The results indicated the accuracy score of 69% and the accuracy_top_3 score of 77%. These metrics reflect the model's capability to accurately predict the masked tokens and are essential for assessing the extent to which the model hallucinates the masked token. Considering that the model has been exposed to all sentences during the training phase, we expected high accuracy in predicting masked tokens. 
 To assess hallucination in generative tasks, we generated 200 sentences using the model. The results yielded the BLEU score of 0.7 and cosine similarity score of 0.97. These metrics suggest that, while the majority parts of the generated sentences closely adhered to the systematic facts found in the dataset, there were still some tokens within the generated sentences that had not been encountered during training—indicative of hallucination by the model.	
