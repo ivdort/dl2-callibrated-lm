@@ -211,7 +211,7 @@ We checked the calibration of our model by comparing the cosine similarity betwe
 
 <br><br>
 
-![Reliability Diagram](./images/reliabilitydiagram.png)
+![Reliability Diagram](reliabilitydiagram.png)
 
 </div>
 
