@@ -226,6 +226,13 @@ We trained the BERT model for 20 epochs and evaluated after every epoch whether 
 | 19          | 0.05                 | 0.00              |
 | 20          | 0.09                 | 1.00              |
 
+<br><br>
+
+![Reliability Math Epoch 1](math_reliability_epoch1.png)
+![Reliability Math Epoch 20](math_reliability_epoch20.png)
+
+</div>
+
 </div>
 
 We further tried to increase calibration of a model trained for 5 epochs via tuning of the temperature parameter and observing the effect on calibration and hallucination rate. We observe that for some temperature values, especially at 1.4, the calibration error drops, meaning the model becomes more calibrated. When looking at the closeness measure though, we don't observe any differences in the hallucination rate of generated sentences.
