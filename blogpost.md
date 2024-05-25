@@ -197,7 +197,9 @@ To evaluate the Abstract-title model's performance, we used a validation set com
 > This section explains our results
 
 ### Math Dataset
- <div align="center">
+
+<div align="center">
+  
 | Temperature |         ECE          |     Closeness     |
 |-------------|----------------------|-------------------|
 | 0           | 0.22                 | 0.07              |
@@ -211,9 +213,11 @@ To evaluate the Abstract-title model's performance, we used a validation set com
 | 1.6         | 0.28                 | 0.07              |
 | 1.8         | 0.20                 | 0.07              |
 | 2.0         | 0.17                 | 0.07              |
+
 </div>
 
 <div align="center">
+  
 |    Epoch    |         ECE          |     Closeness     |
 |-------------|----------------------|-------------------|
 | 1           | 0.37                 | 0.00              |
@@ -236,6 +240,7 @@ To evaluate the Abstract-title model's performance, we used a validation set com
 | 18          | 0.11                 | 0.00              |
 | 19          | 0.05                 | 0.00              |
 | 20          | 0.09                 | 5.00              |
+
 </div>
 
 ### 5W Dataset
