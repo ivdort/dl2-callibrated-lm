@@ -145,7 +145,7 @@ The following table summarizes the BERT model configuration used for each of the
 
 <div align="center">
 
-| Configuration                 | Model 1        | Model 2        | Model 3        |
+| Configuration                 | Model 1        | Model 2        | Citations        |
 |-------------------------------|----------------|----------------|----------------|
 | Layers and Heads              | 12 hidden layers, 12 attention heads | 12 hidden layers, 12 attention heads | 12 hidden layers, 12 attention heads |
 | Hidden Size                   | 768            | 768            | 768            |
@@ -167,11 +167,11 @@ A DataLoader was used to handle the training data, employing a DataCollatorForLa
 
 <div align="center">
 
-| Hyperparameter   | Model 1      | Model 2      | Model 3      |
+| Hyperparameter   | Model 1      | Model 2      | Citations |
 |------------------|--------------|--------------|--------------|
 | Batch Size       | 16           | 16           | 16           |
-| Epochs           | 20           | 20           | 20           |
-| Learning Rate    | 3e-5         | 3e-5         | 3e-5         |
+| Epochs           | 20           | 20           | 71           |
+| Learning Rate    | 3e-5         | 3e-5         | 4e-5         |
 | Weight Decay     | 0.01         | 0.01         | 0.01         |
 
 </div>
@@ -194,24 +194,50 @@ To evaluate the Abstract-title model's performance, we used a validation set com
 ## <a name="bias">Results</a>
 > This section explains our results
 
-In our experiments, we aimed to evaluate the performance and hallucination tendencies of our BERT-based model, focusing on the autoregressive generation of titles based on abstracts in the ArXiv metadata dataset. The metrics used for evaluation were the exact match accuracy and average cosine similarity score.
+In our experiments, we aimed to evaluate the performance and hallucination tendencies of our BERT-based model, focusing on the autoregressive generation of titles based on abstracts in the ArXiv metadata dataset. The metrics used for evaluation were the exact match accuracy, average cosine similarity score, and a reliability diagram to check calibration.
 
 ### Calibration
-We checked the calibration of our model by comparing the cosine similarity between the true title and the predicted title over two sets of 1000 samples each. The first set contained abstract-title pairs which were also used for training, while the second set contained unseen pairs. We employed temperature-scaled multinomial sampling with a temperature of 0.6, which means the model samples higher probability tokens more often. The average cosine similarity was found by generating sentence embeddings for the true sentence and the predicted sentence using a pretrained BERT model.
+We checked the calibration of our model by comparing the cosine similarity between the true title and the predicted title over a validation set of 2500 unseen samples. We employed temperature-scaled multinomial sampling with temperatures between 0.2 and 1.0. Canging the temperature parameter in affects the randomness of the model's predictions. Lower temperatures (e.g., 0.2, 0.4) make the model's output more focused and accurate, increasing exact match accuracy and similarity scores, while higher temperatures (e.g., 0.8, 1.0) make the predictions more diverse and random, reducing these metrics but generating more varied outputs. The average cosine similarity was found by generating sentence embeddings for the true sentence and the predicted sentence using a pretrained BERT model.
 
 <div align="center">
 
-|                           | Exact match accuracy | Average Cosine Similarity |
-|---------------------------|----------------------|---------------------------|
-| Training Data Samples     | 0.0                  | 0.82                      |
-| Non-Training Data Samples | 0.0                  | 0.82                      |
+| Temperature | Exact Match Accuracy | Cosine Similarity |
+|-------------|----------------------|-------------------|
+| 0.2         | 0                    | 0.88              |
+| 0.4         | 0                    | 0.88              |
+| 0.6         | 0                    | 0.87              |
+| 0.8         | 0                    | 0.87              |
+| 1.0         | 0                    | 0.86              |
+
+<br><br>
+
+![Reliability Diagram](./images/reliabilitydiagram.png)
 
 </div>
 
-### Analysis
-Our preliminary results reveal an exact match accuracy of 0.0 for both evaluation sets. This indicates that the model was not able to generate any titles which exactly matched the true titles. The average cosine similarity score was 0.82 however, suggesting that while the model was not able to generate any exact matches, its generations were semantically still relatively similar to the true titles. 
+### Sample generations
 
-The consistent performance across both training and non-training data samples demonstrates that the model's ability to generate semantically similar titles does not degrade when dealing with unseen data. The high average similarity score indicates that the model has learned to generate titles that are contextually relevant and coherent, despite the lack of exact matches.
+<div align="center">
+
+| Abstract | Title | Predicted Title | Similarity Score |
+|----------|-------|-----------------|------------------|
+| We prove a fractional version of the Hardy--Sobolev--Maz'ya inequality for arbitrary domains and $L^p$ norms with $p\geq 2$. This inequality combines the fractional Sobolev and the fractional Hardy inequality into a single inequality, while keeping the sharp constant in the Hardy inequality. | fractional hardy - sobolev - maz'ya inequality for domains | fractional hardy - sobolev - maz'ya inequality for domains with | 0.9902 |
+| We present spectroscopic metallicities of individual stars in seven gas-rich dwarf irregular galaxies (dIrrs), and we show that dIrrs obey the same mass-metallicity relation as the dwarf spheroidal (dSph) satellites of both the Milky Way and M31: Z_* ~ M_*^(0.30 +/- 0.02). The uniformity of the relation is in contradiction to previous estimates of metallicity based on photometry. This relationship is roughly continuous with the stellar mass-stellar metallicity relation for galaxies as massive as M_* = 10^12 M_sun. Although the average metallicities of dwarf galaxies depend only on stellar mass, the shapes of their metallicity distributions depend on galaxy type. The metallicity distributions of dIrrs resemble simple, leaky box chemical evolution models, whereas dSphs require an additional parameter, such as gas accretion, to explain the shapes of their metallicity distributions. Furthermore, the metallicity distributions of the more luminous dSphs have sharp, metal-rich cut-offs that are consistent with the sudden truncation of star formation due to ram pressure stripping. | the universal stellar mass - stellar metallicity relation for dwarf galaxies | a small - mass - stellar metallicity relation of dwarf galaxies in | 0.8700 |
+| A comparison of the structural, optical and electronic properties of the recently discovered transparent conducting oxide (TCO), nanoporous Ca12Al14O33, with those of the conventional TCO's (such as Sc-doped CdO) indicates that this material belongs conceptually to a new class of transparent conductors. For this class of materials, we formulate criteria for the successful combination of high electrical conductivity with complete transparency in the visible range. Our analysis suggests that this set of requirements can be met for a group of novel materials called electrides. | combining high conductivity with complete optical transparency : a band - structure approach | high electrical conductivity with increased illumination transparency : a band gap prem. we | 0.8900 |
+| The global properties of spatially homogeneous cosmological models with collisionless matter are studied. It is shown that as long as the mean curvature of the hypersurfaces of homogeneity remains finite no singularity can occur in finite proper time as measured by observers whose worldlines are orthogonal to these hypersurfaces. Strong cosmic censorship is then proved for the Bianchi I, Bianchi IX and Kantowski-Sachs symmetry classes. | cosmic censorship for some spatially homogeneous cosmological models | cosmic censorship in both spatially homogeneous cosmological models with | 0.9035 |
+| In this paper we prove a mirror symmetry conjecture based on the work of Brini-Eynard-Mari\~no \cite{BEM} and Diaconescu-Shende-Vafa \cite{DSV}. This conjecture relates open Gromov-Witten invariants of the conifold transition of a torus knot to the topological recursion on the B-model spectral curve. | topological recursion for the conifold transition of a torus knot | mirror recursion of the conifold transition of the torus. this | 0.8682 |
+
+</div>
+
+
+### Analysis
+Our results reveal an exact match accuracy of 0.0 for all temperatures. This indicates that the model was not able to generate any titles which exactly matched the true titles. The average cosine similarity score was between 0.86 and 0.88 however, suggesting that while the model was not able to generate any exact matches, its generations were semantically still similar to the true titles, as you can also see in the five randomly sampled abstract title pairs in the table above. 
+
+Reliability Curve (see the reliability diagram above):
+
+The reliability curve (blue line) shows the relationship between the model's confidence in its predictions (x-axis) and the actual accuracy of these predictions (y-axis).
+The closer this curve is to the diagonal line (orange dashed line), the better calibrated the model is. This means the model's predicted probabilities accurately reflect the true likelihood of events. The diagonal line represents perfect calibration. For a perfectly calibrated model, if it predicts an event with 70% confidence, that event should occur 70% of the time. Deviations from this line indicate miscalibration. Above the line means the model is underconfident, while below means it's overconfident. In our reliability diagram, the reliability curve closely follows the diagonal line, indicating good calibration overall. Slight deviations from the diagonal suggest areas where the model might be slightly underconfident or overconfident.
+
 
 
 ## Further Research: 
