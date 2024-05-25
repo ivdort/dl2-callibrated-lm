@@ -161,3 +161,6 @@ cython_debug/
 test.ipynb
 saved_bert_model/math_dataset_1_to_10_+_-_ .csv/epochs_5/model.safetensors
 saved_bert_model/model.safetensors
+BERT/bert_math_1_epoch_20.pth
+BERT/bert_math_1_temp0,5.pth
+BERT/bert_math_1.pth
