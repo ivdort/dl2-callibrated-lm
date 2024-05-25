@@ -180,7 +180,7 @@ A DataLoader was used to handle the training data, employing a DataCollatorForLa
 
 To evaluate the performance and hallucination of the models, several metrics were used. Accuracy was measured as the proportion of correctly predicted masked tokens, while top-k accuracy evaluated the proportion of true tokens appearing in the top-k predictions. The average loss per epoch during training was also monitored to track the model's learning progress. 
 
-Results on the math dataset were evaluated via a validation set of 2,000 samples from the same distribution as the train data. During training, it is evaluated in the task of masked token prediction. We also calculated the expected calibration error after each epoch of training to see if the model achieves better calibration through further training. To evaluate the hallucination rate of the model, we made it generate equations. (TODO: explain closeness measure)
+Results on the math dataset were evaluated via a validation set of 2,000 samples from the same distribution as the train data. During training, it is evaluated in the task of masked token prediction. We also calculated the expected calibration error after each epoch of training to see if the model achieves better calibration through further training. To evaluate the hallucination rate of the model, we made it autoregressively generate equations and calculate a closeness measure based on the generated equations. If the equation is mathimatically valid, a closeness of 1 is assigned to the sentence. For equations that are invalid, the distance from the predicted result to what the result should be according to the generated equation is the closeness score. For each evaluation step, we generate 100 equations and calculate the mean closeness.
 
 In the evaluation phase of 5W model, we masked one random token in each sentence of the evaluation set and tasked the model with predicting the masked token. To assess accuracy, the token with the highest logit value produced by the model was considered as the model’s prediction. For accuracy_top_3 score, we selected the three tokens with the highest logits. If the masked token matched the predicted token(s), it was marked as correct. To evaluate the hallucination rate in generative tasks, we provided the model with a random name from the dataset followed by the token of ‘ate’. The model was then expected to generate the rest of the sentence up to the period token. We calculated the BLEU score between the generated sentence and all other sentences in the dataset, reporting the highest scoring match. Additionally, we compared the embeddings of the generated sentences with the embeddings of the other sentences in the dataset and reported the maximum cosine similarity score.To get the embeddings of the sentences, we utilized the pretrained bert-base-uncased model and extracted the embeddings of the [CLS] token.
 
@@ -198,6 +198,38 @@ To evaluate the Abstract-title model's performance, we used a validation set com
 
 ### Math Dataset
 
+We trained the BERT model for 20 epochs and evaluated after every epoch whether it becomes more calibrated, and analyse whether the amount of hallucinations (as proxy via closeness) increases or decreases with the change in calibration. The estimated calibration error (ECE) generally decreases with every training epoch, while the cloneness measure does not seem to change meaningfully with each epoch. In general, we would have expected the amount of hallucination to increase with better calibration, which is not the case in our experiment. 
+
+
+<div align="center">
+  
+|    Epoch    |         ECE          |     Closeness     |
+|-------------|----------------------|-------------------|
+| 1           | 0.37                 | 0.00              |
+| 2           | 0.38                 | 0.35              |
+| 3           | 0.94                 | 0.20              |
+| 4           | 0.64                 | 1.00              |
+| 5           | 0.38                 | 0.00              |
+| 6           | 0.28                 | 0.00              |
+| 7           | 0.21                 | 0.00              |
+| 8           | 0.15                 | 0.00              |
+| 9           | 0.13                 | 0.00              |
+| 10          | 0.04                 | 1.00              |
+| 11          | 0.16                 | 0.00              |
+| 12          | 0.09                 | 0.00              |
+| 13          | 0.07                 | 1.00              |
+| 14          | 0.06                 | 0.00              |
+| 15          | 0.08                 | 0.00              |
+| 16          | 0.13                 | 0.00              |
+| 17          | 0.04                 | 0.00              |
+| 18          | 0.11                 | 0.00              |
+| 19          | 0.05                 | 0.00              |
+| 20          | 0.09                 | 1.00              |
+
+</div>
+
+We further tried to increase calibration of a model trained for 5 epochs via tuning of the temperature parameter and observing the effect on calibration and hallucination rate. We observe that for some temperature values, especially at 1.4, the calibration error drops, meaning the model becomes more calibrated. When looking at the closeness measure though, we don't observe any differences in the hallucination rate of generated sentences.
+
 <div align="center">
   
 | Temperature |         ECE          |     Closeness     |
@@ -213,33 +245,6 @@ To evaluate the Abstract-title model's performance, we used a validation set com
 | 1.6         | 0.28                 | 0.07              |
 | 1.8         | 0.20                 | 0.07              |
 | 2.0         | 0.17                 | 0.07              |
-
-</div>
-
-<div align="center">
-  
-|    Epoch    |         ECE          |     Closeness     |
-|-------------|----------------------|-------------------|
-| 1           | 0.37                 | 0.00              |
-| 2           | 0.38                 | 0.35              |
-| 3           | 0.94                 | 0.20              |
-| 4           | 0.64                 | 5.00              |
-| 5           | 0.38                 | 0.00              |
-| 6           | 0.28                 | 0.00              |
-| 7           | 0.21                 | 0.00              |
-| 8           | 0.15                 | 0.00              |
-| 9           | 0.13                 | 0.00              |
-| 10          | 0.04                 | 5.00              |
-| 11          | 0.16                 | 0.00              |
-| 12          | 0.09                 | 0.00              |
-| 13          | 0.07                 | 5.00              |
-| 14          | 0.06                 | 0.00              |
-| 15          | 0.08                 | 0.00              |
-| 16          | 0.13                 | 0.00              |
-| 17          | 0.04                 | 0.00              |
-| 18          | 0.11                 | 0.00              |
-| 19          | 0.05                 | 0.00              |
-| 20          | 0.09                 | 5.00              |
 
 </div>
 
