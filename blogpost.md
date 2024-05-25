@@ -174,7 +174,7 @@ A DataLoader was used to handle the training data, employing a DataCollatorForLa
 
 </div>
 
-![Reliability Diagram](ss_5w_loss.png)
+<img src="ss_5w_loss.png" alt="drawing" width="600"/>
 
 ### Evaluation Procedure
 
@@ -183,6 +183,11 @@ To evaluate the performance and hallucination of the models, several metrics wer
 Results on the math dataset were evaluated via a validation set of 2,000 samples from the same distribution as the train data. During training, it is evaluated in the task of masked token prediction. We also calculated the expected calibration error after each epoch of training to see if the model achieves better calibration through further training. To evaluate the hallucination rate of the model, we made it generate equations. (TODO: explain closeness measure)
 
 In the evaluation phase of 5W model, we masked one random token in each sentence of the evaluation set and tasked the model with predicting the masked token. To assess accuracy, the token with the highest logit value produced by the model was considered as the model’s prediction. For accuracy_top_3 score, we selected the three tokens with the highest logits. If the masked token matched the predicted token(s), it was marked as correct. To evaluate the hallucination rate in generative tasks, we provided the model with a random name from the dataset followed by the token of ‘ate’. The model was then expected to generate the rest of the sentence up to the period token. We calculated the BLEU score between the generated sentence and all other sentences in the dataset, reporting the highest scoring match. Additionally, we compared the embeddings of the generated sentences with the embeddings of the other sentences in the dataset and reported the maximum cosine similarity score.To get the embeddings of the sentences, we utilized the pretrained bert-base-uncased model and extracted the embeddings of the [CLS] token.
+
+<p float="left">
+  <img src="ss_5w_acc.png" width="400" />
+  <img src="ss_5w_similarity.png" width="400" /> 
+</p>
 
 For the generated titles, exact match accuracy was used to determine the percentage of titles that exactly matched the true titles. Additionally, the average similarity score was calculated as the cosine similarity between BERT embeddings of the predicted and true titles, providing a measure of the semantic closeness of the generated content to the original.
 
