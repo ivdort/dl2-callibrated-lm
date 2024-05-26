@@ -14,7 +14,7 @@
 
 # How to alleviate chatbot hallucinations: <br> from the theory in "Calibrated Language Model must Hallucinate"
 
-### M. Feng | D. de Wilde | Ian | Serdar | Lennard
+### M. Feng | D. de Wilde | I. van Dort | Serdar | Lennard
 
 ---
 
