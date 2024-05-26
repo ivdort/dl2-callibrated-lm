@@ -178,6 +178,10 @@ A DataLoader was used to handle the training data, employing a DataCollatorForLa
 
 ### Evaluation Procedure
 
+#### accuracy measurement
+#### confidence measurement
+#### hallucination measurement
+#### calibration
 To evaluate the performance and hallucination of the models, several metrics were used. Accuracy was measured as the proportion of correctly predicted masked tokens, while top-k accuracy evaluated the proportion of true tokens appearing in the top-k predictions. The average loss per epoch during training was also monitored to track the model's learning progress. 
 
 Results on the math dataset were evaluated via a validation set of 2,000 samples from the same distribution as the train data. During training, it is evaluated in the task of masked token prediction. We also calculated the expected calibration error after each epoch of training to see if the model achieves better calibration through further training. To evaluate the hallucination rate of the model, we made it autoregressively generate equations and calculate a closeness measure based on the generated equations. If the equation is mathimatically valid, a closeness of 1 is assigned to the sentence. For equations that are invalid, the distance from the predicted result to what the result should be according to the generated equation is the closeness score. For each evaluation step, we generate 100 equations and calculate the mean closeness.
@@ -198,7 +202,7 @@ To evaluate the Abstract-title model's performance, we used a validation set com
 
 ### Math Dataset
 
-We trained the BERT model for 20 epochs and evaluated after every epoch whether it becomes more calibrated, and analyse whether the amount of hallucinations (as proxy via closeness) increases or decreases with the change in calibration. The estimated calibration error (ECE) generally decreases with every training epoch, while the cloneness measure does not seem to change meaningfully with each epoch. In general, we would have expected the amount of hallucination to increase with better calibration, which is not the case in our experiment. The detailed values are presented in the following table. As can be seen from the following plots, which show the calibration after 1 and 20 epochs, respectively, the calibration does improve, but mostly because the model achieves close to 100% accuracy, as well as confidence on all predictions.
+We trained the BERT model for 20 epochs and evaluated after every epoch whether it becomes more calibrated, and analyse whether the amount of hallucinations (as proxy via closeness) increases or decreases with the change in calibration. The estimated calibration error (ECE) <span style="color:blue"> definition?</span> generally decreases with every training epoch, while the cloneness measure does not seem to change meaningfully with each epoch. In general, we would have expected the amount of hallucination to increase with better calibration, which is not the case in our experiment. The detailed values are presented in the following table. As can be seen from the following plots, which show the calibration after 1 and 20 epochs, respectively, the calibration does improve, but mostly because the model achieves close to 100% accuracy, as well as confidence on all predictions.
 
 
 <div align="center">
@@ -235,7 +239,7 @@ We trained the BERT model for 20 epochs and evaluated after every epoch whether 
 
 </div>
 
-We further tried to increase calibration of a model trained for 5 epochs via tuning of the temperature parameter and observing the effect on calibration and hallucination rate. We observe that for some temperature values, especially at 1.4, the calibration error drops, meaning the model becomes more calibrated. When looking at the closeness measure though, we don't observe any differences in the hallucination rate of generated sentences.
+We further tried to increase calibration of a model trained for 5 epochs via tuning of the temperature parameter and observing the effect on calibration and hallucination rate. We observe that for some temperature <span style="color:blue"> definition and why temparature can be used for calibration?</span> values, especially at 1.4, the calibration error drops, meaning the model becomes more calibrated. When looking at the closeness measure though, we don't observe any differences in the hallucination rate of generated sentences.
 
 <div align="center">
   
@@ -257,13 +261,14 @@ We further tried to increase calibration of a model trained for 5 epochs via tun
 
 ### 5W Dataset
 We utilized 2,000 samples from the training set as an evaluation set. The results indicated the accuracy score of 69% and the accuracy_top_3 score of 77%. These metrics reflect the model's capability to accurately predict the masked tokens and are essential for assessing the extent to which the model hallucinates the masked token. Considering that the model has been exposed to all sentences during the training phase, we expected high accuracy in predicting masked tokens. 
-To assess hallucination in generative tasks, we generated 200 sentences using the model. The results yielded the BLEU score of 0.7 and cosine similarity score of 0.97. These metrics suggest that, while the majority parts of the generated sentences closely adhered to the systematic facts found in the dataset, there were still some tokens within the generated sentences that had not been encountered during training—indicative of hallucination by the model.	
+To assess hallucination in generative tasks, we generated 200 sentences using the model. The results yielded the BLEU score <span style="color:blue">defnition?</span> of 0.7 and cosine similarity score of 0.97. These metrics suggest that, while the majority parts of the generated sentences closely adhered to the systematic facts found in the dataset, there were still some tokens within the generated sentences that had not been encountered during training—indicative of hallucination by the model.	
 In summary, while the model demonstrated proficiency in predicting masked tokens and maintaining coherence with systematic facts, the presence of hallucinated content in generative tasks highlights the inherent challenges in achieving perfect accuracy. These findings underscore the necessity for continuous refinement and validation to mitigate hallucinations and enhance the reliability of generative models.
 
 In our experiments, we aimed to evaluate the performance and hallucination tendencies of our BERT-based model, focusing on the autoregressive generation of titles based on abstracts in the ArXiv metadata dataset. The metrics used for evaluation were the exact match accuracy, average cosine similarity score, and a reliability diagram to check calibration.
 
-### Calibration
-We checked the calibration of our model by comparing the cosine similarity between the true title and the predicted title over a validation set of 2500 unseen samples. We employed temperature-scaled multinomial sampling with temperatures between 0.2 and 1.0. Canging the temperature parameter in affects the randomness of the model's predictions. Lower temperatures (e.g., 0.2, 0.4) make the model's output more focused and accurate, increasing exact match accuracy and similarity scores, while higher temperatures (e.g., 0.8, 1.0) make the predictions more diverse and random, reducing these metrics but generating more varied outputs. The average cosine similarity was found by generating sentence embeddings for the true sentence and the predicted sentence using a pretrained BERT model.
+### Abstract-title dataset
+#### Calibration
+We checked the calibration of our model by comparing the cosine similarity between the true title and the predicted title over a validation set of 2500 unseen samples. We employed temperature-scaled multinomial sampling with temperatures between 0.2 and 1.0. Changing the temperature parameter in affects the randomness of the model's predictions. Lower temperatures (e.g., 0.2, 0.4) make the model's output more focused and accurate, increasing exact match accuracy and similarity scores, while higher temperatures (e.g., 0.8, 1.0) make the predictions more diverse and random, reducing these metrics but generating more varied outputs. The average cosine similarity was found by generating sentence embeddings for the true sentence and the predicted sentence using a pretrained BERT model.
 
 <div align="center">
 
@@ -281,7 +286,7 @@ We checked the calibration of our model by comparing the cosine similarity betwe
 
 </div>
 
-### Sample generations
+#### Sample generations
 
 <div align="center">
 
@@ -296,7 +301,7 @@ We checked the calibration of our model by comparing the cosine similarity betwe
 </div>
 
 
-### Analysis
+#### Analysis
 Our results reveal an exact match accuracy of 0.0 for all temperatures. This indicates that the model was not able to generate any titles which exactly matched the true titles. The average cosine similarity score was between 0.86 and 0.88 however, suggesting that while the model was not able to generate any exact matches, its generations were semantically still similar to the true titles, as you can also see in the five randomly sampled abstract title pairs in the table above. 
 
 Reliability Curve (see the reliability diagram above):
