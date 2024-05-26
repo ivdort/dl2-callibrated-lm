@@ -177,25 +177,57 @@ A DataLoader was used to handle the training data, employing a DataCollatorForLa
 <img src="ss_5w_loss.png" alt="drawing" width="600"/>
 
 ### Evaluation Procedure
+> this section explains how we evaluate the performance of the model on different tasks. Specifically, we explain how the accuracy of the model prediction is measured.
 
+Results on the math dataset were evaluated via a validation set of 2,000 samples from the same distribution as the train data. During training, it is evaluated in the task of masked token prediction. 
+
+In the evaluation phase of 5W model, we masked one random token in each sentence of the evaluation set and tasked the model with predicting the masked token. To assess accuracy, the token with the highest logit value produced by the model was considered as the model’s prediction. For accuracy_top_3 score, we selected the three tokens with the highest logits. If the masked token matched the predicted token(s), it was marked as correct. 
+
+For the generated titles, exact match accuracy was used to determine the percentage of titles that exactly matched the true titles. Additionally, the average similarity score was calculated as the cosine similarity between BERT embeddings of the predicted and true titles, providing a measure of the semantic closeness of the generated content to the original.
+
+To evaluate the Abstract-title model's performance, we used a validation set comprising 2,000 entries sampled from the dataset, which allowed for periodic evaluation during training. The model's predictions were evaluated through a masked token prediction task, where random tokens were masked and the model's accuracy in predicting these tokens was measured. Additionally, we tested the model's ability to generate titles in an autoregressive manner, calculating the sentence-level accuracy of these generated titles to evaluate coherence and relevance. The model-generated titles were compared to true titles using exact match accuracy and cosine similarity of their BERT embeddings.
 #### accuracy measurement
-#### confidence measurement
-#### hallucination measurement
-#### calibration
 To evaluate the performance and hallucination of the models, several metrics were used. Accuracy was measured as the proportion of correctly predicted masked tokens, while top-k accuracy evaluated the proportion of true tokens appearing in the top-k predictions. The average loss per epoch during training was also monitored to track the model's learning progress. 
+### hallucination measurement
 
-Results on the math dataset were evaluated via a validation set of 2,000 samples from the same distribution as the train data. During training, it is evaluated in the task of masked token prediction. We also calculated the expected calibration error after each epoch of training to see if the model achieves better calibration through further training. To evaluate the hallucination rate of the model, we made it autoregressively generate equations and calculate a closeness measure based on the generated equations. If the equation is mathimatically valid, a closeness of 1 is assigned to the sentence. For equations that are invalid, the distance from the predicted result to what the result should be according to the generated equation is the closeness score. For each evaluation step, we generate 100 equations and calculate the mean closeness.
+#### math dataset
+To evaluate the hallucination rate of the model, we made it autoregressively generate equations and calculate a closeness measure based on the generated equations. If the equation is mathimatically valid, a closeness of 1 is assigned to the sentence. For equations that are invalid, the distance from the predicted result to what the result should be according to the generated equation is the closeness score. For each evaluation step, we generate 100 equations and calculate the mean closeness.
 
-In the evaluation phase of 5W model, we masked one random token in each sentence of the evaluation set and tasked the model with predicting the masked token. To assess accuracy, the token with the highest logit value produced by the model was considered as the model’s prediction. For accuracy_top_3 score, we selected the three tokens with the highest logits. If the masked token matched the predicted token(s), it was marked as correct. To evaluate the hallucination rate in generative tasks, we provided the model with a random name from the dataset followed by the token of ‘ate’. The model was then expected to generate the rest of the sentence up to the period token. We calculated the BLEU score between the generated sentence and all other sentences in the dataset, reporting the highest scoring match. Additionally, we compared the embeddings of the generated sentences with the embeddings of the other sentences in the dataset and reported the maximum cosine similarity score.To get the embeddings of the sentences, we utilized the pretrained bert-base-uncased model and extracted the embeddings of the [CLS] token.
+#### 5W
+To evaluate the hallucination rate in generative tasks, we provided the model with a random name from the dataset followed by the token of ‘ate’. The model was then expected to generate the rest of the sentence up to the period token. We calculated the BLEU score between the generated sentence and all other sentences in the dataset, reporting the highest scoring match. Additionally, we compared the embeddings of the generated sentences with the embeddings of the other sentences in the dataset and reported the maximum cosine similarity score.To get the embeddings of the sentences, we utilized the pretrained bert-base-uncased model and extracted the embeddings of the [CLS] token.
 
 <p float="left">
   <img src="ss_5w_acc.PNG" width="400" />
   <img src="ss_5w_similarity.PNG" width="400" /> 
 </p>
 
-For the generated titles, exact match accuracy was used to determine the percentage of titles that exactly matched the true titles. Additionally, the average similarity score was calculated as the cosine similarity between BERT embeddings of the predicted and true titles, providing a measure of the semantic closeness of the generated content to the original.
 
-To evaluate the Abstract-title model's performance, we used a validation set comprising 2,000 entries sampled from the dataset, which allowed for periodic evaluation during training. The model's predictions were evaluated through a masked token prediction task, where random tokens were masked and the model's accuracy in predicting these tokens was measured. Additionally, we tested the model's ability to generate titles in an autoregressive manner, calculating the sentence-level accuracy of these generated titles to evaluate coherence and relevance. To further evaluate the model's performance, we did a calibratedness check using temperature-scaled (0.6) multinomial sampling. The model-generated titles were compared to true titles using exact match accuracy and cosine similarity of their BERT embeddings.
+### Calibration procedure
+> In this section, we explain how the calibration of the model is measured and how we calibrated the model.
+
+To measure the calibration of the model, we use the definition that calibration is difference between prediction confidence and prediction accuracy. While the prediction accuracy is measured as mentioned in previous sections, the prediction confidence simply comes from the probability the model assigned to the predictions.
+
+For Math dataset, the expected calibration error is calculated after each epoch of training to see if the model achieves better calibration through further training.
+<span style="color:blue"> fill in </span>
+For 5W dataset, 
+For abstract-title dataset, 
+
+To calibrate the model, we adjust the temperature of the softmax function for generating the probability of the predictions (confidence). As shown in equation 4, when $T>0$, the logit $z$ is scaled down, reducing the difference between them. As a result, the model’s confidence in its predictions is lower, which can be beneficial if the model is originally overconfident.
+When $T<1$, each logit $z$ is scaled up, therefore the confidence is concentrated towards highest value. The maximum logit becomes more dominant, and the softmax output reflects higher certainty in the class with the highest logit. This adjustment might be needed if the model is initially underconfident in its predictions.
+
+$$\operatorname{softmax} T\left(z_i\right)=\frac{e^{z_i / T}}{\sum j e^{z_j / T}}   \text{(equation 4)}$$
+
+
+<span style="color:blue"> fill in </span>
+For Math dataset, 
+For 5W dataset,
+For Abstract-title dataset, we did a calibratedness check using temperature-scaled (0.6) multinomial sampling.<span style="color:blue"> more details </span>
+
+
+
+
+
+
 
 ## <a name="bias">Results</a>
 > This section explains our results
