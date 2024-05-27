@@ -140,21 +140,20 @@ We used BertForMaskedLM model configured with BERT Base parameters. All configur
 #### Training Procedure
 A DataLoader was used to handle the training data, employing a DataCollatorForLanguageModeling with a masking probability of 0.2 to facilitate masked language modeling. To optimize the training process, we used the ADAMW optimizer, which is well-suited for handling weight decay in conjunction with adaptive learning rates. The models were trained with the following training parameters:
 
-<table align="center">
-  <tr align="center">
-      <td>
+<div align="center">
+
 | Hyperparameter   | Math      | 5W    | Citations |
-|------------------|--------------|--------------|--------------|
-| Batch Size       | 16           | 16           | 16           |
-| Epochs           | 20           | 20           | 71           |
-| Learning Rate    | 3e-5         | 3e-5         | 4e-5         |
-| Weight Decay     | 0.01         | 0.01         | 0.01         |
-      </td>
-  </tr>
-  <tr align="left">
-    <td colspan=2><b>Table 1.</b> Training parameters per model.</td>
-  </tr>
-</table>
+|------------------|-----------|-------|-----------|
+| Batch Size       | 16        | 16    | 16        |
+| Epochs           | 20        | 20    | 71        |
+| Learning Rate    | 3e-5      | 3e-5  | 4e-5      |
+| Weight Decay     | 0.01      | 0.01  | 0.01      |
+
+</div>
+
+<div align="center">
+    <b>Table 1.</b> Training parameters per model.
+</div>
 
 ### Evaluation Procedure
 
