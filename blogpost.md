@@ -375,3 +375,5 @@ Biometrika 40, 3-4 (Dec. 1953), 237–264.
 [4] Devlin, Jacob, et al. "Bert: Pre-training of deep bidirectional transformers for language understanding." arXiv preprint arXiv:1810.04805 (2018).
 
 [5] Zhang, Y., Li, Y., Cui, L., Cai, D., Liu, L., Fu, T., ... & Shi, S. (2023). Siren's song in the AI ocean: a survey on hallucination in large language models. arXiv preprint arXiv:2309.01219.
+
+[6] Guo, C. et. al. (2017). "On Calibration of Modern Neural Networks". arXiv:1706.04599.
