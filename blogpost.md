@@ -120,7 +120,6 @@ Because of the systematic nature of the facts, repeating these patterns are more
 
 > This section explains our setting for the experiments. We trained three different models using different datasets: a math dataset, a 5W dataset, and an abstract-title dataset. Each dataset is designed to test different aspects of fact generation and estimation accuracy. Here, we provide an overview of our datasets, the models we trained, and the evaluation metrics used.
 
-### Datasets
 #### Math Dataset
 
 **Rationale:** Mathematical facts are highly systematic and verifiable. Arithmetic equations follow strict rules, making them ideal for testing hallucinations in a controlled environment. Any deviation from the expected output can be easily identified as a hallucination.
@@ -144,7 +143,6 @@ Because of the systematic nature of the facts, repeating these patterns are more
 **Characteristics:** This dataset comprises metadata from the arXiv repository, including abstracts and titles of scientific papers. It introduces a high degree of variability and complexity, challenging the model to generate accurate titles based on given abstracts.
 
 **Purpose:** To test the model's capability in handling complex, less structured data where arbitrary facts are more likely to appear, thus providing a robust test for the theory.
-
 
 
 As mentioned we used three different datasets: a math dataset, a 5W dataset, and an abstract-title dataset. For the math dataset we developed a Python script that generates a large set of simple arithmetic equations along with their answers. This dataset includes operations such as addition, subtraction, and multiplication. For every generated equation a random operator was chosen and two integers randomly sampled between 1 and 10. As a result we have a dataset containing 20,000 equations.
