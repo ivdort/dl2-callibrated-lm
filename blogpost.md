@@ -221,7 +221,7 @@ $$\text{softmax} \\ T \\ \left(z_i\right)=\frac{e^{z_i / T}}{\sum j e^{z_j / T}}
 
 ### Math Dataset
 
-We trained the BERT model for 20 epochs and evaluated after every epoch whether it becomes more calibrated, and analyse whether the amount of hallucinations (as proxy via closeness) increases or decreases with the change in calibration. The estimated calibration error (ECE) showed in equation 5 quantifies the average discrepancy between predicted probabilities and actual outcomes.
+We trained the BERT model for 20 epochs and evaluated after every epoch whether it becomes more calibrated, and analyse whether the amount of hallucinations (as proxy via closeness) increases or decreases with the change in calibration. The estimated calibration error (ECE) shown in equation 5 quantifies the average discrepancy between predicted probabilities and actual outcomes.
 
 $$
 \text{ECE} = \sum_{m=1}^{M} \frac{|B_m|}{n} \left| \text{acc}(B_m) - \text{conf}(B_m) \right| \qquad \qquad \text{(equation 5)}
