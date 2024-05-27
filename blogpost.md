@@ -357,7 +357,7 @@ Actually attempting to remove hallucinations, which could result in less calibra
 - I. van Dort: Math dataset generation, all code for abstract-title model, big part of experimental setup, part of results section, compilation of README and repository cleanup.
 - S. Yildiz: 5W dataset generation, all code for 5w model, keep tracking of group logbook, general discussion about the topic and coding.
 - L. Schuenemann: Code and experimentation for model on Math dataset and writing part of the results.
-- D. de Wilde: Code for model on Math dataset. Section about the theory of hallucination. Organising the blogpost, general discussion about the topic and coding.
+- D. de Wilde: Code for model on Math dataset. Section about the theory of hallucination and related work. Organising the blogpost, general discussion about the topic and coding.
  
 ## Bibliography
 
