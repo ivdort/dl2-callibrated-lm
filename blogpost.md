@@ -161,8 +161,6 @@ A DataLoader was used to handle the training data, employing a DataCollatorForLa
 
 </div>
 
-<img src="ss_5w_loss.png" alt="drawing" width="600"/>
-
 ### Evaluation Procedure
 
 Results on the math dataset were evaluated via a validation set of 2,000 samples from the same distribution as the train data. During training, it is evaluated in the task of masked token prediction. 
