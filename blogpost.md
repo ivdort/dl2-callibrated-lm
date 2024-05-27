@@ -209,6 +209,8 @@ For the 5W model, to evaluate the hallucination rate in generative tasks, we pro
   </tr>
 </table>
 
+In the case of the abstract-title model, hallucination is harder to define. Ideally, we would have taken a more nuanced approach here, but for efficiency we chose to divide the models generated titles into three categories: factual, plausible but incorrect, inplausible. To approximate these three categories, we qualitatively observed the generated titles, finding that titles with a cosine similarity greater than 0.9 seem correct, between 0.9 and 0.7 are plausible but incorrect, and below 0.7 are inplausible. Therefore, we define the hallucination rate as the ratio of titles with similarities between 0.9 and 0.7 divided by the total amount of titles.
+
 ### Calibration procedure
 
 To measure the calibration of the model, we use the definition that calibration is difference between prediction confidence and prediction accuracy. While the prediction accuracy is measured as mentioned in previous sections, the prediction confidence simply comes from the probability the model assigned to the predictions. To calibrate the model, we adjust the temperature of the softmax function for generating the probability of the predictions (confidence). As shown in equation 4, when $T>0$, the logit $z$ is scaled down, reducing the difference between them. As a result, the model’s confidence in its predictions is lower, which can be beneficial if the model is originally overconfident.
