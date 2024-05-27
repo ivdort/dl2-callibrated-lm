@@ -115,6 +115,9 @@ These facts are predictable and repeatable. They can often be derived or confirm
 
 Because of the systematic nature of the facts, repeating these patterns are more straightforward, leading to a lower missing fact rate and rate of hallucination.
 
+### Our contribution
+
+While the paper presents a theoretical framework demonstrating that language models, even when optimally trained and calibrated, are inherently prone to hallucinations, particularly with arbitrary facts, the authors did not empirically test their claims, leaving a gap in understanding how these theoretical findings translate into real-world performance. To address this, we set out to empirically verify these claims by testing the predictions in more realistic settings, using different datasets to measure hallucination rates. By doing so, we aim to validate the theoretical lower-bound on hallucination rates, in various settings containing systematic and arbitrary facts. We will expand on this in the experimental setting.
 
 ## <a name="reproduction">Experimental setting</a>
 
