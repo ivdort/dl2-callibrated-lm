@@ -96,7 +96,7 @@ The paper's conclusion suggests that while pretraining LMs for good predictive p
 
 > This secion explain our research objective on testing the prediction on the hallucination rate difference between systematic and arbitrary facts
 
-In the paper, the predictions are based on very minialistic setting. Here, we would like to test whether the theory holds in more realistic settings.
+In the paper, the predictions are based on very minimalistic setting. Here, we would like to test whether the theory holds in more realistic settings.
 
 Specifically, we would like to see whether the theoretical prediction on differences between hallucination rate on systematic facts and arbitrary facts are true. 
 
@@ -121,6 +121,32 @@ Because of the systematic nature of the facts, repeating these patterns are more
 > This section explains our setting for the experiments. We trained three different models using different datasets: a math dataset, a 5W dataset, and an abstract-title dataset. Each dataset is designed to test different aspects of fact generation and estimation accuracy. Here, we provide an overview of our datasets, the models we trained, and the evaluation metrics used.
 
 ### Datasets
+#### Math Dataset
+
+**Rationale:** Mathematical facts are highly systematic and verifiable. Arithmetic equations follow strict rules, making them ideal for testing hallucinations in a controlled environment. Any deviation from the expected output can be easily identified as a hallucination.
+
+**Characteristics:** This dataset consists of simple arithmetic equations involving addition, subtraction, and multiplication. Each equation is generated using random integers (ranging from 0 to 10) and operators, ensuring a diverse but systematic set of facts.
+
+**Purpose:** To test the model's ability to handle systematic facts and verify whether calibration affects hallucination rates in such a predictable context.
+
+#### 5W Dataset
+
+**Rationale:** The 'who-what-when-where-why' (5W) structure introduces a mix of systematic and arbitrary facts. While the format is consistent, the actual content varies, making it easy for the model to generate plausible sounding, but factually incorrect information. 
+
+**Characteristics:** This dataset includes sentences generated from combinations of names, meals, times, and locations, resulting in a wide variety of unique but plausible sentences. Why was omitted, for efficiency purposes.
+
+**Purpose:** To examine the model's performance and hallucination tendencies in a semi-structured context, where some level of predictability exists but is interspersed with variability.
+
+#### Abstract-Title Dataset
+
+**Rationale:** Scientific paper abstracts and titles represent a more complex and less predictable set of facts. Titles often summarize key points of the abstracts, requiring the model to grasp nuanced information and context.
+
+**Characteristics:** This dataset comprises metadata from the arXiv repository, including abstracts and titles of scientific papers. It introduces a high degree of variability and complexity, challenging the model to generate accurate titles based on given abstracts.
+
+**Purpose:** To test the model's capability in handling complex, less structured data where arbitrary facts are more likely to appear, thus providing a robust test for the theory.
+
+
+
 As mentioned we used three different datasets: a math dataset, a 5W dataset, and an abstract-title dataset. For the math dataset we developed a Python script that generates a large set of simple arithmetic equations along with their answers. This dataset includes operations such as addition, subtraction, and multiplication. For every generated equation a random operator was chosen and two integers randomly sampled between 1 and 10. As a result we have a dataset containing 20,000 equations.
 
 In order to construct the 5W dataset as outlined in the referenced paper, we aimed to produce samples in the ‘who-ate-what-when-where-why’ structure. Our initial step involved the creation of distinct word lists for each component of this structure. Specifically, we compiled a list of 40 different names for the ‘who’ segment, 40 diverse meals for the ‘what’ section, 25 temporal expressions for the ‘when’ category, and 10 varied locations for the ‘where’ element. Subsequently, these words were randomly combined to yield a total of 20,000 unique sentences. For the sake of simplifying the model training process and enhancing overall clarity, we ignored the ‘why’ component from our dataset. The source code for the process could be seen in the repository.
