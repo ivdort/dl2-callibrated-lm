@@ -18,6 +18,7 @@ All trained models can be found in the following drive: https://drive.google.com
 
 
 ## Math model
+After creating the math dataset by running the generation.py script, change the 'data' path in dl2-bert-base-for-math.ipynb. You can then train a new model using our BERT configuration or download the checkpoint of our trained model and set the correct path to the trained model in the 'Model Evaluation', as well as the following chapters of the notebook. Each of the experiments can be run sequentially and has it's own markdown heading within the notebook.
 
 ## 5W model
 
