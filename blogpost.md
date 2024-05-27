@@ -280,6 +280,8 @@ To assess hallucination in generative tasks, we generated 200 sentences using th
 
 In summary, while the model demonstrated proficiency in predicting masked tokens and maintaining coherence with arbitrary facts, the presence of hallucinated content in generative tasks highlights the inherent challenges in achieving perfect accuracy. These findings underscore the necessity for continuous refinement and validation to mitigate hallucinations and enhance the reliability of generative models.
 
+Further analysis incldue generating 2000 sentences under the same settings, we find that none of these sentences are present in the training data. While some generated sentences exhibit a high degree of word similarity with those in the training set, we did not observe any instance where a generated sentence matches exactly 100% with any sentence from the training data.
+
 <table align="center">
   <tr align="center">
       <td><img src="images/5w_reliability_diagram.png" width=800></td>
