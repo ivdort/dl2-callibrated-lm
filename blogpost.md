@@ -43,10 +43,12 @@ The Good-Turing estimate of the missing mass [2] represents the fraction of samp
 
 
 $$
-\hat{MF} := \frac{\text{Number of facts appearing exactly once in training data}}{n} \\ \text{(equation 1)}
+\hat{MF} := \frac{\text{Number of facts appearing exactly once in training data}}{n} \qquad \qquad \text{(equation 1)}
 $$
 
-$|p(U)-\widehat{M F}|=\tilde{O}(\sqrt{1 / n}) \qquad \qquad \text{(equation 2)}$
+$$
+|p(U)-\widehat{M F}|=\tilde{O}(\sqrt{1 / n}) \qquad \qquad \text{(equation 2)}
+$$
 
 #### Hallucination rate (lower bound)
 In equation 3 the lower bound of the hallucination rate is given. 
