@@ -184,23 +184,12 @@ For the 5W model, to evaluate the hallucination rate in generative tasks, we pro
 
 ### Calibration procedure
 
-To measure the calibration of the model, we use the definition that calibration is difference between prediction confidence and prediction accuracy. While the prediction accuracy is measured as mentioned in previous sections, the prediction confidence simply comes from the probability the model assigned to the predictions.
-
-For Math dataset, the expected calibration error is calculated after each epoch of training to see if the model achieves better calibration through further training.
-<span style="color:blue"> fill in </span>
-For 5W dataset, 
-For abstract-title dataset, 
-
-To calibrate the model, we adjust the temperature of the softmax function for generating the probability of the predictions (confidence). As shown in equation 4, when $T>0$, the logit $z$ is scaled down, reducing the difference between them. As a result, the model’s confidence in its predictions is lower, which can be beneficial if the model is originally overconfident.
+To measure the calibration of the math model, we use the definition that calibration is difference between prediction confidence and prediction accuracy. While the prediction accuracy is measured as mentioned in previous sections, the prediction confidence simply comes from the probability the model assigned to the predictions. To calibrate the model, we adjust the temperature of the softmax function for generating the probability of the predictions (confidence). As shown in equation 4, when $T>0$, the logit $z$ is scaled down, reducing the difference between them. As a result, the model’s confidence in its predictions is lower, which can be beneficial if the model is originally overconfident.
 When $T<1$, each logit $z$ is scaled up, therefore the confidence is concentrated towards highest value. The maximum logit becomes more dominant, and the softmax output reflects higher certainty in the class with the highest logit. This adjustment might be needed if the model is initially underconfident in its predictions.
 
-$$\text{softmax} T\left(z_i\right)=\frac{e^{z_i / T}}{\sum j e^{z_j / T}}   \text{(equation 4)}$$
+$$\text{softmax} \\ T \\ \left(z_i\right)=\frac{e^{z_i / T}}{\sum j e^{z_j / T}}   \text{(equation 4)}$$
 
-
-<span style="color:blue"> fill in </span>
-For Math dataset, 
-For 5W dataset,
-For Abstract-title dataset, we did a calibratedness check using temperature-scaled (0.6) multinomial sampling.<span style="color:blue"> more details </span>
+5W AND ABSTRACT TITLE !!! 
 
 ## <a name="bias">Results</a>
 > This section explains our results
