@@ -260,6 +260,15 @@ It generally decreases with every training epoch, while the cloneness measure do
     <b>Table 2.</b> Results per epoch.
 </div>
 
+<table align="center">
+  <tr align="center">
+      <td><img src="images/math_reliability_epoch20.png" width=800></td>
+  </tr>
+  <tr align="left">
+    <td colspan=2><b>Figure 2.</b> Reliability diagram for Math equation generation.</td>
+  </tr>
+</table>
+
 ### 5W Dataset
 We utilized 2,000 samples from the training set as an evaluation set. The results indicated the accuracy score of 69% and the accuracy_top_3 score of 77%. These metrics reflect the model's capability to accurately predict the masked tokens and are essential for assessing the extent to which the model hallucinates the masked token. Considering that the model has been exposed to all sentences during the training phase, we expected high accuracy in predicting masked tokens. 
 
