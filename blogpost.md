@@ -202,7 +202,7 @@ $$
 
 where ($B_m$) represents the set of samples in the (m)-th confidence bin, ($n$) is the total number of samples, ($\text{acc}$($B_m$)) is the accuracy in bin ($m$), and ($\text{conf}$($B_m$)) is the average confidence in bin ($m$).
 
-It generally decreases with every training epoch, while the cloneness measure does not seem to change meaningfully with each epoch. In general, we would have expected the amount of hallucination to increase with better calibration, which is not the case in our experiment. The detailed values are presented in the following table. As can be seen from the following plots, which show the calibration after 1 and 20 epochs, respectively, the calibration does improve, but mostly because the model achieves close to 100% accuracy, as well as confidence on all predictions.
+It generally decreases with every training epoch, while the cloneness measure does not seem to change meaningfully with each epoch. In general, we would have expected the amount of hallucination to increase with better calibration, which is not the case in our experiment. The detailed values are presented in table 2. As can be seen from the following plots, which show the calibration after 1 and 20 epochs, respectively, the calibration does improve, but mostly because the model achieves close to 100% accuracy, as well as confidence on all predictions.
 
 
 <div align="center">
@@ -231,8 +231,10 @@ It generally decreases with every training epoch, while the cloneness measure do
 | 20          | 0.09                 | 1.00              |
 
 </div>
-
-We further tried to increase calibration of a model trained for 5 epochs via tuning of the temperature parameter and observing the effect on calibration and hallucination rate. We observe that for some temperature values, especially at 1.4, the calibration error drops, meaning the model becomes more calibrated. When looking at the closeness measure though, we don't observe any differences in the hallucination rate of generated sentences.
+<div align="center">
+    <b>Table 2.</b> Results per epoch.
+</div>
+We further tried to increase calibration of a model trained for 5 epochs via tuning of the temperature parameter and observing the effect on calibration and hallucination rate, as you can see in table 3. We observe that for some temperature values, especially at 1.4, the calibration error drops, meaning the model becomes more calibrated. When looking at the closeness measure though, we don't observe any differences in the hallucination rate of generated sentences.
 
 <div align="center">
   
@@ -251,6 +253,9 @@ We further tried to increase calibration of a model trained for 5 epochs via tun
 | 2.0         | 0.17                 | 0.07              |
 
 </div>
+<div align="center">
+    <b>Table 3.</b> Results per temperature value.
+</div>
 
 ### 5W Dataset
 We utilized 2,000 samples from the training set as an evaluation set. The results indicated the accuracy score of 69% and the accuracy_top_3 score of 77%. These metrics reflect the model's capability to accurately predict the masked tokens and are essential for assessing the extent to which the model hallucinates the masked token. Considering that the model has been exposed to all sentences during the training phase, we expected high accuracy in predicting masked tokens. 
@@ -261,7 +266,7 @@ In our experiments, we aimed to evaluate the performance and hallucination tende
 
 ### Abstract-title dataset
 #### Calibration
-We checked the calibration of our model by comparing the cosine similarity between the true title and the predicted title over a validation set of 2500 unseen samples. We employed temperature-scaled multinomial sampling with temperatures between 0.2 and 1.0. Changing the temperature parameter in affects the randomness of the model's predictions. Lower temperatures (e.g., 0.2, 0.4) make the model's output more focused and accurate, increasing exact match accuracy and similarity scores, while higher temperatures (e.g., 0.8, 1.0) make the predictions more diverse and random, reducing these metrics but generating more varied outputs. The average cosine similarity was found by generating sentence embeddings for the true sentence and the predicted sentence using a pretrained BERT model.
+We checked the calibration of our model by comparing the cosine similarity between the true title and the predicted title over a validation set of 2500 unseen samples. We employed temperature-scaled multinomial sampling with temperatures between 0.2 and 1.0. Changing the temperature parameter in affects the randomness of the model's predictions. Lower temperatures (e.g., 0.2, 0.4) make the model's output more focused and accurate, increasing exact match accuracy and similarity scores, while higher temperatures (e.g., 0.8, 1.0) make the predictions more diverse and random, reducing these metrics but generating more varied outputs. See table 4. The average cosine similarity was found by generating sentence embeddings for the true sentence and the predicted sentence using a pretrained BERT model.
 
 <div align="center">
 
@@ -273,13 +278,19 @@ We checked the calibration of our model by comparing the cosine similarity betwe
 | 0.8         | 0                    | 0.87              |
 | 1.0         | 0                    | 0.86              |
 
-<br><br>
-
-![Reliability Diagram](reliabilitydiagram.png)
-
+</div>
+<div align="center">
+    <b>Table 4.</b> Results per temperature value.
 </div>
 
-#### Sample generations
+<table align="center">
+  <tr align="center">
+      <td><img src="images/reliabilitydiagram.png" width=800></td>
+  </tr>
+  <tr align="left">
+    <td colspan=2><b>Figure 2.</b> Reliability diagram for masked tokens in the title.</td>
+  </tr>
+</table>
 
 <div align="center">
 
@@ -292,7 +303,10 @@ We checked the calibration of our model by comparing the cosine similarity betwe
 | In this paper we prove a mirror symmetry conjecture based on the work of Brini-Eynard-Mari\~no \cite{BEM} and Diaconescu-Shende-Vafa \cite{DSV}. This conjecture relates open Gromov-Witten invariants of the conifold transition of a torus knot to the topological recursion on the B-model spectral curve. | topological recursion for the conifold transition of a torus knot | mirror recursion of the conifold transition of the torus. this | 0.8682 |
 
 </div>
-
+</div>
+<div align="center">
+    <b>Table 5.</b> Examples of the sampled generated results from the abstract-title model.
+</div>
 
 #### Analysis
 Our results reveal an exact match accuracy of 0.0 for all temperatures. This indicates that the model was not able to generate any titles which exactly matched the true titles. The average cosine similarity score was between 0.86 and 0.88 however, suggesting that while the model was not able to generate any exact matches, its generations were semantically still similar to the true titles, as you can also see in the five randomly sampled abstract title pairs in the table above. 
