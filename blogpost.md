@@ -200,7 +200,7 @@ $$
 \text{ECE} = \sum_{m=1}^{M} \frac{|B_m|}{n} \left| \text{acc}(B_m) - \text{conf}(B_m) \right| \qquad \qquad \text{(equation 5)}
 $$
 
-where ($B_m$) represents the set of samples in the (m)-th confidence bin, (n) is the total number of samples, ($\text{acc}$$(B_m)$) is the accuracy in bin (m), and ($\text{conf}$$(B_m)$) is the average confidence in bin (m).
+where ($B_m$) represents the set of samples in the (m)-th confidence bin, ($n$) is the total number of samples, ($\text{acc}$($B_m$)) is the accuracy in bin ($m$), and ($\text{conf}$($B_m$)) is the average confidence in bin ($m$).
 
 It generally decreases with every training epoch, while the cloneness measure does not seem to change meaningfully with each epoch. In general, we would have expected the amount of hallucination to increase with better calibration, which is not the case in our experiment. The detailed values are presented in the following table. As can be seen from the following plots, which show the calibration after 1 and 20 epochs, respectively, the calibration does improve, but mostly because the model achieves close to 100% accuracy, as well as confidence on all predictions.
 
