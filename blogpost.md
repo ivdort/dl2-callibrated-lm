@@ -356,7 +356,7 @@ Actually attempting to remove hallucinations, which could result in less calibra
 - Mengli: 
 - Ian: Math dataset generation, all code for abstract-title model, big part of experimental setup, part of results section, compilation of README and repository cleanup.
 - Serdar: 5W dataset generation, all code for 5w model, keep tracking of group logbook, general discussion about the topic and coding.
-- Lennard:
+- Lennard: Code and experimentation for model on Math dataset and writing part of the results.
 - Devin: 
 
 ## Bibliography
