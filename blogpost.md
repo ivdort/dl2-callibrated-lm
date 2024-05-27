@@ -162,7 +162,7 @@ For training on 5W dataset, the data was fed into the model batches of 16 senten
 The preprocessing steps for the Abstract-Title model included tokenization and formatting of the text data. We used the BERT tokenizer (bert-base-uncased) to tokenize the text, with a simplification step where periods were removed from the abstracts to clean the data. Each data entry was then concatenated in the format of abstract[SEP]title to create the input for the model.
 
 ### Model
-We used BertForMaskedLM model configured with BERT Base parameters. All configurations  have 12 hidden layers with 12 attention heads, a hidden size of 768, an intermediate size of 3072, a dropout rate of 0.1 for hidden states and attention, and position embeddings of 512.
+We used BertForMaskedLM model configured with BERT [4] Base parameters. All configurations  have 12 hidden layers with 12 attention heads, a hidden size of 768, an intermediate size of 3072, a dropout rate of 0.1 for hidden states and attention, and position embeddings of 512.
 
 #### Training Procedure
 A DataLoader was used to handle the training data, employing a DataCollatorForLanguageModeling with a masking probability of 0.2 to facilitate masked language modeling. To optimize the training process, we used the ADAMW optimizer, which is well-suited for handling weight decay in conjunction with adaptive learning rates. The models were trained with the training parameters showed in table 1.
@@ -379,3 +379,5 @@ To further improve the performance and reliability of our model, several avenues
 Biometrika 40, 3-4 (Dec. 1953), 237–264.
 
 [3] Cornell University. (n.d.). arXiv dataset. Retrieved from https://www.kaggle.com/datasets/Cornell-University/arxiv
+
+[4] Devlin, Jacob, et al. "Bert: Pre-training of deep bidirectional transformers for language understanding." arXiv preprint arXiv:1810.04805 (2018).
