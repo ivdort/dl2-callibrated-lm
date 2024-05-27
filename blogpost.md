@@ -323,15 +323,14 @@ We also calculated an Expected Calibration Error (ECE) score according to these 
 ## Further Research: 
 > This section discusses our ideas for future work.
 
-To further improve the performance and reliability of our model, several avenues for future work have been identified. Firstly, developing a custom tokenizer tailored to our specific dataset could enhance the tokenization process, potentially increasing the accuracy of the masked token prediction and reducing hallucination in generative tasks. Additionally, leveraging a more comprehensive and powerful dataset could provide the model with a richer context, thereby improving its ability to generate coherent and factually accurate sentences. Exploring different models to assess the hallucination rate would also be beneficial; by comparing results across various architectures, we can identify which models are more effective in minimizing hallucinations. Finally, conducting extended training over more epochs could provide insights into the model's learning curve. Specifically, tracking the loss over additional epochs would help determine whether the model's performance continues to improve or not, thereby informing decisions on optimal training duration. By addressing these areas, we aim to enhance the robustness and accuracy of our model, reducing hallucination and increasing its reliability for real-world applications.
-
+To further improve the performance and reliability of our model, several avenues for future work have been identified. Firstly, developing a custom tokenizer tailored to our specific datasets could enhance the tokenization process, as using a pretrained tokenizer introduces biases of its own. Exploring different models to assess the hallucination rate would also be beneficial; by comparing results across various architectures, we can identify which models are more effective in minimizing hallucinations. 
 ## Concluding Remarks
 > This section concludes the insights of this blogpost.
 
 ## Authors' Contributions
 
 - Mengli: 
-- Ian: 
+- Ian: Math dataset generation, all code for abstract-title model, big part of experimental setup, part of results section, compilation of README and repository cleanup.
 - Serdar: 
 - Lennard:
 - Devin: 
