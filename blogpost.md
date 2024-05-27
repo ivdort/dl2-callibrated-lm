@@ -280,6 +280,8 @@ To assess hallucination in generative tasks, we generated 200 sentences using th
 
 In summary, while the model demonstrated proficiency in predicting masked tokens and maintaining coherence with arbitrary facts, the presence of hallucinated content in generative tasks highlights the inherent challenges in achieving perfect accuracy. These findings underscore the necessity for continuous refinement and validation to mitigate hallucinations and enhance the reliability of generative models.
 
+Further analysis incldue generating 2000 sentences under the same settings, we find that none of these sentences are present in the training data. While some generated sentences exhibit a high degree of word similarity with those in the training set, we did not observe any instance where a generated sentence matches exactly 100% with any sentence from the training data.
+
 <table align="center">
   <tr align="center">
       <td><img src="images/5w_reliability_diagram.png" width=800></td>
@@ -291,7 +293,7 @@ In summary, while the model demonstrated proficiency in predicting masked tokens
 
 ### Abstract-title dataset
 #### Calibration
-We checked the calibration of our model by comparing the cosine similarity between the true title and the predicted title over a validation set of 2500 unseen samples. We employed temperature-scaled multinomial sampling with temperatures between 0.2 and 1.0. Changing the temperature parameter affects the randomness of the model's predictions. Lower temperatures (e.g., 0.2, 0.4) make the model's output more focused and accurate, increasing exact match accuracy and similarity scores, while higher temperatures (e.g., 0.8, 1.0) make the predictions more diverse and random, reducing these metrics but generating more varied outputs. See table 4. The average cosine similarity was found by generating sentence embeddings for the true sentence and the predicted sentence using a pretrained BERT model.
+<!-- We checked the calibration of our model by comparing the cosine similarity between the true title and the predicted title over a validation set of 2500 unseen samples. We employed temperature-scaled multinomial sampling with temperatures between 0.2 and 1.0. Changing the temperature parameter affects the randomness of the model's predictions. Lower temperatures (e.g., 0.2, 0.4) make the model's output more focused and accurate, increasing exact match accuracy and similarity scores, while higher temperatures (e.g., 0.8, 1.0) make the predictions more diverse and random, reducing these metrics but generating more varied outputs. See table 4. The average cosine similarity was found by generating sentence embeddings for the true sentence and the predicted sentence using a pretrained BERT model.
 
 <div align="center">
 
@@ -306,16 +308,11 @@ We checked the calibration of our model by comparing the cosine similarity betwe
 </div>
 <div align="center">
     <b>Table 4.</b> Results per temperature value.
-</div>
+</div> -->
 
-<table align="center">
-  <tr align="center">
-      <td><img src="images/reliabilitydiagram.png" width=800></td>
-  </tr>
-  <tr align="left">
-    <td colspan=2><b>Figure 4.</b> Reliability diagram for masked tokens in the title.</td>
-  </tr>
-</table>
+Our model was able to calibrate very well, achieving an average cosine similarity score of 0.88 when using a temperature of 0.6. Different temperatures yielded very similar results (0.86 to 0.88 cosine similarity), but no temperatures yielded any exact matches with the true titles. As the similarity score indicates, its generations were semantically still similar to the true titles, as you can also see in the five randomly sampled abstract title pairs in Table 5.
+
+
 
 <div align="center">
 
@@ -330,19 +327,62 @@ We checked the calibration of our model by comparing the cosine similarity betwe
 </div>
 </div>
 <div align="center">
-    <b>Table 5.</b> Examples of the sampled generated results from the abstract-title model.
+    <b>Table 3.</b> Examples of the sampled generated results from the abstract-title model.
 </div>
 
-#### Analysis
-Our results reveal an exact match accuracy of 0.0 for all temperatures. This indicates that the model was not able to generate any titles which exactly matched the true titles. The average cosine similarity score was between 0.86 and 0.88 however, suggesting that while the model was not able to generate any exact matches, its generations were semantically still similar to the true titles, as you can also see in the five randomly sampled abstract title pairs in the table above. 
+<table align="center">
+  <tr align="center">
+      <td><img src="images/reliabilitydiagram.png" width=800></td>
+  </tr>
+  <tr align="left">
+    <td colspan=2><b>Figure 4.</b> Reliability diagram for masked tokens in the title.</td>
+  </tr>
+</table>
 
-Reliability Curve (see the reliability diagram above):
-
-The reliability curve (blue line) shows the relationship between the model's confidence in its predictions (x-axis) and the actual accuracy of these predictions (y-axis).
+Figure 4 shows a reliability diagram for the abstract-title model. The reliability curve (blue line) shows the relationship between the model's confidence in its predictions (x-axis) and the actual accuracy of these predictions (y-axis).
 The closer this curve is to the diagonal line (orange dashed line), the better calibrated the model is. This means the model's predicted probabilities accurately reflect the true likelihood of events. The diagonal line represents perfect calibration. For a perfectly calibrated model, if it predicts an event with 70% confidence, that event should occur 70% of the time. Deviations from this line indicate miscalibration. Above the line means the model is underconfident, while below means it's overconfident. In our reliability diagram, the reliability curve closely follows the diagonal line, indicating good calibration overall. Slight deviations from the diagonal suggest areas where the model might be slightly underconfident or overconfident. 
 
 We also calculated an Expected Calibration Error (ECE) score according to these 10 bins you see in the diagram. Expected Calibration Error is a metric used to quantify how well the predicted probabilities of a model align with the actual outcomes. It measures the difference between confidence levels (the predicted probabilities) and the actual accuracy of those predictions, aggregated over several confidence intervals or bins. A lower ECE indicates better calibration, meaning the model's confidence in its predictions accurately reflects the true likelihood of those predictions being correct. The ECE score for this model when predicting masked tokens in the title is 0.030424838516116135.
 
+#### Hallucination
+
+When evaluating on 2500 unseen abstract, we found 902 generated titles with similarity above 0.9 to the true titles, 1586 with similarity between 0.9 and 0.7, and 10 with similarity below 0.7. This gives us a hallucination rate of 0.634907926341073. 
+
+## Most important results and discussion
+Here, we will discuss our most important results. To recap, the main
+
+
+<div style="display: flex; justify-content: center;">
+
+<div style="margin-right: 50px;">
+
+| Model          | Hallucination Rate (%) |
+|----------------|------------------------|
+| Math           | 0                      |
+| 5W             | 100                    |
+| Abstract-Title | 63.5                   |
+
+<div align="center">
+    <b>Table 4.</b> Hallucination Rate per Model.
+</div>
+
+</div>
+
+<div>
+
+| Model          | ECE (%) |
+|----------------|---------|
+| Math           | 0.04    |
+| 5W             | 0.02    |
+| Abstract-Title | 0.03    |
+
+<div align="center">
+    <b>Table 5.</b> Expected Calibration Error per Model.
+</div>
+
+</div>
+
+</div>
 
 
 ## Discussion and Further Research: 
@@ -362,8 +402,13 @@ Actually attempting to remove hallucinations, which could result in less calibra
 
 ## Authors' Contributions
 
+<<<<<<< HEAD
 - M. Feng: background research, structuring and writing of the blogpost, future research and discussion.
 - I. van Dort: Math dataset generation, all code for abstract-title model, big part of experimental setup, part of results section, compilation of README and repository cleanup.
+=======
+- M. Feng: 
+- I. van Dort: Math dataset generation, all code for abstract-title model, big part of experimental setup, part of results section, discussion section, compilation of README, editorial work and repository cleanup.
+>>>>>>> 949619c3743fd80255691d5b8a7688ad4e020b42
 - S. Yildiz: 5W dataset generation, all code for 5w model, keep tracking of group logbook, general discussion about the topic and coding.
 - L. Schuenemann: Code and experimentation for model on Math dataset and writing part of the results.
 - D. de Wilde: Code for model on Math dataset. Section about the theory of hallucination and related work. Organising the blogpost, general discussion about the topic and coding.
