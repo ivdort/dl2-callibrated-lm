@@ -65,7 +65,7 @@ From the equation, we can see why a model must hallucinate if they are calibrate
 
 ## <a name="discover"> Calibration</a>
 
-> this section explain what is calibration and it is relevant to our study
+> This section explain what is calibration and it is relevant to our study
 
 Calibration is to make the confidence of prediction being accurate close to the actual prediction accuracy. For example, given 100 predictions, each with confidence of 0:8, we expect that 80 should be correctly classified \cite{Guo2017}. In another word, we want the confidence level of a model matches the true performance of the model.
 
@@ -82,7 +82,7 @@ In the context of LM, we want to make sure the distribution of the training data
 
 ## <a name="architecture"> Trade-off between Calibration and hallucination </a>
 
-> this section show the main finding about the trade-off between calibration and hallucination and how the authors derive a theoretical lower bound which shows this relationship.
+> This section show the main finding about the trade-off between calibration and hallucination and how the authors derive a theoretical lower bound which shows this relationship.
 
 If an LM is calibrated to reflect realistic distributions of language, it will inevitably include representations of less frequent, arbitrary facts since those are present in the full spectrum of language usage in real world. 
 Natural language is highly dimensional and variable. Even slight changes in word choice or sentence structure can lead to entirely new meanings and text outputs. A calibrated language model, attuned to a realistic and broad probability distribution, will inherently be able to explore this high-dimensional space more effectively, thereby generating diverse and previously unseen text, and hence, has a high chance of being incorrect. 
@@ -90,15 +90,15 @@ Natural language is highly dimensional and variable. Even slight changes in word
 The paper's conclusion suggests that while pretraining LMs for good predictive performance may lead to calibration, additional post-training may be necessary to reduce the rate of hallucination, potentially at the cost of perfect calibration.
 
 
-## <a name="architecture">Testing the theory: systematic and arbitrary facts</a>
+## <a name="architecture">Testing the theory: Systematic and arbitrary facts</a>
 
-> this secion explain our research objective on testing the prediction on the hallucination rate difference between systematic and arbitrary facts
+> This secion explain our research objective on testing the prediction on the hallucination rate difference between systematic and arbitrary facts
 
 In the paper, the predictions are based on very minialistic setting. Here, we would like to test whether the theory holds in more realistic settings.
 
 Specifically, we would like to see whether the theoretical prediction on differences between hallucination rate on systematic facts and arbitrary facts are true. 
 
-#### arbitrary facts
+#### Arbitrary facts
 Factoids are arbitrary pieces of information which are each either true (facts) or false (hallucinations). Arbitrary facts are pieces of information whose truth or falsity cannot be systematically verified using a set of rules or existing knowledge within the training data. They are often specific, contingent, and context-dependent.
 For example, a statement like “Alex had lunch with Sam at Cafe Deli on March 15” is arbitrary because, without specific external data confirming this event, there’s no systematic way to verify its truth. The verification of such facts often requires specific, external, and sometimes unavailable information.
 
@@ -106,7 +106,7 @@ These facts are typically unique or rare occurrences and do not follow predictab
 
 Because arbitrary facts are not governed by predictable rules and often lack redundancy in the data (i.e., they don’t appear frequently or consistently), language models have fewer clues to learn their true context and relevance. This makes it more likely for models to “hallucinate” or generate arbitrary facts that are plausible but not accurate.
 
-#### systematic facts
+#### Systematic facts
 Systematic facts are those that can be validated through logical deduction, established rules, or consistent patterns in the data. They are generally based on objective, verifiable data. For example, mathematical truths (e.g., “5 + 7 = 12”) or scientific facts that follow from established principles (e.g., “water boils at 100°C at sea level”) are systematic because their truth can be consistently verified through empirical evidence or logical reasoning.
 
 These facts are predictable and repeatable. They can often be derived or confirmed through analysis or existing knowledge bases without needing external confirmation of each specific instance. 
