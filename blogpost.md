@@ -184,27 +184,202 @@ For the 5W model, to evaluate the hallucination rate in generative tasks, we pro
 
 ### Calibration procedure
 
-To measure the calibration of the math model, we use the definition that calibration is difference between prediction confidence and prediction accuracy. While the prediction accuracy is measured as mentioned in previous sections, the prediction confidence simply comes from the probability the model assigned to the predictions. To calibrate the model, we adjust the temperature of the softmax function for generating the probability of the predictions (confidence). As shown in equation 4, when $T>0$, the logit $z$ is scaled down, reducing the difference between them. As a result, the model’s confidence in its predictions is lower, which can be beneficial if the model is originally overconfident.
+To measure the calibration of the model, we use the definition that calibration is difference between prediction confidence and prediction accuracy. While the prediction accuracy is measured as mentioned in previous sections, the prediction confidence simply comes from the probability the model assigned to the predictions. To calibrate the model, we adjust the temperature of the softmax function for generating the probability of the predictions (confidence). As shown in equation 4, when $T>0$, the logit $z$ is scaled down, reducing the difference between them. As a result, the model’s confidence in its predictions is lower, which can be beneficial if the model is originally overconfident.
 When $T<1$, each logit $z$ is scaled up, therefore the confidence is concentrated towards highest value. The maximum logit becomes more dominant, and the softmax output reflects higher certainty in the class with the highest logit. This adjustment might be needed if the model is initially underconfident in its predictions.
 
-$$\text{softmax} \\ T \\ \left(z_i\right)=\frac{e^{z_i / T}}{\sum j e^{z_j / T}}   \text{(equation 4)}$$
-
-5W AND ABSTRACT TITLE !!! 
+$$\text{softmax} \\ T \\ \left(z_i\right)=\frac{e^{z_i / T}}{\sum j e^{z_j / T}}  \qquad \qquad \text{(equation 4)}$$
 
 ## <a name="bias">Results</a>
-> This section explains our results
+> This section explains our results per model.
 
 ### Math Dataset
 
-We trained the BERT model for 20 epochs and evaluated after every epoch whether it becomes more calibrated, and analyse whether the amount of hallucinations (as proxy via closeness) increases or decreases with the change in calibration. The estimated calibration error (ECE) quantifies the average discrepancy between predicted probabilities and actual outcomes:
+We trained the BERT model for 20 epochs and evaluated after every epoch whether it becomes more calibrated, and analyse whether the amount of hallucinations (as proxy via closeness) increases or decreases with the change in calibration. The estimated calibration error (ECE) showed in equation 5 quantifies the average discrepancy between predicted probabilities and actual outcomes.
 
 $$
-\text{ECE} = \sum_{m=1}^{M} \frac{|B_m|}{n} \left| \text{acc}(B_m) - \text{conf}(B_m) \right|
+\text{ECE} = \sum_{m=1}^{M} \frac{|B_m|}{n} \left| \text{acc}(B_m) - \text{conf}(B_m) \right| \qquad \qquad \text{(equation 5)
 $$
 
-where \( B_m \) represents the set of samples in the \( m \)-th confidence bin, \( n \) is the total number of samples, \( \text{acc}(B_m) \) is the accuracy in bin \( m \), and \( \text{conf}(B_m) \) is the average confidence in bin \( m \).
+where ($B_m$) represents the set of samples in the (m)-th confidence bin, (n) is the total number of samples, ($\text{acc}(B_m)$) is the accuracy in bin (m), and ($\text{conf}(B_m)$) is the average confidence in bin (m).
 
 It generally decreases with every training epoch, while the cloneness measure does not seem to change meaningfully with each epoch. In general, we would have expected the amount of hallucination to increase with better calibration, which is not the case in our experiment. The detailed values are presented in the following table. As can be seen from the following plots, which show the calibration after 1 and 20 epochs, respectively, the calibration does improve, but mostly because the model achieves close to 100% accuracy, as well as confidence on all predictions.
+
+<div align="center">
+
+<table style="display: inline-block; margin-right: 20px;">
+  <tr>
+    <th>Temperature</th>
+    <th>ECE</th>
+    <th>Closeness</th>
+  </tr>
+  <tr>
+    <td>0</td>
+    <td>0.22</td>
+    <td>0.07</td>
+  </tr>
+  <tr>
+    <td>0.2</td>
+    <td>0.27</td>
+    <td>0.07</td>
+  </tr>
+  <tr>
+    <td>0.4</td>
+    <td>0.18</td>
+    <td>0.07</td>
+  </tr>
+  <tr>
+    <td>0.6</td>
+    <td>0.17</td>
+    <td>0.07</td>
+  </tr>
+  <tr>
+    <td>0.8</td>
+    <td>0.26</td>
+    <td>0.07</td>
+  </tr>
+  <tr>
+    <td>1.0</td>
+    <td>0.16</td>
+    <td>0.07</td>
+  </tr>
+  <tr>
+    <td>1.2</td>
+    <td>0.26</td>
+    <td>0.07</td>
+  </tr>
+  <tr>
+    <td>1.4</td>
+    <td>0.15</td>
+    <td>0.07</td>
+  </tr>
+  <tr>
+    <td>1.6</td>
+    <td>0.28</td>
+    <td>0.07</td>
+  </tr>
+  <tr>
+    <td>1.8</td>
+    <td>0.20</td>
+    <td>0.07</td>
+  </tr>
+  <tr>
+    <td>2.0</td>
+    <td>0.17</td>
+    <td>0.07</td>
+  </tr>
+</table>
+
+<table style="display: inline-block; margin-left: 20px;">
+  <tr>
+    <th>Epoch</th>
+    <th>ECE</th>
+    <th>Closeness</th>
+  </tr>
+  <tr>
+    <td>1</td>
+    <td>0.37</td>
+    <td>0.00</td>
+  </tr>
+  <tr>
+    <td>2</td>
+    <td>0.38</td>
+    <td>0.35</td>
+  </tr>
+  <tr>
+    <td>3</td>
+    <td>0.94</td>
+    <td>0.20</td>
+  </tr>
+  <tr>
+    <td>4</td>
+    <td>0.64</td>
+    <td>1.00</td>
+  </tr>
+  <tr>
+    <td>5</td>
+    <td>0.38</td>
+    <td>0.00</td>
+  </tr>
+  <tr>
+    <td>6</td>
+    <td>0.28</td>
+    <td>0.00</td>
+  </tr>
+  <tr>
+    <td>7</td>
+    <td>0.21</td>
+    <td>0.00</td>
+  </tr>
+  <tr>
+    <td>8</td>
+    <td>0.15</td>
+    <td>0.00</td>
+  </tr>
+  <tr>
+    <td>9</td>
+    <td>0.13</td>
+    <td>0.00</td>
+  </tr>
+  <tr>
+    <td>10</td>
+    <td>0.04</td>
+    <td>1.00</td>
+  </tr>
+  <tr>
+    <td>11</td>
+    <td>0.16</td>
+    <td>0.00</td>
+  </tr>
+  <tr>
+    <td>12</td>
+    <td>0.09</td>
+    <td>0.00</td>
+  </tr>
+  <tr>
+    <td>13</td>
+    <td>0.07</td>
+    <td>1.00</td>
+  </tr>
+  <tr>
+    <td>14</td>
+    <td>0.06</td>
+    <td>0.00</td>
+  </tr>
+  <tr>
+    <td>15</td>
+    <td>0.08</td>
+    <td>0.00</td>
+  </tr>
+  <tr>
+    <td>16</td>
+    <td>0.13</td>
+    <td>0.00</td>
+  </tr>
+  <tr>
+    <td>17</td>
+    <td>0.04</td>
+    <td>0.00</td>
+  </tr>
+  <tr>
+    <td>18</td>
+    <td>0.11</td>
+    <td>0.00</td>
+  </tr>
+  <tr>
+    <td>19</td>
+    <td>0.05</td>
+    <td>0.00</td>
+  </tr>
+  <tr>
+    <td>20</td>
+    <td>0.09</td>
+    <td>1.00</td>
+  </tr>
+</table>
+
+</div>
+
+
 
 
 <div align="center">
