@@ -167,7 +167,7 @@ To evaluate the Abstract-title model's performance, we used a validation set com
 
 To evaluate the hallucination rate of the math model, we made it autoregressively generate equations and calculate a closeness measure based on the generated equations. If the equation is mathimatically valid, a closeness of 1 is assigned to the sentence. For equations that are invalid, the distance from the predicted result to what the result should be according to the generated equation is the closeness score. For each evaluation step, we generate 100 equations and calculate the mean closeness.
 
-For the 5W model, to evaluate the hallucination rate in generative tasks, we provided the model with a random name from the dataset followed by the token of ‘ate’. The model was then expected to generate the rest of the sentence up to the period token. We calculated the BLEU score between the generated sentence and all other sentences in the dataset, reporting the highest scoring match. Additionally, we compared the embeddings of the generated sentences with the embeddings of the other sentences in the dataset and reported the maximum cosine similarity score.To get the embeddings of the sentences, we utilized the pretrained bert-base-uncased model and extracted the embeddings of the [CLS] token.
+For the 5W model, to evaluate the hallucination rate in generative tasks, we provided the model with a random name from the dataset followed by the token of ‘ate’. The model was then expected to generate the rest of the sentence up to the period token. We calculated the BLEU score between the generated sentence and all other sentences in the dataset, reporting the highest scoring match. Additionally, we compared the embeddings of the generated sentences with the embeddings of the other sentences in the dataset and reported the maximum cosine similarity score. Figure 1 shows an example of this process.
 
 <p float="left">
   
@@ -178,7 +178,7 @@ For the 5W model, to evaluate the hallucination rate in generative tasks, we pro
       <td><img src="images/ss_5w_similarity.PNG" width="400" /><img src="images/ss_5w_acc.PNG" width="400" /></td>
   </tr>
   <tr align="left">
-    <td colspan=2><b>Figure 1.</b> test</td>
+    <td colspan=2><b>Figure 1.</b> Example of the output from the 5W model.</td>
   </tr>
 </table>
 
