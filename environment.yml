@@ -1,16 +1,20 @@
 name: dl2-callibrated-lm
 channels:
   - defaults
+  - conda-forge
 dependencies:
-  - python=3.8
-  - conda==23.5.2
-  - setuptools
-  - pip
-  - wheel
-  - conda-content-trust
-  - conda-libmamba-solver
-  - python.app
+  - python=3.9
+  - numpy
   - pandas
+  - scikit-learn
+  - matplotlib
+  - jupyter
+  - jupyterlab
+  - notebook
   - pytorch
+  - torchvision
   - transformers
-# prefix: /Users/ianvandort/miniconda3
+  - datasets
+  - tokenizers
+  - tqdm
+  - pip
