@@ -133,7 +133,7 @@ While the paper presents a theoretical framework demonstrating that language mod
 
 #### 5W Dataset
 
-**Rationale:** The 'who-what-when-where-why' (5W) structure introduces a mix of systematic and arbitrary facts. While the format is consistent, the actual content varies, making it easy for the model to generate plausible sounding, but factually incorrect information. 
+**Rationale:** The 'who-what-when-where-why' (5W) structure introduces arbitrary facts. While the format is consistent, the actual content varies, making it easy for the model to generate plausible sounding, but factually incorrect information. 
 
 **Characteristics:** This dataset includes sentences generated from combinations of names, meals, times, and locations, resulting in a wide variety of unique but plausible sentences. Why was omitted, for efficiency purposes.
 
