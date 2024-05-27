@@ -327,7 +327,7 @@ Our model was able to calibrate very well, achieving an average cosine similarit
 </div>
 </div>
 <div align="center">
-    <b>Table 5.</b> Examples of the sampled generated results from the abstract-title model.
+    <b>Table 3.</b> Examples of the sampled generated results from the abstract-title model.
 </div>
 
 <table align="center">
@@ -348,6 +348,43 @@ We also calculated an Expected Calibration Error (ECE) score according to these 
 
 When evaluating on 2500 unseen abstract, we found 902 generated titles with similarity above 0.9 to the true titles, 1586 with similarity between 0.9 and 0.7, and 10 with similarity below 0.7. This gives us a hallucination rate of 0.634907926341073. 
 
+## Most important results and discussion
+Here, we will discuss our most important results. To recap, the main
+
+
+<div style="display: flex; justify-content: center;">
+
+<div style="margin-right: 50px;">
+
+| Model          | Hallucination Rate (%) |
+|----------------|------------------------|
+| Math           | 0                      |
+| 5W             | 100                    |
+| Abstract-Title | 63.5                   |
+
+<div align="center">
+    <b>Table 4.</b> Hallucination Rate per Model.
+</div>
+
+</div>
+
+<div>
+
+| Model          | ECE (%) |
+|----------------|---------|
+| Math           | 0.04    |
+| 5W             | 0.02    |
+| Abstract-Title | 0.03    |
+
+<div align="center">
+    <b>Table 5.</b> Expected Calibration Error per Model.
+</div>
+
+</div>
+
+</div>
+
+
 ## Further Research: 
 > This section discusses our ideas for future work.
 
@@ -361,7 +398,7 @@ Actually attempting to remove hallucinations, which could result in less calibra
 ## Authors' Contributions
 
 - M. Feng: 
-- I. van Dort: Math dataset generation, all code for abstract-title model, big part of experimental setup, part of results section, compilation of README and repository cleanup.
+- I. van Dort: Math dataset generation, all code for abstract-title model, big part of experimental setup, part of results section, discussion section, compilation of README, editorial work and repository cleanup.
 - S. Yildiz: 5W dataset generation, all code for 5w model, keep tracking of group logbook, general discussion about the topic and coding.
 - L. Schuenemann: Code and experimentation for model on Math dataset and writing part of the results.
 - D. de Wilde: Code for model on Math dataset. Section about the theory of hallucination and related work. Organising the blogpost, general discussion about the topic and coding.
