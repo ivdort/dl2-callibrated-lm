@@ -138,7 +138,7 @@ The preprocessing steps for the Abstract-Title model included tokenization and f
 We used BertForMaskedLM model configured with BERT Base parameters. All configurations  have 12 hidden layers with 12 attention heads, a hidden size of 768, an intermediate size of 3072, a dropout rate of 0.1 for hidden states and attention, and position embeddings of 512.
 
 #### Training Procedure
-A DataLoader was used to handle the training data, employing a DataCollatorForLanguageModeling with a masking probability of 0.2 to facilitate masked language modeling. To optimize the training process, we used the ADAMW optimizer, which is well-suited for handling weight decay in conjunction with adaptive learning rates. The models were trained with the following training parameters:
+A DataLoader was used to handle the training data, employing a DataCollatorForLanguageModeling with a masking probability of 0.2 to facilitate masked language modeling. To optimize the training process, we used the ADAMW optimizer, which is well-suited for handling weight decay in conjunction with adaptive learning rates. The models were trained with the training parameters showed in table 1.
 
 <div align="center">
 
@@ -165,17 +165,22 @@ To evaluate the Abstract-title model's performance, we used a validation set com
  
 ### Hallucination measurement
 
-#### Math dataset
-To evaluate the hallucination rate of the model, we made it autoregressively generate equations and calculate a closeness measure based on the generated equations. If the equation is mathimatically valid, a closeness of 1 is assigned to the sentence. For equations that are invalid, the distance from the predicted result to what the result should be according to the generated equation is the closeness score. For each evaluation step, we generate 100 equations and calculate the mean closeness.
+To evaluate the hallucination rate of the math model, we made it autoregressively generate equations and calculate a closeness measure based on the generated equations. If the equation is mathimatically valid, a closeness of 1 is assigned to the sentence. For equations that are invalid, the distance from the predicted result to what the result should be according to the generated equation is the closeness score. For each evaluation step, we generate 100 equations and calculate the mean closeness.
 
-#### 5W
-To evaluate the hallucination rate in generative tasks, we provided the model with a random name from the dataset followed by the token of ‘ate’. The model was then expected to generate the rest of the sentence up to the period token. We calculated the BLEU score between the generated sentence and all other sentences in the dataset, reporting the highest scoring match. Additionally, we compared the embeddings of the generated sentences with the embeddings of the other sentences in the dataset and reported the maximum cosine similarity score.To get the embeddings of the sentences, we utilized the pretrained bert-base-uncased model and extracted the embeddings of the [CLS] token.
+For the 5W model, to evaluate the hallucination rate in generative tasks, we provided the model with a random name from the dataset followed by the token of ‘ate’. The model was then expected to generate the rest of the sentence up to the period token. We calculated the BLEU score between the generated sentence and all other sentences in the dataset, reporting the highest scoring match. Additionally, we compared the embeddings of the generated sentences with the embeddings of the other sentences in the dataset and reported the maximum cosine similarity score.To get the embeddings of the sentences, we utilized the pretrained bert-base-uncased model and extracted the embeddings of the [CLS] token.
 
 <p float="left">
-  <img src="ss_5w_acc.PNG" width="400" />
-  <img src="ss_5w_similarity.PNG" width="400" /> 
+  
+   
 </p>
-
+<table align="center">
+  <tr align="center">
+      <td><img src="images/ss_5w_similarity.PNG" width="400" /><img src="images/ss_5w_acc.PNG" width="400" /></td>
+  </tr>
+  <tr align="left">
+    <td colspan=2><b>Figure 1.</b> test</td>
+  </tr>
+</table>
 
 ### Calibration procedure
 
