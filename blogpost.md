@@ -1,16 +1,3 @@
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Config({
-    TeX: {
-      equationNumbers: {
-        autoNumber: "AMS",
-        useLabelIds: true
-      }
-    }
-  });
-</script>
-<script type="text/javascript"
-  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML">
-</script>
 
 # How to alleviate chatbot hallucinations: <br> from the theory in "Calibrated Language Model must Hallucinate"
 
