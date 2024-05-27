@@ -71,7 +71,7 @@ From the equation, we can see why a model must hallucinate if they are calibrate
 
 > This section explain what calibration is, and why it is relevant to our study.
 
-Calibration is to make the confidence of a prediction being accurate close to the actual prediction accuracy. For example, given 100 predictions, each with confidence of 0.8, we expect that 80 should be correctly classified \cite{Guo2017}. In other words, we want the confidence level of a model to match the true performance of the model.
+Calibration is to make the confidence of a prediction being accurate close to the actual prediction accuracy. For example, given 100 predictions, each with confidence of 0.8, we expect that 80 should be correctly classified (Guo2017 et al. [6]). In other words, we want the confidence level of a model to match the true performance of the model.
 
 In the context of LMs, we want to make sure the distribution of the training data is aligned with the distribution of language in reality. Instead of calibrating LMs at token level, the paper adapts semantic level calibration, which considers the probability distribution over pieces of information (facts or hallucinations) contained in the text. Specifically, they define a model as calibrated if for any probability $z \in[0,1]$, among the pieces of information it generates with probability $\approx z$, such information occurs on average in $\mathrm{a} \approx z$ fraction of naturally occurring language (ideally the distribution from which training data was drawn).
 
