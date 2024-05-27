@@ -402,13 +402,8 @@ Actually attempting to remove hallucinations, which could result in less calibra
 
 ## Authors' Contributions
 
-<<<<<<< HEAD
 - M. Feng: background research, structuring and writing of the blogpost, future research and discussion.
 - I. van Dort: Math dataset generation, all code for abstract-title model, big part of experimental setup, part of results section, compilation of README and repository cleanup.
-=======
-- M. Feng: 
-- I. van Dort: Math dataset generation, all code for abstract-title model, big part of experimental setup, part of results section, discussion section, compilation of README, editorial work and repository cleanup.
->>>>>>> 949619c3743fd80255691d5b8a7688ad4e020b42
 - S. Yildiz: 5W dataset generation, all code for 5w model, keep tracking of group logbook, general discussion about the topic and coding.
 - L. Schuenemann: Code and experimentation for model on Math dataset and writing part of the results.
 - D. de Wilde: Code for model on Math dataset. Section about the theory of hallucination and related work. Organising the blogpost, general discussion about the topic and coding.
