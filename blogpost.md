@@ -135,33 +135,26 @@ For training on 5W dataset, the data was fed into the model batches of 16 senten
 The preprocessing steps for the Abstract-Title model included tokenization and formatting of the text data. We used the BERT tokenizer (bert-base-uncased) to tokenize the text, with a simplification step where periods were removed from the abstracts to clean the data. Each data entry was then concatenated in the format of abstract[SEP]title to create the input for the model.
 
 ### Model
-We used BertForMaskedLM model configured with BERT Base parameters. The following table summarizes the BERT model configuration used for each of the three models in our experiment:
-
-<div align="center">
-
-| Configuration                 | Model 1        | Model 2        | Citations        |
-|-------------------------------|----------------|----------------|----------------|
-| Layers and Heads              | 12 hidden layers, 12 attention heads | 12 hidden layers, 12 attention heads | 12 hidden layers, 12 attention heads |
-| Hidden Size                   | 768            | 768            | 768            |
-| Intermediate Size             | 3072           | 3072           | 3072           |
-| Dropout                       | 0.1 (hidden states and attention) | 0.1 (hidden states and attention) | 0.1 (hidden states and attention) |
-| Position Embeddings           | 512            | 512            | 512            |
-
-</div>
+We used BertForMaskedLM model configured with BERT Base parameters. All configurations  have 12 hidden layers with 12 attention heads, a hidden size of 768, an intermediate size of 3072, a dropout rate of 0.1 for hidden states and attention, and position embeddings of 512.
 
 #### Training Procedure
 A DataLoader was used to handle the training data, employing a DataCollatorForLanguageModeling with a masking probability of 0.2 to facilitate masked language modeling. To optimize the training process, we used the ADAMW optimizer, which is well-suited for handling weight decay in conjunction with adaptive learning rates. The models were trained with the following training parameters:
 
-<div align="center">
-
-| Hyperparameter   | Model 1      | Model 2      | Citations |
+<table align="center">
+  <tr align="center">
+      <td>
+| Hyperparameter   | Math      | 5W    | Citations |
 |------------------|--------------|--------------|--------------|
 | Batch Size       | 16           | 16           | 16           |
 | Epochs           | 20           | 20           | 71           |
 | Learning Rate    | 3e-5         | 3e-5         | 4e-5         |
 | Weight Decay     | 0.01         | 0.01         | 0.01         |
-
-</div>
+      </td>
+  </tr>
+  <tr align="left">
+    <td colspan=2><b>Table 1.</b> Training parameters per model.</td>
+  </tr>
+</table>
 
 ### Evaluation Procedure
 
