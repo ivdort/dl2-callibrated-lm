@@ -227,7 +227,7 @@ $$
 
 where ($B_m$) represents the set of samples in the (m)-th confidence bin, ($n$) is the total number of samples, ($\text{acc}$($B_m$)) is the accuracy in bin ($m$), and ($\text{conf}$($B_m$)) is the average confidence in bin ($m$).
 
-It generally decreases with every training epoch, while the cloneness measure does not seem to change meaningfully with each epoch. In general, we would have expected the amount of hallucination to increase with better calibration, which is not the case in our experiment. As Kalai et al. [1] state, there is no reason behind hallucination on systematic facts, which our experiment shows, as we can't find a correlation between calibration and hallucination for systematic facts. The detailed values are presented in table 2. As can be seen from the following plots, which show the calibration after 1 and 20 epochs, respectively, the calibration does improve, but mostly because the model achieves close to 100% accuracy, as well as confidence on all predictions.
+It generally decreases with every training epoch, while the cloneness measure does not seem to change meaningfully with each epoch. In general, we would have expected the amount of hallucination to increase with better calibration, which is not the case in our experiment. As Kalai et al. [1] state, there is no reason behind hallucination on systematic facts, which our experiment shows, as we can't find a correlation between calibration and hallucination for systematic facts. The detailed values are presented in table 2. As can be seen from Figure 2, which shows the calibration after epochs, the calibration does improve, but mostly because the model achieves close to 100% accuracy, as well as confidence on all predictions.
 
 
 <div align="center">
@@ -262,7 +262,7 @@ It generally decreases with every training epoch, while the cloneness measure do
 
 <table align="center">
   <tr align="center">
-      <td><img src="images/math_reliability_epoch20.png" width=800></td>
+      <td><img src="images/math_reliability_epoch20_line.png" width=800></td>
   </tr>
   <tr align="left">
     <td colspan=2><b>Figure 2.</b> Reliability diagram for Math equation generation.</td>
@@ -281,7 +281,7 @@ In summary, while the model demonstrated proficiency in predicting masked tokens
       <td><img src="images/5w_reliability_diagram.png" width=800></td>
   </tr>
   <tr align="left">
-    <td colspan=2><b>Figure 2.</b> Reliability Diagram for Masked Tokens in 5W Dataset</td>
+    <td colspan=2><b>Figure 3.</b> Reliability Diagram for Masked Tokens in 5W Dataset</td>
   </tr>
 </table>
 
@@ -309,7 +309,7 @@ We checked the calibration of our model by comparing the cosine similarity betwe
       <td><img src="images/reliabilitydiagram.png" width=800></td>
   </tr>
   <tr align="left">
-    <td colspan=2><b>Figure 2.</b> Reliability diagram for masked tokens in the title.</td>
+    <td colspan=2><b>Figure 4.</b> Reliability diagram for masked tokens in the title.</td>
   </tr>
 </table>
 
