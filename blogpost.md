@@ -353,12 +353,12 @@ Actually attempting to remove hallucinations, which could result in less calibra
 
 ## Authors' Contributions
 
-- Mengli: 
-- Ian: Math dataset generation, all code for abstract-title model, big part of experimental setup, part of results section, compilation of README and repository cleanup.
-- Serdar: 5W dataset generation, all code for 5w model, keep tracking of group logbook, general discussion about the topic and coding.
-- Lennard: Code and experimentation for model on Math dataset and writing part of the results.
-- Devin: 
-
+- M. Feng: 
+- I. van Dort: Math dataset generation, all code for abstract-title model, big part of experimental setup, part of results section, compilation of README and repository cleanup.
+- S. Yildiz: 5W dataset generation, all code for 5w model, keep tracking of group logbook, general discussion about the topic and coding.
+- L. Schuenemann: Code and experimentation for model on Math dataset and writing part of the results.
+- D. de Wilde: Code for model on Math dataset. Section about the theory of hallucination. Organising the blogpost, general discussion about the topic and coding.
+ 
 ## Bibliography
 
 [1] Kalai, A. T., & Vempala, S. S. (2023). Calibrated language models must hallucinate. arXiv preprint arXiv:2311.14648.
