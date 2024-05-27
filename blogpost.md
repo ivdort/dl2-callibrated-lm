@@ -96,9 +96,7 @@ The paper's conclusion suggests that while pretraining LMs for good predictive p
 
 > This secion explain our research objective on testing the prediction on the hallucination rate difference between systematic and arbitrary facts
 
-In the paper, the predictions are based on very minimalistic setting. Here, we would like to test whether the theory holds in more realistic settings.
-
-Specifically, we would like to see whether the theoretical prediction on differences between hallucination rate on systematic facts and arbitrary facts are true. 
+In the paper, the theory is based on a very minimalistic setting. Here, we would like to test whether the theory holds, in different settings ranging from systematic to arbitrary facts, of varying complexity. Specifically, we would like to see whether the theoretical prediction on differences between hallucination rate on systematic facts and arbitrary facts are true. 
 
 #### Arbitrary facts
 Factoids are arbitrary pieces of information which are each either true (facts) or false (hallucinations). Arbitrary facts are pieces of information whose truth or falsity cannot be systematically verified using a set of rules or existing knowledge within the training data. They are often specific, contingent, and context-dependent.
