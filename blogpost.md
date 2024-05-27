@@ -261,28 +261,6 @@ It generally decreases with every training epoch, while the cloneness measure do
 <div align="center">
     <b>Table 2.</b> Results per epoch.
 </div>
-We further tried to increase calibration of a model trained for 5 epochs via tuning of the temperature parameter and observing the effect on calibration and hallucination rate, as you can see in table 3. We observe that for some temperature values, especially at 1.4, the calibration error drops, meaning the model becomes more calibrated. When looking at the closeness measure though, we don't observe any differences in the hallucination rate of generated sentences.
-
-<div align="center">
-  
-| Temperature |         ECE          |     Closeness     |
-|-------------|----------------------|-------------------|
-| 0           | 0.22                 | 0.07              |
-| 0.2         | 0.27                 | 0.07              |
-| 0.4         | 0.18                 | 0.07              |
-| 0.6         | 0.17                 | 0.07              |
-| 0.8         | 0.26                 | 0.07              |
-| 1.0         | 0.16                 | 0.07              |
-| 1.2         | 0.26                 | 0.07              |
-| 1.4         | 0.15                 | 0.07              |
-| 1.6         | 0.28                 | 0.07              |
-| 1.8         | 0.20                 | 0.07              |
-| 2.0         | 0.17                 | 0.07              |
-
-</div>
-<div align="center">
-    <b>Table 3.</b> Results per temperature value.
-</div>
 
 ### 5W Dataset
 We utilized 2,000 samples from the training set as an evaluation set. The results indicated the accuracy score of 69% and the accuracy_top_3 score of 77%. These metrics reflect the model's capability to accurately predict the masked tokens and are essential for assessing the extent to which the model hallucinates the masked token. Considering that the model has been exposed to all sentences during the training phase, we expected high accuracy in predicting masked tokens. 
