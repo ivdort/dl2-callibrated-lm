@@ -367,7 +367,7 @@ To further improve the performance and reliability of our model, several avenues
 
 - Mengli: 
 - Ian: Math dataset generation, all code for abstract-title model, big part of experimental setup, part of results section, compilation of README and repository cleanup.
-- Serdar: 
+- Serdar: 5W dataset generation, all code for 5w model, keep tracking of group logbook, general discussion about the topic and coding.
 - Lennard:
 - Devin: 
 
