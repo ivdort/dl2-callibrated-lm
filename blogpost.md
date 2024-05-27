@@ -84,7 +84,7 @@ In the context of LMs, we want to make sure the distribution of the training dat
 
 ## <a name="architecture"> Trade-off between Calibration and hallucination </a>
 
-> This section show the main finding about the trade-off between calibration and hallucination and how the authors derive a theoretical lower bound which shows this relationship.
+> This section shows the main finding about the trade-off between calibration and hallucination and how the authors derive a theoretical lower bound which shows this relationship.
 
 If an LM is calibrated to reflect realistic distributions of language, it will inevitably include representations of less frequent, arbitrary facts since those are present in the full spectrum of language usage in real world. 
 Natural language is highly dimensional and variable. Even slight changes in word choice or sentence structure can lead to entirely new meanings and text outputs. A calibrated language model, attuned to a realistic and broad probability distribution, will inherently be able to explore this high-dimensional space more effectively, thereby generating diverse and previously unseen text, and hence, has a high chance of being incorrect. 
@@ -338,6 +338,9 @@ We also calculated an Expected Calibration Error (ECE) score according to these 
 > This section discusses our ideas for future work.
 
 To further improve the performance and reliability of our model, several avenues for future work have been identified. Firstly, developing a custom tokenizer tailored to our specific datasets could enhance the tokenization process, as using a pretrained tokenizer introduces biases of its own. Exploring different models to assess the hallucination rate would also be beneficial; by comparing results across various architectures, we can identify which models are more effective in minimizing hallucinations. 
+
+Actually attempting to remove hallucinations, which could result in less calibration?
+
 ## Concluding Remarks
 > This section concludes the insights of this blogpost.
 
