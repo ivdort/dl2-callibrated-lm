@@ -1,7 +1,7 @@
 
 # How to alleviate chatbot hallucinations: <br> from the theory in "Calibrated Language Model must Hallucinate"
 
-### M. Feng | D. de Wilde | I. van Dort | Serdar | L. Schuenemann
+### M. Feng | D. de Wilde | I. van Dort | Serdar Yildiz | L. Schuenemann
 
 ---
 
@@ -286,10 +286,10 @@ We further tried to increase calibration of a model trained for 5 epochs via tun
 
 ### 5W Dataset
 We utilized 2,000 samples from the training set as an evaluation set. The results indicated the accuracy score of 69% and the accuracy_top_3 score of 77%. These metrics reflect the model's capability to accurately predict the masked tokens and are essential for assessing the extent to which the model hallucinates the masked token. Considering that the model has been exposed to all sentences during the training phase, we expected high accuracy in predicting masked tokens. 
-To assess hallucination in generative tasks, we generated 200 sentences using the model. The results yielded the BLEU score <span style="color:blue">defnition?</span> of 0.7 and cosine similarity score of 0.97. These metrics suggest that, while the majority parts of the generated sentences closely adhered to the systematic facts found in the dataset, there were still some tokens within the generated sentences that had not been encountered during training—indicative of hallucination by the model.	
-In summary, while the model demonstrated proficiency in predicting masked tokens and maintaining coherence with systematic facts, the presence of hallucinated content in generative tasks highlights the inherent challenges in achieving perfect accuracy. These findings underscore the necessity for continuous refinement and validation to mitigate hallucinations and enhance the reliability of generative models.
 
-In our experiments, we aimed to evaluate the performance and hallucination tendencies of our BERT-based model, focusing on the autoregressive generation of titles based on abstracts in the ArXiv metadata dataset. The metrics used for evaluation were the exact match accuracy, average cosine similarity score, and a reliability diagram to check calibration.
+To assess hallucination in generative tasks, we generated 200 sentences using the model. The results yielded the BLEU score <span style="color:blue">defnition?</span> of 0.7 and cosine similarity score of 0.97. These metrics suggest that, while the majority parts of the generated sentences closely adhered to the systematic facts found in the dataset, there were still some tokens within the generated sentences that had not been encountered during training—indicative of hallucination by the model.	
+
+In summary, while the model demonstrated proficiency in predicting masked tokens and maintaining coherence with systematic facts, the presence of hallucinated content in generative tasks highlights the inherent challenges in achieving perfect accuracy. These findings underscore the necessity for continuous refinement and validation to mitigate hallucinations and enhance the reliability of generative models.
 
 <table align="center">
   <tr align="center">
