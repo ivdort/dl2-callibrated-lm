@@ -197,189 +197,12 @@ $$\text{softmax} \\ T \\ \left(z_i\right)=\frac{e^{z_i / T}}{\sum j e^{z_j / T}}
 We trained the BERT model for 20 epochs and evaluated after every epoch whether it becomes more calibrated, and analyse whether the amount of hallucinations (as proxy via closeness) increases or decreases with the change in calibration. The estimated calibration error (ECE) showed in equation 5 quantifies the average discrepancy between predicted probabilities and actual outcomes.
 
 $$
-\text{ECE} = \sum_{m=1}^{M} \frac{|B_m|}{n} \left| \text{acc}(B_m) - \text{conf}(B_m) \right| \qquad \qquad \text{(equation 5)
+\text{ECE} = \sum_{m=1}^{M} \frac{|B_m|}{n} \left| \text{acc}(B_m) - \text{conf}(B_m) \right| \qquad \qquad \text{(equation 5)}
 $$
 
 where ($B_m$) represents the set of samples in the (m)-th confidence bin, (n) is the total number of samples, ($\text{acc}$$(B_m)$) is the accuracy in bin (m), and ($\text{conf}$$(B_m)$) is the average confidence in bin (m).
 
 It generally decreases with every training epoch, while the cloneness measure does not seem to change meaningfully with each epoch. In general, we would have expected the amount of hallucination to increase with better calibration, which is not the case in our experiment. The detailed values are presented in the following table. As can be seen from the following plots, which show the calibration after 1 and 20 epochs, respectively, the calibration does improve, but mostly because the model achieves close to 100% accuracy, as well as confidence on all predictions.
-
-<div align="center" style="display: flex; justify-content: center;">
-
-  <table style="margin-right: 20px; border-collapse: collapse;">
-    <tr>
-      <th>Temperature</th>
-      <th>ECE</th>
-      <th>Closeness</th>
-    </tr>
-    <tr>
-      <td>0</td>
-      <td>0.22</td>
-      <td>0.07</td>
-    </tr>
-    <tr>
-      <td>0.2</td>
-      <td>0.27</td>
-      <td>0.07</td>
-    </tr>
-    <tr>
-      <td>0.4</td>
-      <td>0.18</td>
-      <td>0.07</td>
-    </tr>
-    <tr>
-      <td>0.6</td>
-      <td>0.17</td>
-      <td>0.07</td>
-    </tr>
-    <tr>
-      <td>0.8</td>
-      <td>0.26</td>
-      <td>0.07</td>
-    </tr>
-    <tr>
-      <td>1.0</td>
-      <td>0.16</td>
-      <td>0.07</td>
-    </tr>
-    <tr>
-      <td>1.2</td>
-      <td>0.26</td>
-      <td>0.07</td>
-    </tr>
-    <tr>
-      <td>1.4</td>
-      <td>0.15</td>
-      <td>0.07</td>
-    </tr>
-    <tr>
-      <td>1.6</td>
-      <td>0.28</td>
-      <td>0.07</td>
-    </tr>
-    <tr>
-      <td>1.8</td>
-      <td>0.20</td>
-      <td>0.07</td>
-    </tr>
-    <tr>
-      <td>2.0</td>
-      <td>0.17</td>
-      <td>0.07</td>
-    </tr>
-  </table>
-
-  <table style="margin-left: 20px; border-collapse: collapse;">
-    <tr>
-      <th>Epoch</th>
-      <th>ECE</th>
-      <th>Closeness</th>
-    </tr>
-    <tr>
-      <td>1</td>
-      <td>0.37</td>
-      <td>0.00</td>
-    </tr>
-    <tr>
-      <td>2</td>
-      <td>0.38</td>
-      <td>0.35</td>
-    </tr>
-    <tr>
-      <td>3</td>
-      <td>0.94</td>
-      <td>0.20</td>
-    </tr>
-    <tr>
-      <td>4</td>
-      <td>0.64</td>
-      <td>1.00</td>
-    </tr>
-    <tr>
-      <td>5</td>
-      <td>0.38</td>
-      <td>0.00</td>
-    </tr>
-    <tr>
-      <td>6</td>
-      <td>0.28</td>
-      <td>0.00</td>
-    </tr>
-    <tr>
-      <td>7</td>
-      <td>0.21</td>
-      <td>0.00</td>
-    </tr>
-    <tr>
-      <td>8</td>
-      <td>0.15</td>
-      <td>0.00</td>
-    </tr>
-    <tr>
-      <td>9</td>
-      <td>0.13</td>
-      <td>0.00</td>
-    </tr>
-    <tr>
-      <td>10</td>
-      <td>0.04</td>
-      <td>1.00</td>
-    </tr>
-    <tr>
-      <td>11</td>
-      <td>0.16</td>
-      <td>0.00</td>
-    </tr>
-    <tr>
-      <td>12</td>
-      <td>0.09</td>
-      <td>0.00</td>
-    </tr>
-    <tr>
-      <td>13</td>
-      <td>0.07</td>
-      <td>1.00</td>
-    </tr>
-    <tr>
-      <td>14</td>
-      <td>0.06</td>
-      <td>0.00</td>
-    </tr>
-    <tr>
-      <td>15</td>
-      <td>0.08</td>
-      <td>0.00</td>
-    </tr>
-    <tr>
-      <td>16</td>
-      <td>0.13</td>
-      <td>0.00</td>
-    </tr>
-    <tr>
-      <td>17</td>
-      <td>0.04</td>
-      <td>0.00</td>
-    </tr>
-    <tr>
-      <td>18</td>
-      <td>0.11</td>
-      <td>0.00</td>
-    </tr>
-    <tr>
-      <td>19</td>
-      <td>0.05</td>
-      <td>0.00</td>
-    </tr>
-    <tr>
-      <td>20</td>
-      <td>0.09</td>
-      <td>1.00</td>
-    </tr>
-  </table>
-
-</div>
-
-
 
 
 <div align="center">
@@ -407,16 +230,9 @@ It generally decreases with every training epoch, while the cloneness measure do
 | 19          | 0.05                 | 0.00              |
 | 20          | 0.09                 | 1.00              |
 
-<br><br>
-
-![Reliability Math Epoch 1](math_reliability_epoch1.png)
-![Reliability Math Epoch 20](math_reliability_epoch20.png)
-
 </div>
 
-</div>
-
-We further tried to increase calibration of a model trained for 5 epochs via tuning of the temperature parameter and observing the effect on calibration and hallucination rate. We observe that for some temperature <span style="color:blue"> definition and why temparature can be used for calibration?</span> values, especially at 1.4, the calibration error drops, meaning the model becomes more calibrated. When looking at the closeness measure though, we don't observe any differences in the hallucination rate of generated sentences.
+We further tried to increase calibration of a model trained for 5 epochs via tuning of the temperature parameter and observing the effect on calibration and hallucination rate. We observe that for some temperature values, especially at 1.4, the calibration error drops, meaning the model becomes more calibrated. When looking at the closeness measure though, we don't observe any differences in the hallucination rate of generated sentences.
 
 <div align="center">
   
