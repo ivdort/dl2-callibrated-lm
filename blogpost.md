@@ -414,7 +414,7 @@ Despite the promising findings, our study has several limitations. The definitio
 ## Authors' Contributions
 
 - M. Feng: background research and establish and extend theoretical understanding of the paper, structuring and writing of the blogpost, future research and discussion.
-- I. van Dort: Math dataset generation, all code for abstract-title model, big part of experimental setup, part of results section, compilation of README, repository cleanup and discussion.
+- I. van Dort: Math dataset generation, all code for abstract-title model, big part of experimental setup, part of results section, compilation of README, repository cleanup, discussion and conclusion.
 - S. Yildiz: 5W dataset generation, all code for 5w model, keep tracking of group logbook, general discussion about the topic and coding.
 - L. Schuenemann: Code and experimentation for model on Math dataset and writing part of the results.
 - D. de Wilde: Code for model on Math dataset. Section about the theory of hallucination and related work. Organising the blogpost, general discussion about the topic and coding.
