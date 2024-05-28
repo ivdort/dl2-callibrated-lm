@@ -348,7 +348,7 @@ We also calculated an Expected Calibration Error (ECE) score according to these 
 
 When evaluating on 2500 unseen abstract, we found 902 generated titles with similarity above 0.9 to the true titles, 1586 with similarity between 0.9 and 0.7, and 10 with similarity below 0.7. This gives us a hallucination rate of 0.634907926341073. 
 
-## Most important results and discussion
+## Main results
 For our research, the most important findings were the calibration and hallucination rate. Defining the calibration for each model is relatively easy, as we have explained earlier. Defining hallucination required a lot of thought and a different definition for each context. In the end, per model we had to make different assumptions in order to get a working definition of hallucination which we could analyze. In practice, these definitions will not always stand. What is interesting about our results is that they seem to verify the main claims in the paper: a well calibrated model will hallucinate. Our results even seem to suggest, like the original paper says, that a higher calibration rate will lead to more hallucinations, though more analysis may be required here.
 
 
