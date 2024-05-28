@@ -331,10 +331,11 @@ When evaluating 2500 unseen abstracts, we found 902 generated titles with simila
 
 ## Main results
 For our research, the most important findings were the calibration and hallucination rate. Defining the calibration for each model is relatively easy, as we have explained earlier. Defining hallucination required a lot of thought and a different definition for each context. In the end, per model, we had to make different assumptions in order to get a working definition of hallucination which we could analyze. In practice, these definitions will not always stand. What is interesting about our results is that they seem to verify the main claims in the paper: a well-calibrated model will hallucinate. Our results even seem to suggest, like the original paper says, that a higher calibration rate will lead to more hallucinations, though more analysis may be required here.
+<div align="center">
 
-<div style="display: flex; justify-content: center;">
-
-<div style="margin-right: 50px;">
+<table>
+  <tr>
+    <td>
 
 | Model          | Hallucination Rate (%) |
 |----------------|------------------------|
@@ -346,9 +347,8 @@ For our research, the most important findings were the calibration and hallucina
     <b>Table 4.</b> Hallucination Rate per Model.
 </div>
 
-</div>
-
-<div>
+  </td>
+    <td>
 
 | Model          | ECE (%) |
 |----------------|---------|
@@ -356,14 +356,13 @@ For our research, the most important findings were the calibration and hallucina
 | 5W             | 0.02    |
 | Abstract-Title | 0.03    |
 
-
-
 <div align="center">
     <b>Table 5.</b> Expected Calibration Error per Model.
 </div>
 
-</div>
-
+  </td>
+  </tr>
+</table>
 </div>
 
 ## Discussion and Further Research: 
