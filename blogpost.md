@@ -349,7 +349,7 @@ We also calculated an Expected Calibration Error (ECE) score according to these 
 When evaluating on 2500 unseen abstract, we found 902 generated titles with similarity above 0.9 to the true titles, 1586 with similarity between 0.9 and 0.7, and 10 with similarity below 0.7. This gives us a hallucination rate of 0.634907926341073. 
 
 ## Most important results and discussion
-Here, we will discuss our most important results. To recap, the main
+For our research, the most important findings were the calibration and hallucination rate. Defining the calibration for each model is relatively easy, as we have explained earlier. Defining hallucination required a lot of thought and a different definition for each context. In the end, per model we had to make different assumptions in order to get a working definition of hallucination which we could analyze. In practice, these definitions will not always stand. What is interesting about our results is that they seem to verify the main claims in the paper: a well calibrated model will hallucinate. Our results even seem to suggest, like the original paper says, that a higher calibration rate will lead to more hallucinations, though more analysis may be required here.
 
 
 <div style="display: flex; justify-content: center;">
@@ -395,7 +395,7 @@ In the paper, hallucinations are conceptualised broadly as factoids not present 
 
 In practice, this can be tricky because one factoid can have different linguistic representations, i.e. different wording. In our experiments, we use embeddings instead of exact words to distinguish the truth value of a factoid, which partially alleviate the issue. However, sematic embeddings might not always capture finer nuances and subtleties, contextual dependencies and ambiguities. Different phrases or sentences might be close in the embedding space but could have critical differences in meaning that affect their truth value or relevance as factoids. This require further research to make more accurate measurements on the truth values of factoids, therefore more accurate measurements on hallucination.
 
-On the other hand, the paper seems to ignore the dimension of plausibility of hallucination completely. How to quantify plausibility is a research question on its own. Quantifying the plausibility of a sentence, especially in automated systems like language models, involves evaluating how likely a sentence is to be considered reasonable or believable within a given context, regardless of its factual accuracy. This is particularly challenging because plausibility can be subjective and context-dependent. In our experiment, we made an attempt to measure plausibility <span style="color: red;">how</span>. For future research, we may try techniques such as Semantic Coherence Analysis and Commonsense Reasoning Models to measure plausibility. This would also potential raise the need to modify or improve the theory on the lower bound of hallucination in the original paper, which did not take plausibility into consideration.
+On the other hand, the paper seems to ignore the dimension of plausibility of hallucination completely. How to quantify plausibility is a research question on its own. Quantifying the plausibility of a sentence, especially in automated systems like language models, involves evaluating how likely a sentence is to be considered reasonable or believable within a given context, regardless of its factual accuracy. This is particularly challenging because plausibility can be subjective and context-dependent. In our experiment, we made an attempt to measure plausibility by introducing assumptions regarding similarity scores. For future research, we may try techniques such as Semantic Coherence Analysis and Commonsense Reasoning Models to measure plausibility. This would also potentially raise the need to modify or improve the theory on the lower bound of hallucination in the original paper, which did not take plausibility into consideration.
 
 <!-- For future research, we may try different hallucination metric, such as FEWL metric proposed in [7]. -->
 
@@ -403,22 +403,22 @@ On the other hand, the paper seems to ignore the dimension of plausibility of ha
 ### How to Reduce Hallucination
 To further improve the performance and reliability of our model, several avenues for future work have been identified. Firstly, developing a custom tokenizer tailored to our specific datasets could enhance the tokenization process, as using a pretrained tokenizer introduces biases of its own. Exploring different models to assess the hallucination rate would also be beneficial; by comparing results across various architectures, we can identify which models are more effective in minimizing hallucinations. 
 
-Actually attempting to remove hallucinations, which could result in less calibration?<span style="color: red;">need to extend</span>
+Furthermore, future research could look at actively attempting to mitigate hallucinations, for example by training the model to predict when it is not confident and thus more likely to hallucinate. It would be interesting to see if these changes would indeed lead to a less calibrated model, as the original paper suggests.
 
 
 ## Concluding Remarks
 > This section concludes the insights of this blogpost.
 
-In this blog post, we delved deep into the concept of hallucinations in language models (LMs) through a comprehensive study based on the paper “Calibrated Language Model must Hallucinate.” We explored the inevitable trade-offs between calibration and hallucination by experimenting with three datasets, namely, math datasets, 5W datasets and abstract-title dataset.
+In this blog post, we delved deep into the concept of hallucinations in language models (LMs) through a comprehensive study based on the paper “Calibrated Language Model must Hallucinate.” We explored the inevitable trade-offs between calibration and hallucination by experimenting with three datasets, namely, a math dataset, 5W dataset and abstract-title dataset.
 
-Based on our experiments, hallucination is highest among only arbitraty facts (5W), is non-existent in systematic and in more realistic settings like abstract-title dataset it occurs, but not always <span style="color: red;">how not always: because of the MF is lower? can be a discussion point</span>.
+Based on our experiments, hallucination is highest among only arbitrary facts (5W), is non-existent in systematic and in more realistic settings like abstract-title dataset it occurs, but not always <span style="color: red;">how not always: because of the MF is lower? can be a discussion point</span>.
 
 Through our explorations and empirical validations, we contribute to a more nuanced understanding of how and why language models hallucinate, offering pathways for advancing the calibration techniques that can potentially mitigate these issues, and pose the need to deepen the current theoretical work.
 
 ## Authors' Contributions
 
 - M. Feng: background research and establish and extend theoretical understanding of the paper, structuring and writing of the blogpost, future research and discussion.
-- I. van Dort: Math dataset generation, all code for abstract-title model, big part of experimental setup, part of results section, compilation of README and repository cleanup.
+- I. van Dort: Math dataset generation, all code for abstract-title model, big part of experimental setup, part of results section, compilation of README, repository cleanup and discussion.
 - S. Yildiz: 5W dataset generation, all code for 5w model, keep tracking of group logbook, general discussion about the topic and coding.
 - L. Schuenemann: Code and experimentation for model on Math dataset and writing part of the results.
 - D. de Wilde: Code for model on Math dataset. Section about the theory of hallucination and related work. Organising the blogpost, general discussion about the topic and coding.
