@@ -382,11 +382,29 @@ Furthermore, future research could look at actively attempting to mitigate hallu
 ## Concluding Remarks
 > This section concludes the insights of this blog post.
 
-In this blog post, we delved deep into the concept of hallucinations in language models (LMs) through a comprehensive study based on the paper “Calibrated Language Model must Hallucinate.” We explored the inevitable trade-offs between calibration and hallucination by experimenting with three datasets, namely, a math dataset, 5W dataset, and abstract-title dataset.
+In this blog post, we delved into the phenomenon of hallucinations in language models (LMs) based on insights from the paper “Calibrated Language Model must Hallucinate.” We explored the inherent trade-offs between calibration and hallucination through experiments with three datasets: a math dataset, a 5W dataset, and an abstract-title dataset. Our findings offer potential pathways for advancing calibration techniques that could mitigate hallucinations.
 
-Based on our experiments, hallucination is highest among only arbitrary facts (5W), is non-existent in systematic and in more realistic settings like the abstract-title dataset where systemic and arbitrary facts co-occur, hallucinations happen, but the model can also predict factually correct and clearly incorrect answers.
+### Summary of Findings
 
-Through our explorations and empirical validations, we contribute to a more nuanced understanding of how and why language models hallucinate, offering pathways for advancing the calibration techniques that can potentially mitigate these issues, and pose the need to deepen the current theoretical work.
+Our experiments revealed key insights:
+
+1. **Hallucination Variability**: Hallucinations were most prevalent with arbitrary facts (5W dataset) and non-existent with systematic facts (math dataset). In more complex scenarios (abstract-title dataset), hallucinations varied.
+2. **Calibration and Hallucination Trade-off**: Well-calibrated models are prone to hallucinations. Improved calibration often leads to increased hallucination rates, highlighting the trade-off between these two aspects.
+3. **Nuanced Understanding of Hallucinations**: Calibration improves the model's confidence alignment with its predictions but also increases the likelihood of generating plausible but false information, especially with arbitrary facts.
+
+### Nuanced Understanding of Calibration and Hallucination
+
+Calibration ensures a model's confidence in its predictions aligns with actual accuracy, which is crucial for reliability. However, this alignment exposes the model to the vast and varied landscape of natural language, leading to plausible but incorrect outputs.
+
+### Path Forward for the Field
+
+Given these insights, we propose several future directions:
+
+1. **Advanced Calibration Techniques**: Develop calibration methods that balance confidence and accuracy without increasing hallucinations. Use techniques such as fine-tuning on specific datasets.
+2. **Hallucination Detection and Mitigation**: Implement mechanisms to detect and mitigate hallucinations, such as integrating commonsense reasoning models and leveraging external knowledge bases.
+3. **Contextual Plausibility Assessment**: Advance methods to quantify and evaluate the plausibility of generated content, using refined metrics that assess contextual and semantic coherence.
+
+In conclusion, our research underscores the intricate balance between calibration and hallucination in language models. While calibration enhances predictive reliability, it introduces the risk of hallucinations. Addressing this trade-off with innovative techniques and comprehensive validation will be crucial in advancing the field and developing trustworthy language models.
 
 ## Limitations
 > This section addresses the limitations of our experimental setup and approach.
