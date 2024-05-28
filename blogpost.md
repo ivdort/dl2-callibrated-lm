@@ -259,7 +259,7 @@ It generally decreases with every training epoch, while the closeness measure do
 
 <table align="center">
   <tr align="center">
-      <td><img src="images/math_reliability_epoch_1_line.png" width=800></td>
+      <td><img src="images/math_reliability_epoch_1_line.jpg" width=800></td>
   </tr>
   <tr align="left">
     <td colspan=2><b>Figure 2.</b> Reliability diagram for Math equation generation.</td>
