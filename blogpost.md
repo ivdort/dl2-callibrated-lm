@@ -223,7 +223,7 @@ $$
 \text{ECE} = \sum_{m=1}^{M} \frac{|B_m|}{n} \left| \text{acc}(B_m) - \text{conf}(B_m) \right| \qquad \qquad \text{(equation 5)}
 $$
 
-where (\(B_m\)) represents the set of samples in the (m)-th confidence bin, (\(n\)) is the total number of samples, (\(\text{acc}(B_m)\)) is the accuracy in bin (m), and (\(\text{conf}(B_m)\)) is the average confidence in bin (m).
+where $\(B_m\)$ represents the set of samples in the (m)-th confidence bin, $\(n\)$ is the total number of samples, $\(\text{acc}(B_m)\)$ is the accuracy in bin (m), and $\(\text{conf}(B_m)\)$ is the average confidence in bin (m).
 
 It generally decreases with every training epoch, while the closeness measure does not seem to change meaningfully with each epoch. In general, we would have expected the amount of hallucination to increase with better calibration, which is not the case in our experiment. As Kalai et al. [1] state, there is no reason behind hallucination on systematic facts, which our experiment shows, as we can't find a correlation between calibration and hallucination for systematic facts. The detailed values are presented in table 2. As can be seen from Figure 2, which shows the calibration after epochs, the calibration does improve, but mostly because the model achieves close to 100% accuracy, as well as confidence on all predictions.
 
