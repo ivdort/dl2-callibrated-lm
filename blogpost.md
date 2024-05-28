@@ -411,7 +411,9 @@ Furthermore, future research could look at actively attempting to mitigate hallu
 
 In this blog post, we delved deep into the concept of hallucinations in language models (LMs) through a comprehensive study based on the paper “Calibrated Language Model must Hallucinate.” We explored the inevitable trade-offs between calibration and hallucination by experimenting with three datasets, namely, a math dataset, 5W dataset and abstract-title dataset.
 
-Based on our experiments, hallucination is highest among only arbitrary facts (5W), is non-existent in systematic and in more realistic settings like abstract-title dataset it occurs, but not always <span style="color: red;">how not always: because of the MF is lower? can be a discussion point</span>.
+Based on our experiments, hallucination is highest among only arbitrary facts (5W), is non-existent in systematic and in more realistic settings like the abstract-title dataset where systemic and arbitrary facts co-occur, hallucinations happen, but the model can also predict factually correct and clearly incorrect answers.
+
+<span style="color: red;">how not always: because of the MF is lower? can be a discussion point</span>.
 
 Through our explorations and empirical validations, we contribute to a more nuanced understanding of how and why language models hallucinate, offering pathways for advancing the calibration techniques that can potentially mitigate these issues, and pose the need to deepen the current theoretical work.
 
