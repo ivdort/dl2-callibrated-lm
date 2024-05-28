@@ -71,9 +71,7 @@ From the equation, we can see why a model must hallucinate if they are calibrate
 
 Calibration is to make the confidence of a prediction being accurate close to the actual prediction accuracy. For example, given 100 predictions, each with a confidence of 0.8, we expect that 80 should be correctly classified (Guo2017 et al. [6]). In other words, we want the confidence level of a model to match the true performance of the model.
 
-In the context of LMs, we want to make sure the distribution of the training data is aligned with the distribution of language in reality. Instead of calibrating LMs at the token level, the paper adapts semantic level calibration, which considers the probability distribution over pieces of information (facts or hallucinations) contained in the text. Specifically, they define a model as calibrated if for any probability \(z \in[0,1]\), among the pieces of information it generates with probability \(\approx z\), such information occurs on average in \(\approx z\) fraction of naturally occurring language (ide
-
-ally the distribution from which training data was drawn).
+In the context of LMs, we want to make sure the distribution of the training data is aligned with the distribution of language in reality. Instead of calibrating LMs at the token level, the paper adapts semantic level calibration, which considers the probability distribution over pieces of information (facts or hallucinations) contained in the text. Specifically, they define a model as calibrated if for any probability \(z \in[0,1]\), among the pieces of information it generates with probability \(\approx z\), such information occurs on average in \(\approx z\) fraction of naturally occurring language (ideally the distribution from which training data was drawn).
 
 <!-- <table align="center">
   <tr align="center">
@@ -163,9 +161,7 @@ The preprocessing steps for the Abstract-Title model included tokenization and f
 We used BertForMaskedLM model configured with BERT [4] Base parameters. All configurations have 12 hidden layers with 12 attention heads, a hidden size of 768, an intermediate size of 3072, a dropout rate of 0.1 for hidden states and attention, and position embeddings of 512.
 
 #### Training Procedure
-A DataLoader was used to handle the training data, employing a DataCollatorForLanguageModeling with a masking probability of 0.2 to facilitate masked language modeling. To optimize the training process, we used
-
- the ADAMW optimizer, which is well-suited for handling weight decay in conjunction with adaptive learning rates. The models were trained with the training parameters shown in table 1.
+A DataLoader was used to handle the training data, employing a DataCollatorForLanguageModeling with a masking probability of 0.2 to facilitate masked language modeling. To optimize the training process, we used the ADAMW optimizer, which is well-suited for handling weight decay in conjunction with adaptive learning rates. The models were trained with the training parameters shown in table 1.
 
 <div align="center">
 
@@ -271,9 +267,7 @@ It generally decreases with every training epoch, while the closeness measure do
 </table>
 
 ### 5W Dataset
-We utilized 2,000 samples from the training set as an evaluation set. The results indicated the accuracy score of 69% and the accuracy
-
-_top_3 score of 77%. These metrics reflect the model's capability to accurately predict the masked tokens and are essential for assessing the extent to which the model hallucinates the masked token. Considering that the model has been exposed to all sentences during the training phase, we expected high accuracy in predicting masked tokens. 
+We utilized 2,000 samples from the training set as an evaluation set. The results indicated the accuracy score of 69% and the accuracy_top_3 score of 77%. These metrics reflect the model's capability to accurately predict the masked tokens and are essential for assessing the extent to which the model hallucinates the masked token. Considering that the model has been exposed to all sentences during the training phase, we expected high accuracy in predicting masked tokens. 
 
 To assess hallucination in generative tasks, we generated 200 sentences using the model. The results yielded a BLEU score of 0.7 and a cosine similarity score of 0.97. These metrics suggest that, while the majority of parts of the generated sentences closely adhered to the arbitrary facts found in the dataset, there were still some tokens within the generated sentences that had not been encountered during training—indicative of hallucination by the model.
 
